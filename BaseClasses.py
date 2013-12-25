@@ -11,8 +11,7 @@ class Personnel(object):
 
 
 class DObject(object):
-    pass
-'''
+
     _name = ''
 
     # Name Checking
@@ -32,4 +31,3 @@ class DObject(object):
 
     def __repr__(self):
         return self._name + ' at ' + hex(id(self))
-'''

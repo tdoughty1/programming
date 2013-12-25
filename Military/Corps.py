@@ -1,4 +1,4 @@
-from Imperium.Military.BaseClasses import Unit
+from Imperium.Military.BaseClasses import Unit, Position
 
 
 class Division(Unit):
@@ -27,59 +27,28 @@ class Regiment(Unit):
 
 class Company(Unit):
 
-    _datalist = []
-    _number = 0
-
-    def __init__(self):
-        Unit.__init__(self)
-
-        self._Roster['Commanding Officer'] = {}
-        self._Roster['Executive Officer'] = {}
-        self._Roster['First Sergeant'] = {}
-        self._Roster['Clerk'] = {}
-
-        # Create SubUnits
+    def _SetSubUnits(self):
         for i in range(3):
             self._SubUnits.append(Platoon(self))
 
-        # Add to Roster
-        i = 0
-        for unit in self._SubUnits:
-            i += 1
-            for key in unit._Roster:
-                self._Roster[key + ' ' + str(i)] = unit._Roster[key]
+    def _SetRoster(self):
 
-        Company._datalist.append(self)
-        Company._number += 1
+        self._Roster.append(Position('Commanding Officer', 'O3', unit=self))
+        self._Roster.append(Position('Executive Officer', 'O2', unit=self))
+        self._Roster.append(Position('First Sergeant', 'N4', unit=self))
+        self._Roster.append(Position('Clerk', 'N1', unit=self))
 
 
 class Platoon(Unit):
 
-    _datalist = []
-    _number = 0
-
-    def __init__(self, cmd):
-        Unit.__init__(self)
-
-        self._Roster['Platoon Leader'] = {}
-        self._Roster['Platoon Sergeant'] = {}
-
-        # Link to Command Unit
-        self._CmdUnit = cmd
-
-        # Create SubUnits
+    def _SetSubUnits(self):
         for i in range(3):
             self._SubUnits.append(Squad(self))
 
-        # Add to Roster
-        i = 0
-        for unit in self._SubUnits:
-            i += 1
-            for key in unit._Roster:
-                self._Roster[key + ' ' + str(i)] = unit._Roster[key]
-
-        Platoon._datalist.append(self)
-        Platoon._number += 1
+    def _SetRoster(self):
+        self._Roster.append(Position('Platoon Leader', 'O1', unit=self))
+        self._Roster.append(Position('Platoon Sergeant', 'N3', unit=self))
+        Unit._SetRoster(self)
 
 
 class Section(Unit):
@@ -90,50 +59,24 @@ class Section(Unit):
 
 class Squad(Unit):
 
-    _datalist = []
-    _number = 0
-
-    def __init__(self, cmd):
-        Unit.__init__(self)
-
-        self._Roster['Squad Sergeant'] = {}
-
-        # Link Command Unit
-        self._CmdUnit = cmd
-
-        # Create SubUnits
+    def _SetSubUnits(self):
         for i in range(3):
             self._SubUnits.append(Team(self))
 
-        # Add to Roster
-        i = 0
-        for unit in self._SubUnits:
-            i += 1
-            for key in unit._Roster:
-                self._Roster[key + ' ' + str(i)] = unit._Roster[key]
-
-        Squad._datalist.append(self)
-        Squad._number += 1
+    def _SetRoster(self):
+        self._Roster.append(Position('Squad Sergeant', 'N2', unit=self))
+        Unit._SetRoster(self)
 
 
 class Team(Unit):
 
-    _datalist = []
-    _number = 0
-
-    def __init__(self, cmd):
-
-        Unit.__init__(self)
-
-        # Link Command Unit
-        self._CmdUnit = cmd
-
+    def _SetRoster(self):
         Roles = ['Team', 'Ready', 'Assist', 'Fire', 'Scout']
-
+        count = 0
         for role in Roles:
-            self._Roster[role] = {}
+            if count == 0:
+                self._Roster.append(Position(role, 'N1', unit=self))
+            else:
+                self._Roster.append(Position(role, 'E4', unit=self))
 
-        Team._datalist.append(self)
-        Team._number += 1
-
-        self._name = cmd._name + ': Team ' + str(len(cmd._SubUnits) + 1)
+            count += 1

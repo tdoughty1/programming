@@ -19,12 +19,12 @@ class Rank(DObject):
         Rank._number += 1
 
     def __str__(self):
-        return self._category.GetCode() + str(self._level) + ' ' + \
+        return self._category._name[0] + str(self._level) + ' ' + \
             str(self._name)
 
-    ###########################################################################
+    ##########################################################################
     # Initialization Helper functions
-    ###########################################################################
+    ##########################################################################
     # Level Checking
     def _SetLevel(self, level):
 
@@ -87,6 +87,83 @@ class Rank(DObject):
             exit(1)
 
         self._branch.append(branch)
+
+    ##########################################################################
+    # Comparative Functions
+    ##########################################################################
+    def __gt__(self, other):
+        Order = ['Enlisted', 'Non-Commissioned Officer', 'Warrant Officer',
+                 'Officer']
+        # For same category ranks
+        if self._category == other._category:
+            return self._level > other._level
+
+        # If self is Warrant Officer and other is Officer - 3 Offset
+        elif(self._category._name == Order[2] and
+             other._category._name == Order[3]):
+            return self._level > other._level + 3
+
+        # If self is Warrant Officer and other is NCO - 4 Offset
+        elif(self._category._name == Order[2] and
+             other._category._name == Order[1]):
+            return self._level > other._level - 4
+
+        # If self is Warrant Officer and other is Officer - 3 Offset
+        elif(other._category._name == Order[2] and
+             self._category._name == Order[3]):
+            return other._level > self._level + 3
+
+        # If other is Warrant Officer and self is NCO - 4 Offset
+        elif(other._category._name == Order[2] and
+             self._category._name == Order[1]):
+            return other._level > self._level - 4
+
+        # Otherwise can determine from category
+        else:
+            return self._category > other._category
+
+    def __ge__(self, other):
+        Order = ['Enlisted', 'Non-Commissioned Officer', 'Warrant Officer',
+                 'Officer']
+        # For same category ranks
+        if self._category == other._category:
+            return self._level >= other._level
+
+        # If self is Warrant Officer and other is Officer - 3 Offset
+        elif(self._category._name == Order[2] and
+             other._category._name == Order[3]):
+            return self._level >= other._level + 3
+
+        # If self is Warrant Officer and other is NCO - 4 Offset
+        elif(self._category._name == Order[2] and
+             other._category._name == Order[1]):
+            return self._level >= other._level - 4
+
+        # If self is Warrant Officer and other is Officer - 3 Offset
+        elif(other._category._name == Order[2] and
+             self._category._name == Order[3]):
+            return other._level >= self._level + 3
+
+        # If other is Warrant Officer and self is NCO - 4 Offset
+        elif(other._category._name == Order[2] and
+             self._category._name == Order[1]):
+            return other._level >= self._level - 4
+
+        # Otherwise can determine from category
+        else:
+            return self._category > other._category
+
+    def __lt__(self, other):
+        return not self >= other
+
+    def __le__(self, other):
+        return not self > other
+
+    ##########################################################################
+    # Public Functions
+    ##########################################################################
+    def GetCode(self):
+        return self._category._name[0] + str(self._level)
 
 
 class Branch(DObject):
@@ -178,3 +255,26 @@ class RankCategory(DObject):
         print 'ERROR in RankCategory():'
         print 'Range must be defined with 1 or 2 integers!'
         exit(1)
+
+    ###########################################################################
+    # Comparative Functions
+    ###########################################################################
+    def __gt__(self, other):
+        Order = ['Enlisted', 'Non-Commissioned Officer', 'Warrant Officer',
+                 'Officer']
+        return Order.index(self._name) > Order.index(other._name)
+
+    def __ge__(self, other):
+        Order = ['Enlisted', 'Non-Commissioned Officer', 'Warrant Officer',
+                 'Officer']
+        return Order.index(self._name) >= Order.index(other._name)
+
+    def __lt__(self, other):
+        Order = ['Enlisted', 'Non-Commissioned Officer', 'Warrant Officer',
+                 'Officer']
+        return Order.index(self._name) < Order.index(other._name)
+
+    def __le__(self, other):
+        Order = ['Enlisted', 'Non-Commissioned Officer', 'Warrant Officer',
+                 'Officer']
+        return Order.index(self._name) <= Order.index(other._name)

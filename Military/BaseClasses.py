@@ -1,3 +1,8 @@
+from sys import exit
+from Imperium.BaseClasses import DObject
+from Imperium.Military.StructureClasses import Rank
+
+
 class Unit(object):
 
     def __init__(self, cmdUnit=None):
@@ -34,12 +39,55 @@ class Unit(object):
         return len(self._Roster)
 
 
-class Position(object):
+class Position(DObject):
 
-    def __init__(self, name, unit=None):
+    def __init__(self, name, rank, unit=None):
 
-        self._position = name
-        self._unit = unit
+        self._SetName(name)
+        self._SetRank(rank)
+
+        if unit is None:
+            self._SetUnit(unit)
 
     def __repr__(self):
         return self._position + ' at ' + hex(id(self))
+
+    ##########################################################################
+    # Set Function Checking Routines
+    ##########################################################################
+    def _SetUnit(self, unit):
+
+        if not isinstance(unit, Unit):
+            print 'ERROR in Position():'
+            print 'Unit must be a unit object!'
+            exit(1)
+
+        self._unit = unit
+
+    def _SetRank(self, rank):
+
+        if isinstance(rank, Rank):
+            self._rank = rank
+        elif isinstance(rank, str):
+
+            isfound = False
+            print rank
+            for rankCheck in Rank._datalist:
+
+                print rankCheck.GetCode()
+
+                if rank == rankCheck.GetCode():
+                    isfound = True
+                    print 'Found rank ' + str(rank)
+                    self._rank = rank
+                    break
+
+            if not isfound:
+                print 'ERROR in Position():'
+                print 'Rank must be a valid rank code!'
+                exit(1)
+
+        else:
+            print 'ERROR in Position():'
+            print 'Rank must be a rank object or rank code!'
+            exit(1)
