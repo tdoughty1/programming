@@ -7,9 +7,9 @@ from Imperium.Military.LAC.Squadron import Squadron
 class FlightControlTeam(Unit):
 
     def _SetRoster(self):
-        self._Roster.append(Position('Team Leader', unit=self))
+        self._Roster.append(Position('Team Leader', 'N3', unit=self))
         for i in range(3):
-            self._Roster.append(Position('Team Member', unit=self))
+            self._Roster.append(Position('Team Member', 'N1', unit=self))
 
 
 class FlightControl(Unit):
@@ -19,8 +19,8 @@ class FlightControl(Unit):
             self._SubUnits.append(FlightControlTeam(cmdUnit=self))
 
     def _SetRoster(self):
-        self._Roster.append(Position('Control Officer', unit=self))
-        self._Roster.append(Position('Control Chief', unit=self))
+        self._Roster.append(Position('Control Officer', 'O4', unit=self))
+        self._Roster.append(Position('Control Chief', 'N5', unit=self))
         Unit._SetRoster(self)
 
 
@@ -32,7 +32,7 @@ class Wing(Unit):
         self._SubUnits.append(FlightControl(cmdUnit=self))
 
     def _SetRoster(self):
-        self._Roster.append(Position('Commanding Officer', unit=self))
-        self._Roster.append(Position('Executive Officer', unit=self))
-        self._Roster.append(Position('Wing Chief', unit=self))
+        self._Roster.append(Position('Commanding Officer', 'O6', unit=self))
+        self._Roster.append(Position('Executive Officer', 'O5', unit=self))
+        self._Roster.append(Position('Wing Chief', 'N6', unit=self))
         Unit._SetRoster(self)

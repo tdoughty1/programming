@@ -5,10 +5,10 @@ from Imperium.Military.LAC.LAC import LAC
 class MaintTeam(Unit):
 
     def _SetRoster(self):
-        self._Roster.append(Position('Team Leader', unit=self))
+        self._Roster.append(Position('Team Leader', 'N1', unit=self))
 
         for i in range(1, 6):
-            self._Roster.append(Position('Team Member', unit=self))
+            self._Roster.append(Position('Team Member', 'E4', unit=self))
 
 
 class MissileTeam(MaintTeam):
@@ -55,14 +55,18 @@ class MaintenanceCrew(Unit):
         self._SubUnits.append(GraviticsTeam(cmdUnit=self))
         self._SubUnits.append(ShieldTeam(cmdUnit=self))
 
+    def _SetRoster(self):
+        self._Roster.append(Position('Maintenance Chief', 'N2', unit=self))
+        Unit._SetRoster(self)
+
 
 class FlightOpsTeam(Unit):
 
     def _SetRoster(self):
-        self._Roster.append(Position('Team Leader', unit=self))
+        self._Roster.append(Position('Team Leader', 'N1', unit=self))
 
         for i in range(1, 5):
-            self._Roster.append(Position('Team Member', unit=self))
+            self._Roster.append(Position('Team Member', 'E4', unit=self))
 
 
 class FlightOps(Unit):
@@ -72,15 +76,15 @@ class FlightOps(Unit):
             self._SubUnits.append(FlightOpsTeam(cmdUnit=self))
 
     def _SetRoster(self):
-        self._Roster.append(Position('Flight Ops Chief', unit=self))
+        self._Roster.append(Position('Flight Ops Chief', 'N2', unit=self))
         Unit._SetRoster(self)
 
 
 class HangarControl(Unit):
 
     def _SetRoster(self):
-        self._Roster.append(Position('Hangar Control Chief', unit=self))
-        self._Roster.append(Position('Hangar Controller', unit=self))
+        self._Roster.append(Position('Hangar Control Chief', 'N1', unit=self))
+        self._Roster.append(Position('Hangar Controller', 'E4', unit=self))
 
 
 class Hangar(Unit):
@@ -91,11 +95,17 @@ class Hangar(Unit):
         self._SubUnits.append(HangarControl(cmdUnit=self))
 
     def _SetRoster(self):
-        self._Roster.append(Position('Chief of the Bay', unit=self))
+        self._Roster.append(Position('Chief of the Bay', 'N3', unit=self))
         Unit._SetRoster(self)
 
 
 class Flight(Unit):
+
+    def __init__(self, cmdUnit=None):
+
+        if cmdUnit is not None:
+            self._SetCallSign(cmdUnit)
+        Unit.__init__(self, cmdUnit=cmdUnit)
 
     def _SetSubUnits(self):
         for i in range(6):
@@ -103,7 +113,19 @@ class Flight(Unit):
         self._SubUnits.append(Hangar(cmdUnit=self))
 
     def _SetRoster(self):
-        self._Roster.append(Position('Commanding Officer', unit=self))
-        self._Roster.append(Position('Executive Officer', unit=self))
-        self._Roster.append(Position('Flight Chief', unit=self))
+        self._Roster.append(Position('Commanding Officer', 'O4', unit=self))
+        self._Roster.append(Position('Executive Officer', 'O3', unit=self))
+        self._Roster.append(Position('Flight Chief', 'N4', unit=self))
         Unit._SetRoster(self)
+
+    def _SetCallSign(self, cmdUnit):
+        fNames = ['Alpha', 'Beta', 'Gamma', 'Delta']
+        self._CallSign = '%s %s' % (cmdUnit._CallSign,
+                                    fNames[len(cmdUnit._SubUnits)])
+
+    def __repr__(self):
+        return '<' + self._CallSign + ' Flight at ' + hex(id(self)) + '>'
+
+    def __str__(self):
+        names = self._CallSign.split()
+        return '%s Flight: %s Squadron' % (names[1], names[0])

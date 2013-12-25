@@ -71,14 +71,10 @@ class Position(DObject):
         elif isinstance(rank, str):
 
             isfound = False
-            print rank
             for rankCheck in Rank._datalist:
-
-                print rankCheck.GetCode()
 
                 if rank == rankCheck.GetCode():
                     isfound = True
-                    print 'Found rank ' + str(rank)
                     self._rank = rank
                     break
 
