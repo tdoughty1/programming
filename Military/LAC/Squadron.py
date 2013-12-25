@@ -5,9 +5,9 @@ from Imperium.Military.LAC.Flight import Flight
 class LogisticsTeam(Unit):
 
     def _SetRoster(self):
-        self._Roster.append(Position('Team Leader', 'N1', unit=self))
+        self._Roster.append(Position('Team Leader', branch='A', rank='N1', unit=self))
         for i in range(4):
-            self._Roster.append(Position('Team Member', 'E4', unit=self))
+            self._Roster.append(Position('Team Member', branch='A', rank='E4', unit=self))
 
 
 class MagazineTeam(LogisticsTeam):
@@ -29,7 +29,7 @@ class LogisticsWatch(Unit):
             self._SubUnits.append(self._Type(cmdUnit=self))
 
     def _SetRoster(self):
-        self._Roster.append(Position('Watch Leader', 'N2', unit=self))
+        self._Roster.append(Position('Watch Leader', branch='A', rank='N2', unit=self))
         Unit._SetRoster(self)
 
 
@@ -61,7 +61,7 @@ class Magazine(Unit):
             self._SubUnits.append(MagazineWatch(cmdUnit=self))
 
     def _SetRoster(self):
-        self._Roster.append(Position('Magazine Chief', 'N3', unit=self))
+        self._Roster.append(Position('Magazine Chief', branch='A', rank='N3', unit=self))
         Unit._SetRoster(self)
 
 
@@ -72,7 +72,7 @@ class CargoBay(Unit):
             self._SubUnits.append(MagazineWatch(cmdUnit=self))
 
     def _SetRoster(self):
-        self._Roster.append(Position('Cargo Chief', 'N3', unit=self))
+        self._Roster.append(Position('Cargo Chief', branch='A', rank='N3', unit=self))
         Unit._SetRoster(self)
 
 
@@ -83,7 +83,7 @@ class Mess(Unit):
             self._SubUnits.append(MagazineWatch(cmdUnit=self))
 
     def _SetRoster(self):
-        self._Roster.append(Position('Mess Chief', 'N3', unit=self))
+        self._Roster.append(Position('Mess Chief', branch='A', rank='N3', unit=self))
         Unit._SetRoster(self)
 
 
@@ -103,9 +103,9 @@ class Squadron(Unit):
         self._SubUnits.append(Mess(cmdUnit=self))
 
     def _SetRoster(self):
-        self._Roster.append(Position('Commanding Officer', 'O5', unit=self))
-        self._Roster.append(Position('Executive Officer', 'O4', unit=self))
-        self._Roster.append(Position('Squadron Chief', 'N5', unit=self))
+        self._Roster.append(Position('Commanding Officer', branch='A', rank='O5', unit=self))
+        self._Roster.append(Position('Executive Officer', branch='A', rank='O4', unit=self))
+        self._Roster.append(Position('Squadron Chief', branch='A', rank='N5', unit=self))
         Unit._SetRoster(self)
 
     def _SetCallSign(self, cmdUnit):

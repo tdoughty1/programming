@@ -2,6 +2,10 @@ from sys import exit
 
 from Imperium.BaseClasses import DObject
 
+##############################################################################
+# Basic Military Structure Classes
+##############################################################################
+
 
 class Rank(DObject):
 
@@ -165,6 +169,9 @@ class Rank(DObject):
     def GetCode(self):
         return self._category._name[0] + str(self._level)
 
+    def GetBranches(self):
+        return self._branch
+
 
 class Branch(DObject):
 
@@ -179,6 +186,9 @@ class Branch(DObject):
 
     def __repr__(self):
         return self._name + ' at ' + hex(id(self))
+
+    def GetCode(self):
+        return self._name[0]
 
 
 class RankCategory(DObject):
@@ -201,8 +211,6 @@ class RankCategory(DObject):
 
     # Branch Checking
     def _SetBranch(self, branch):
-
-        from Imperium.Military.StructureClasses import Branch
 
         self._branch = []
 
@@ -278,3 +286,53 @@ class RankCategory(DObject):
         Order = ['Enlisted', 'Non-Commissioned Officer', 'Warrant Officer',
                  'Officer']
         return Order.index(self._name) <= Order.index(other._name)
+
+##############################################################################
+# Helper Military Structure Classes
+##############################################################################
+
+
+class Branched(object):
+
+    def _SetBranch(self, branch):
+
+        if branch is None:
+            self._branch = None
+
+        if isinstance(branch, Branch):
+            self._branch = branch
+            return
+
+        if isinstance(branch, str):
+            for branchCheck in Branch._datalist:
+                if branch == branchCheck.GetCode():
+                    self._branch = branchCheck
+                    return
+
+        # Shouldn't make it here
+        print 'ERROR in _SetBranch():'
+        print 'Branch must be a valid branch object or branch code!'
+        exit(1)
+
+
+class Ranked(object):
+
+    def _SetRank(self, rank):
+
+        if rank is None:
+            self._rank = None
+
+        if isinstance(rank, Rank):
+            self._rank = rank
+            return
+
+        if isinstance(rank, str):
+            for rankCheck in Rank._datalist:
+                if rank == rankCheck.GetCode():
+                    if self._branch in rankCheck.GetBranches():
+                        self._rank = rank
+                        return
+
+        print 'ERROR in Position():'
+        print 'Rank must be a valid rank object or rank code!'
+        exit(1)

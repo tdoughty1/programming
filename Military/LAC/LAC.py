@@ -4,20 +4,20 @@ from Imperium.Military.BaseClasses import Unit, Position
 class FlightCrew(Unit):
 
     def _SetRoster(self):
-        self._Roster.append(Position('Commander', 'O3', unit=self))
-        self._Roster.append(Position('Tactical Officer', 'O2', unit=self))
-        self._Roster.append(Position('Astrogation Officer', 'O2', unit=self))
-        self._Roster.append(Position('Communications Officer', 'O2', unit=self))
-        self._Roster.append(Position('Engineering Officer', 'O2', unit=self))
+        self._Roster.append(Position('Commander', branch='A', rank='O3', unit=self))
+        self._Roster.append(Position('Tactical Officer', branch='A', rank='O2', unit=self))
+        self._Roster.append(Position('Astrogation Officer', branch='A', rank='O2', unit=self))
+        self._Roster.append(Position('Communications Officer', branch='A', rank='O2', unit=self))
+        self._Roster.append(Position('Engineering Officer', branch='A', rank='O2', unit=self))
 
 
 class RepairTeam(Unit):
 
     def _SetRoster(self):
-        self._Roster.append(Position('Crew Chief', 'N1', unit=self))
+        self._Roster.append(Position('Crew Chief', branch='A', rank='N1', unit=self))
 
         for i in range(1, 7):
-            self._Roster.append(Position('Crewman', 'E4', unit=self))
+            self._Roster.append(Position('Crewman', branch='A', rank='E4', unit=self))
 
 
 class LAC(Unit):

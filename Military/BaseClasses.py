@@ -1,9 +1,10 @@
 from sys import exit
+
 from Imperium.BaseClasses import DObject
-from Imperium.Military.StructureClasses import Rank
+from Imperium.Military.StructureClasses import Rank, Branched, Ranked
 
 
-class Unit(object):
+class Unit(Branched):
 
     def __init__(self, cmdUnit=None):
 
@@ -39,11 +40,14 @@ class Unit(object):
         return len(self._Roster)
 
 
-class Position(DObject):
+class Position(DObject, Branched, Ranked):
 
-    def __init__(self, name, rank, unit=None):
+    def __init__(self, name, branch=None, rank=None, unit=None):
+
+        print name
 
         self._SetName(name)
+        self._SetBranch(branch)
         self._SetRank(rank)
 
         if unit is None:
@@ -60,30 +64,4 @@ class Position(DObject):
         if not isinstance(unit, Unit):
             print 'ERROR in Position():'
             print 'Unit must be a unit object!'
-            exit(1)
-
-        self._unit = unit
-
-    def _SetRank(self, rank):
-
-        if isinstance(rank, Rank):
-            self._rank = rank
-        elif isinstance(rank, str):
-
-            isfound = False
-            for rankCheck in Rank._datalist:
-
-                if rank == rankCheck.GetCode():
-                    isfound = True
-                    self._rank = rank
-                    break
-
-            if not isfound:
-                print 'ERROR in Position():'
-                print 'Rank must be a valid rank code!'
-                exit(1)
-
-        else:
-            print 'ERROR in Position():'
-            print 'Rank must be a rank object or rank code!'
             exit(1)
