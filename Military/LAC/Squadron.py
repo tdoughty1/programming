@@ -1,13 +1,15 @@
+from random import randint
+
 from Imperium.Military.BaseClasses import Unit, Position
 from Imperium.Military.LAC.Flight import Flight
 
 
 class LogisticsTeam(Unit):
 
-    def _SetRoster(self):
-        self._Roster.append(Position('Team Leader', branch='A', rank='N1', unit=self))
+    def _SetTOE(self):
+        self._TOE.append(Position('Team Leader', 'A', 'N1', unit=self))
         for i in range(4):
-            self._Roster.append(Position('Team Member', branch='A', rank='E4', unit=self))
+            self._TOE.append(Position('Team Member', 'A', 'E4', unit=self))
 
 
 class MagazineTeam(LogisticsTeam):
@@ -28,9 +30,9 @@ class LogisticsWatch(Unit):
         for i in range(4):
             self._SubUnits.append(self._Type(cmdUnit=self))
 
-    def _SetRoster(self):
-        self._Roster.append(Position('Watch Leader', branch='A', rank='N2', unit=self))
-        Unit._SetRoster(self)
+    def _SetTOE(self):
+        self._TOE.append(Position('Watch Leader', 'A', 'N2', unit=self))
+        Unit._SetTOE(self)
 
 
 class MagazineWatch(LogisticsWatch):
@@ -60,9 +62,9 @@ class Magazine(Unit):
         for i in range(4):
             self._SubUnits.append(MagazineWatch(cmdUnit=self))
 
-    def _SetRoster(self):
-        self._Roster.append(Position('Magazine Chief', branch='A', rank='N3', unit=self))
-        Unit._SetRoster(self)
+    def _SetTOE(self):
+        self._TOE.append(Position('Magazine Chief', 'A', 'N3', unit=self))
+        Unit._SetTOE(self)
 
 
 class CargoBay(Unit):
@@ -71,9 +73,9 @@ class CargoBay(Unit):
         for i in range(4):
             self._SubUnits.append(MagazineWatch(cmdUnit=self))
 
-    def _SetRoster(self):
-        self._Roster.append(Position('Cargo Chief', branch='A', rank='N3', unit=self))
-        Unit._SetRoster(self)
+    def _SetTOE(self):
+        self._TOE.append(Position('Cargo Chief', 'A', 'N3', unit=self))
+        Unit._SetTOE(self)
 
 
 class Mess(Unit):
@@ -82,9 +84,9 @@ class Mess(Unit):
         for i in range(4):
             self._SubUnits.append(MagazineWatch(cmdUnit=self))
 
-    def _SetRoster(self):
-        self._Roster.append(Position('Mess Chief', branch='A', rank='N3', unit=self))
-        Unit._SetRoster(self)
+    def _SetTOE(self):
+        self._TOE.append(Position('Mess Chief', 'A', 'N3', unit=self))
+        Unit._SetTOE(self)
 
 
 class Squadron(Unit):
@@ -102,11 +104,17 @@ class Squadron(Unit):
         self._SubUnits.append(CargoBay(cmdUnit=self))
         self._SubUnits.append(Mess(cmdUnit=self))
 
-    def _SetRoster(self):
-        self._Roster.append(Position('Commanding Officer', branch='A', rank='O5', unit=self))
-        self._Roster.append(Position('Executive Officer', branch='A', rank='O4', unit=self))
-        self._Roster.append(Position('Squadron Chief', branch='A', rank='N5', unit=self))
-        Unit._SetRoster(self)
+    def _SetTOE(self):
+        Pos = self._SubUnits[0]._TOE[0]
+        Pos.AddPosition('Commanding Officer', 'A', 'O5', unit=self)
+        self._TOE.append(Pos)
+        Pos = self._SubUnits[randint(1, 3)]._TOE[0]
+        Pos.AddPosition('Executive Officer', 'A', 'O4', unit=self)
+        self._TOE.append(Pos)
+        Pos = self._SubUnits[0]._TOE[1]
+        Pos.AddPosition('Squadron Chief', 'A', 'N5', unit=self)
+        self._TOE.append(Pos)
+        Unit._SetTOE(self)
 
     def _SetCallSign(self, cmdUnit):
         sNames = ['Red', 'Blue', 'Green', 'Gold']

@@ -1,18 +1,16 @@
-class Equipment(object):
-    pass
-
-
-class Location(object):
-    pass
-
-
-class Personnel(object):
-    pass
-
-
 class DObject(object):
 
-    _name = ''
+    def __init__(self):
+
+        try:
+            type(self)._datalist.append(self)
+            type(self)._number += 1
+        except(AttributeError):
+            type(self)._datalist = [self]
+            type(self)._number = 1
+
+        self._datalist = None
+        self._number = None
 
     # Name Checking
     def _SetName(self, name):
@@ -28,6 +26,3 @@ class DObject(object):
             exit(1)
 
         self._name = name
-
-    def __repr__(self):
-        return self._name + ' at ' + hex(id(self))

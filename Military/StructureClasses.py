@@ -9,18 +9,13 @@ from Imperium.BaseClasses import DObject
 
 class Rank(DObject):
 
-    _datalist = []
-    _number = 0
-
     def __init__(self, name, level, branch, category):
+        DObject.__init__(self)
 
         self._SetName(name)
         self._SetBranch(branch)
         self._SetCategory(category)
         self._SetLevel(level)
-
-        Rank._datalist.append(self)
-        Rank._number += 1
 
     def __str__(self):
         return self._category._name[0] + str(self._level) + ' ' + \
@@ -175,14 +170,10 @@ class Rank(DObject):
 
 class Branch(DObject):
 
-    _datalist = []
-    _number = 0
-
     def __init__(self, name=None):
-        self._SetName(name)
+        DObject.__init__(self)
 
-        Branch._datalist.append(self)
-        Branch._number += 1
+        self._SetName(name)
 
     def __repr__(self):
         return self._name + ' at ' + hex(id(self))
@@ -330,7 +321,7 @@ class Ranked(object):
             for rankCheck in Rank._datalist:
                 if rank == rankCheck.GetCode():
                     if self._branch in rankCheck.GetBranches():
-                        self._rank = rank
+                        self._rank = rankCheck
                         return
 
         print 'ERROR in Position():'
