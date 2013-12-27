@@ -1,15 +1,15 @@
 from random import randint
 
-from Imperium.Military.BaseClasses import Unit, Position
+from Imperium.Military.BaseClasses import Unit
 from Imperium.Military.LAC.Flight import Flight
 
 
 class LogisticsTeam(Unit):
 
-    def _SetTOE(self):
-        self._TOE.append(Position('Team Leader', 'A', 'N1', unit=self))
+    def _SetPositions(self):
+        self._AddPosition('Team Leader', 'A', 'N1')
         for i in range(4):
-            self._TOE.append(Position('Team Member', 'A', 'E4', unit=self))
+            self._AddPosition('Team Member', 'A', 'E4')
 
 
 class MagazineTeam(LogisticsTeam):
@@ -28,65 +28,61 @@ class LogisticsWatch(Unit):
 
     def _SetSubUnits(self):
         for i in range(4):
-            self._SubUnits.append(self._Type(cmdUnit=self))
+            self._SubUnits.append(self._Type(self))
 
-    def _SetTOE(self):
-        self._TOE.append(Position('Watch Leader', 'A', 'N2', unit=self))
-        Unit._SetTOE(self)
+    def _SetPositions(self):
+        self._AddPosition('Watch Leader', 'A', 'N2')
 
 
 class MagazineWatch(LogisticsWatch):
 
     def __init__(self, cmdUnit=None):
         self._Type = MagazineTeam
-        Unit.__init__(self, cmdUnit=cmdUnit)
+        Unit.__init__(self, cmdUnit)
 
 
 class CargoWatch(Unit):
 
     def __init__(self, cmdUnit=None):
         self._Type = CargoTeam
-        Unit.__init__(self, cmdUnit=cmdUnit)
+        Unit.__init__(self, cmdUnit)
 
 
 class MessWatch(Unit):
 
     def __init__(self, cmdUnit=None):
         self._Type = MessTeam
-        Unit.__init__(self, cmdUnit=cmdUnit)
+        Unit.__init__(self, cmdUnit)
 
 
 class Magazine(Unit):
 
     def _SetSubUnits(self):
         for i in range(4):
-            self._SubUnits.append(MagazineWatch(cmdUnit=self))
+            self._SubUnits.append(MagazineWatch(self))
 
-    def _SetTOE(self):
-        self._TOE.append(Position('Magazine Chief', 'A', 'N3', unit=self))
-        Unit._SetTOE(self)
+    def _SetPositions(self):
+        self._AddPosition('Magazine Chief', 'A', 'N3')
 
 
 class CargoBay(Unit):
 
     def _SetSubUnits(self):
         for i in range(4):
-            self._SubUnits.append(MagazineWatch(cmdUnit=self))
+            self._SubUnits.append(MagazineWatch(self))
 
-    def _SetTOE(self):
-        self._TOE.append(Position('Cargo Chief', 'A', 'N3', unit=self))
-        Unit._SetTOE(self)
+    def _SetPositions(self):
+        self._AddPosition('Cargo Chief', 'A', 'N3')
 
 
 class Mess(Unit):
 
     def _SetSubUnits(self):
         for i in range(4):
-            self._SubUnits.append(MagazineWatch(cmdUnit=self))
+            self._SubUnits.append(MagazineWatch(self))
 
-    def _SetTOE(self):
-        self._TOE.append(Position('Mess Chief', 'A', 'N3', unit=self))
-        Unit._SetTOE(self)
+    def _SetPositions(self):
+        self._AddPosition('Mess Chief', 'A', 'N3')
 
 
 class Squadron(Unit):
@@ -95,26 +91,22 @@ class Squadron(Unit):
 
         if cmdUnit is not None:
             self._SetCallSign(cmdUnit)
-        Unit.__init__(self, cmdUnit=cmdUnit)
+        Unit.__init__(self, cmdUnit)
 
     def _SetSubUnits(self):
         for i in range(4):
-            self._SubUnits.append(Flight(cmdUnit=self))
-        self._SubUnits.append(Magazine(cmdUnit=self))
-        self._SubUnits.append(CargoBay(cmdUnit=self))
-        self._SubUnits.append(Mess(cmdUnit=self))
+            self._SubUnits.append(Flight())
+        self._SubUnits.append(Magazine())
+        self._SubUnits.append(CargoBay())
+        self._SubUnits.append(Mess())
 
-    def _SetTOE(self):
+    def _SetPositions(self):
         Pos = self._SubUnits[0]._TOE[0]
-        Pos.AddPosition('Commanding Officer', 'A', 'O5', unit=self)
-        self._TOE.append(Pos)
+        self._AddPosition('Commanding Officer', 'A', 'O5', pos=Pos)
         Pos = self._SubUnits[randint(1, 3)]._TOE[0]
-        Pos.AddPosition('Executive Officer', 'A', 'O4', unit=self)
-        self._TOE.append(Pos)
+        self._AddPosition('Executive Officer', 'A', 'O4', pos=Pos)
         Pos = self._SubUnits[0]._TOE[1]
-        Pos.AddPosition('Squadron Chief', 'A', 'N5', unit=self)
-        self._TOE.append(Pos)
-        Unit._SetTOE(self)
+        self._AddPosition('Squadron Chief', 'A', 'N5', pos=Pos)
 
     def _SetCallSign(self, cmdUnit):
         sNames = ['Red', 'Blue', 'Green', 'Gold']

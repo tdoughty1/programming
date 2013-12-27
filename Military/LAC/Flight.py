@@ -1,14 +1,14 @@
-from Imperium.Military.BaseClasses import Unit, Position
+from Imperium.Military.BaseClasses import Unit
 from Imperium.Military.LAC.LAC import LAC
 
 
 class MaintTeam(Unit):
 
-    def _SetTOE(self):
-        self._TOE.append(Position('Team Leader', 'A', 'N1', unit=self))
+    def _SetPositions(self):
+        self._AddPosition('Team Leader', 'A', 'N1')
 
         for i in range(1, 6):
-            self._TOE.append(Position('Team Member', 'A', 'E4', unit=self))
+            self._AddPosition('Team Member', 'A', 'E4')
 
 
 class MissileTeam(MaintTeam):
@@ -46,57 +46,54 @@ class ShieldTeam(MaintTeam):
 class MaintenanceCrew(Unit):
 
     def _SetSubUnits(self):
-        self._SubUnits.append(MissileTeam(cmdUnit=self))
-        self._SubUnits.append(WeaponsTeam(cmdUnit=self))
-        self._SubUnits.append(CommunicationsTeam(cmdUnit=self))
-        self._SubUnits.append(EnvironmentTeam(cmdUnit=self))
-        self._SubUnits.append(ImpellerTeam(cmdUnit=self))
-        self._SubUnits.append(FusionTeam(cmdUnit=self))
-        self._SubUnits.append(GraviticsTeam(cmdUnit=self))
-        self._SubUnits.append(ShieldTeam(cmdUnit=self))
+        self._SubUnits.append(MissileTeam(self))
+        self._SubUnits.append(WeaponsTeam(self))
+        self._SubUnits.append(CommunicationsTeam(self))
+        self._SubUnits.append(EnvironmentTeam(self))
+        self._SubUnits.append(ImpellerTeam(self))
+        self._SubUnits.append(FusionTeam(self))
+        self._SubUnits.append(GraviticsTeam(self))
+        self._SubUnits.append(ShieldTeam(self))
 
-    def _SetTOE(self):
-        self._TOE.append(Position('Maintenance Chief', 'A', 'N2', unit=self))
-        Unit._SetTOE(self)
+    def _SetPositions(self):
+        self._AddPosition('Maintenance Chief', 'A', 'N2')
 
 
 class FlightOpsTeam(Unit):
 
-    def _SetTOE(self):
-        self._TOE.append(Position('Team Leader', 'A', 'N1', unit=self))
+    def _SetPositions(self):
+        self._AddPosition('Team Leader', 'A', 'N1')
 
         for i in range(1, 5):
-            self._TOE.append(Position('Team Member', 'A', 'E4', unit=self))
+            self._AddPosition('Team Member', 'A', 'E4')
 
 
 class FlightOps(Unit):
 
     def _SetSubUnits(self):
         for i in range(4):
-            self._SubUnits.append(FlightOpsTeam(cmdUnit=self))
+            self._SubUnits.append(FlightOpsTeam())
 
-    def _SetTOE(self):
-        self._TOE.append(Position('Flight Ops Chief', 'A', 'N2', unit=self))
-        Unit._SetTOE(self)
+    def _SetPositions(self):
+        self._AddPosition('Flight Ops Chief', 'A', 'N2')
 
 
 class HangarControl(Unit):
 
-    def _SetTOE(self):
-        self._TOE.append(Position('Hangar Control Chief', 'A', 'N1', unit=self))
-        self._TOE.append(Position('Hangar Controller', 'A', 'E4', unit=self))
+    def _SetPositions(self):
+        self._AddPosition('Hangar Control Chief', 'A', 'N1')
+        self._AddPosition('Hangar Controller', 'A', 'E4')
 
 
 class Hangar(Unit):
 
     def _SetSubUnits(self):
-        self._SubUnits.append(MaintenanceCrew(cmdUnit=self))
-        self._SubUnits.append(FlightOps(cmdUnit=self))
-        self._SubUnits.append(HangarControl(cmdUnit=self))
+        self._SubUnits.append(MaintenanceCrew())
+        self._SubUnits.append(FlightOps())
+        self._SubUnits.append(HangarControl())
 
-    def _SetTOE(self):
-        self._TOE.append(Position('Chief of the Bay', 'A', 'N3', unit=self))
-        Unit._SetTOE(self)
+    def _SetPositions(self):
+        self._AddPosition('Chief of the Bay', 'A', 'N3')
 
 
 class Flight(Unit):
@@ -109,17 +106,14 @@ class Flight(Unit):
 
     def _SetSubUnits(self):
         for i in range(6):
-            self._SubUnits.append(LAC(cmdUnit=self))
-        self._SubUnits.append(Hangar(cmdUnit=self))
+            self._SubUnits.append(LAC())
+        self._SubUnits.append(Hangar())
 
-    def _SetTOE(self):
+    def _SetPositions(self):
         Pos = self._SubUnits[0]._TOE[0]
-        Pos.AddPosition('Flight Leader', 'A', 'O4', unit=self)
-        self._TOE.append(Pos)
+        self._AddPosition('Flight Leader', 'A', 'O4', pos=Pos)
         Pos = self._SubUnits[0]._TOE[6]
-        Pos.AddPosition('Flight Chief', 'A', 'N4', unit=self)
-        self._TOE.append(Pos)
-        Unit._SetTOE(self)
+        self._AddPosition('Flight Chief', 'A', 'N4', pos=Pos)
 
     def _SetCallSign(self, cmdUnit):
         fNames = ['Alpha', 'Beta', 'Gamma', 'Delta']

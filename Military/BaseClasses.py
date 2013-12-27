@@ -1,10 +1,14 @@
 from sys import exit
 
 from Imperium.BaseClasses import DObject
-from Imperium.Military.StructureClasses import Rank, Branched, Ranked
+from Imperium.Military.StructureClasses import Branched, Ranked
 
 
 class Unit(DObject, Branched):
+
+    ##########################################################################
+    # Basic Magic Methods
+    ##########################################################################
 
     def __init__(self, cmdUnit=None):
         DObject.__init__(self)
@@ -13,34 +17,129 @@ class Unit(DObject, Branched):
         self._SubUnits = []
 
         self._TOE = []
+        self._Roster = []
+        self._Ranks = {}
 
         self._SetSubUnits()
-        self._SetTOE()
+        self._SetPositions()
+
+    def __len__(self):
+
+        tot = 0
+        for unit in self._SubUnits:
+            tot += len(unit)
+
+        return len(self._TOE) + tot
+
+    ##########################################################################
+    # Initialization Methods
+    ##########################################################################
 
     def _SetSubUnits(self):
         pass
 
-    def _SetTOE(self):
+    def _SetPositions(self):
+        pass
+
+    ##########################################################################
+    # Private Methods
+    ##########################################################################
+
+    def _AddPosition(self, name, branch=None, rank=None, unit=None, pos=None):
+
+        if unit is None:
+            unit = self
+
+        newPos = Position(name, branch, rank, unit, pos)
+
+        self._TOE.append(newPos)
+        self._Roster.append(newPos)
+        self._AddRank(rank)
+
+        # If linking to another position:
+        #   1. pop previous position from subunit roster
+        #   2. decrement rank value
+        if pos is not None:
+            ind = pos._unit._Roster.index(pos)
+            pos._unit._Roster.pop(ind)
+            oldrank = pos._rank.GetCode()
+            pos._unit._Ranks[oldrank] -= 1
+
+    def _AddRank(self, rank):
+
+        try:
+            self._Ranks[rank] += 1
+        except(KeyError):
+            self._Ranks[rank] = 1
+
+    def _GetAllRanks(self):
+
+        tempRankDict = {}
+        tempRankDict.update(self._Ranks)
 
         for unit in self._SubUnits:
-            self._TOE.extend(unit._TOE)
+            tempDict = unit._GetAllRanks()
+            for key in tempDict:
+                if key in tempRankDict:
+                    tempRankDict[key] += tempDict[key]
+                else:
+                    tempRankDict[key] = tempDict[key]
 
-    def __len__(self):
-        return len(self._TOE)
+        return tempRankDict
+
+    ##########################################################################
+    # Public Methods
+    ##########################################################################
+
+    def ListTOE(self):
+
+        for position in self._TOE:
+            print position
+
+        for unit in self._SubUnits:
+            unit.ListTOE()
+
+    def ListRoster(self):
+
+        for position in self._Roster:
+            print position
+
+        for unit in self._SubUnits:
+            unit.ListRoster()
+
+    def ListBaseRanks(self):
+
+        keys = self._Ranks.keys()
+        keys.sort()
+
+        for key in reversed(keys):
+            print '%s: %d' % (key, self._Ranks[key])
+
+    def ListRanks(self):
+        tempDict = self._GetAllRanks()
+        keys = tempDict.keys()
+        keys.sort()
+
+        for key in reversed(keys):
+            print '%s: %d' % (key, tempDict[key])
 
 
 class Position(DObject, Branched, Ranked):
 
-    def __init__(self, name, branch=None, rank=None, unit=None):
+    def __init__(self, name, branch=None, rank=None, unit=None, pos=None):
         DObject.__init__(self)
+
+        self._LinkedPosition = []
 
         self._SetName(name)
         self._SetBranch(branch)
         self._SetRank(rank)
-        self._roles = [(name, unit)]
 
-        if unit is None:
+        if unit is not None:
             self._SetUnit(unit)
+
+        if pos is not None:
+            self._LinkPosition(pos)
 
     def __repr__(self):
         return '<' + self._name + ' Position at ' + hex(id(self)) + '>'
@@ -54,36 +153,12 @@ class Position(DObject, Branched, Ranked):
             print 'ERROR in Position():'
             print 'Unit must be a unit object!'
             exit(1)
+        self._unit = unit
 
     ##########################################################################
     # Set Function Checking Routines
     ##########################################################################
 
-    #FIXME Combine Rank find functionality
-    def AddPosition(self, name, branch=None, rank=None, unit=None):
-
-        if self._branch.GetCode() != branch:
-            print "ERROR in Position.AddPosition:"
-            print "Positions must have same branch!"
-            exit(1)
-
-        if isinstance(rank, Rank):
-            if rank > self._rank:
-                self._SetRank(rank)
-                self._SetName(name)
-            self._roles.append((name, unit))
-            return
-
-        if isinstance(rank, str):
-            for rankCheck in Rank._datalist:
-                if rankCheck.GetCode() == rank:
-                    for branchCheck in rankCheck._branch:
-                        if branchCheck.GetCode() == branch:
-                            if rankCheck > self._rank:
-                                self._SetRank(rankCheck)
-                                self._SetName(name)
-                            self._roles.append((name, unit))
-                            return
-
-        print "ERROR in Position.AddPosition:"
-        print "Position must have valid rank code or object!"
+    def _LinkPosition(self, pos):
+        self._LinkedPosition.append(pos)
+        pos._LinkedPosition.append(self)
