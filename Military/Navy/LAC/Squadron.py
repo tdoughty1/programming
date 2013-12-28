@@ -1,7 +1,7 @@
 from random import randint
 
 from Imperium.Military.BaseClasses import Unit
-from Imperium.Military.LAC.Flight import Flight
+from Imperium.Military.Navy.LAC.Flight import Flight
 
 
 class LogisticsTeam(Unit):

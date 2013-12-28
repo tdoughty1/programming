@@ -1,5 +1,5 @@
 from Imperium.Military.BaseClasses import Unit
-from Imperium.Military.LAC.LAC import LAC
+from Imperium.Military.Navy.LAC.LAC import LAC
 
 
 class MaintTeam(Unit):

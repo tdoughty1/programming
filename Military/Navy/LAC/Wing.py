@@ -1,7 +1,7 @@
 from random import sample
 
 from Imperium.Military.BaseClasses import Unit
-from Imperium.Military.LAC.Squadron import Squadron
+from Imperium.Military.Navy.LAC.Squadron import Squadron
 
 
 class FlightControlTeam(Unit):
