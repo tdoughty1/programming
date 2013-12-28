@@ -18,7 +18,7 @@ class RepairTeam(Unit):
         Pos = self._CmdUnit._SubUnits[0]._TOE[5]
         self._AddPosition('Crew Chief', 'A', 'N1', pos=Pos)
 
-        for i in range(1, 7):
+        for i in range(1, 9):
             self._AddPosition('Crewman', 'A', 'E4')
 
 
