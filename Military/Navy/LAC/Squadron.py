@@ -1,6 +1,7 @@
 from random import randint
 
 from Imperium.Military.BaseClasses import Unit
+from Imperium.Military.Navy.LAC.BaseClasses import LAC_Unit
 from Imperium.Military.Navy.LAC.Flight import Flight
 
 
@@ -85,15 +86,8 @@ class Mess(Unit):
         self._AddPosition('Mess Chief', 'A', 'N3')
 
 
-class Squadron(Unit):
+class Squadron(LAC_Unit):
 
-    def __init__(self, cmdUnit=None):
-
-        if cmdUnit is not None:
-            self._SetCallSign(cmdUnit)
-        else:
-            self._CallSign = ''
-        Unit.__init__(self, cmdUnit)
 
     def _SetSubUnits(self):
         for i in range(4):

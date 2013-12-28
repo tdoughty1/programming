@@ -1,4 +1,5 @@
 from Imperium.Military.BaseClasses import Unit
+from Imperium.Military.Navy.LAC.BaseClasses import LAC_Unit
 from Imperium.Military.Navy.LAC.LAC import LAC
 
 
@@ -96,15 +97,7 @@ class Hangar(Unit):
         self._AddPosition('Chief of the Bay', 'A', 'N3')
 
 
-class Flight(Unit):
-
-    def __init__(self, cmdUnit=None):
-
-        if cmdUnit is not None:
-            self._SetCallSign(cmdUnit)
-        else:
-            self._CallSign = ''
-        Unit.__init__(self, cmdUnit)
+class Flight(LAC_Unit):
 
     def _SetSubUnits(self):
         for i in range(6):
