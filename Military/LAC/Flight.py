@@ -72,7 +72,7 @@ class FlightOps(Unit):
 
     def _SetSubUnits(self):
         for i in range(4):
-            self._SubUnits.append(FlightOpsTeam())
+            self._SubUnits.append(FlightOpsTeam(self))
 
     def _SetPositions(self):
         self._AddPosition('Flight Ops Chief', 'A', 'N2')
@@ -88,9 +88,9 @@ class HangarControl(Unit):
 class Hangar(Unit):
 
     def _SetSubUnits(self):
-        self._SubUnits.append(MaintenanceCrew())
-        self._SubUnits.append(FlightOps())
-        self._SubUnits.append(HangarControl())
+        self._SubUnits.append(MaintenanceCrew(self))
+        self._SubUnits.append(FlightOps(self))
+        self._SubUnits.append(HangarControl(self))
 
     def _SetPositions(self):
         self._AddPosition('Chief of the Bay', 'A', 'N3')
@@ -102,17 +102,19 @@ class Flight(Unit):
 
         if cmdUnit is not None:
             self._SetCallSign(cmdUnit)
-        Unit.__init__(self, cmdUnit=cmdUnit)
+        else:
+            self._CallSign = ''
+        Unit.__init__(self, cmdUnit)
 
     def _SetSubUnits(self):
         for i in range(6):
-            self._SubUnits.append(LAC())
-        self._SubUnits.append(Hangar())
+            self._SubUnits.append(LAC(self))
+        self._SubUnits.append(Hangar(self))
 
     def _SetPositions(self):
         Pos = self._SubUnits[0]._TOE[0]
         self._AddPosition('Flight Leader', 'A', 'O4', pos=Pos)
-        Pos = self._SubUnits[0]._TOE[6]
+        Pos = self._SubUnits[0]._SubUnits[1]._TOE[0]
         self._AddPosition('Flight Chief', 'A', 'N4', pos=Pos)
 
     def _SetCallSign(self, cmdUnit):

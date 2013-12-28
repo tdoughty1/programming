@@ -91,14 +91,16 @@ class Squadron(Unit):
 
         if cmdUnit is not None:
             self._SetCallSign(cmdUnit)
+        else:
+            self._CallSign = ''
         Unit.__init__(self, cmdUnit)
 
     def _SetSubUnits(self):
         for i in range(4):
-            self._SubUnits.append(Flight())
-        self._SubUnits.append(Magazine())
-        self._SubUnits.append(CargoBay())
-        self._SubUnits.append(Mess())
+            self._SubUnits.append(Flight(self))
+        self._SubUnits.append(Magazine(self))
+        self._SubUnits.append(CargoBay(self))
+        self._SubUnits.append(Mess(self))
 
     def _SetPositions(self):
         Pos = self._SubUnits[0]._TOE[0]
