@@ -83,7 +83,8 @@ class HangarControl(Unit):
 
     def _SetPositions(self):
         self._AddPosition('Hangar Control Chief', 'A', 'N1')
-        self._AddPosition('Hangar Controller', 'A', 'E4')
+        for i in range(4):
+            self._AddPosition('Hangar Controller', 'A', 'E4')
 
 
 class Hangar(Unit):
