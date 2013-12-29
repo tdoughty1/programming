@@ -35,3 +35,7 @@ class Dreadnought(Ship):
 
 class SuperDreadnought(Ship):
     pass
+
+
+class LACCarrier(Ship):
+    pass

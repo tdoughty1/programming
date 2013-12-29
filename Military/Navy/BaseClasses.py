@@ -1,9 +1,5 @@
-from Imperium.BaseClasses import DObject
+from Imperium.Military.BaseClasses import Unit
 
 
-class Ship(DObject):
-    pass
-
-
-class Watched(object):
+class Ship(Unit):
     pass
