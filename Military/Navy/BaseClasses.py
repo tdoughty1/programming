@@ -1,6 +1,14 @@
 from Imperium.Military.BaseClasses import Unit
 
 
+class Division(Unit):
+    pass
+
+
+class Department(Unit):
+    pass
+
+
 class Ship(Unit):
     pass
 
