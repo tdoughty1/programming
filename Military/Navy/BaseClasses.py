@@ -1,5 +1,9 @@
+from Imperium.BaseClasses import DObject
+
+
+class Ship(DObject):
+    pass
+
+
 class Watched(object):
-
-    def __init__(self):
-
-        
+    pass
