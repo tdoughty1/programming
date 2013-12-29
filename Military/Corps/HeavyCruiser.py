@@ -1,13 +1,13 @@
 from Imperium.Military.Corps.UnitBaseClasses import Company, Battalion, Brigade
 
 
-class LightCompany_Det_HC(Company):
+class LightCompany_Det_CA(Company):
     pass
 
 
-class LightBattalion_Det_HC(Battalion):
+class LightBattalion_Det_CA(Battalion):
     pass
 
 
-class LightBrigade_Det_HC(Brigade):
+class LightBrigade_Det_CA(Brigade):
     pass

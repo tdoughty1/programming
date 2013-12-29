@@ -1,31 +1,8 @@
 from Imperium.Military.BaseClasses import Unit
+from Imperium.Military.Corps.UnitBaseClasses import Platoon, Company
 
 
-class Division(Unit):
-
-    def __init__(self):
-        Unit.__init__(self)
-
-
-class Brigade(Unit):
-
-    def __init__(self):
-        Unit.__init__(self)
-
-
-class Battalion(Unit):
-
-    def __init__(self):
-        Unit.__init__(self)
-
-
-class Regiment(Unit):
-
-    def __init__(self):
-        Unit.__init__(self)
-
-
-class RifleCompany(Unit):
+class RifleCompany(Company):
 
     def _SetSubUnits(self):
         for i in range(3):
@@ -43,7 +20,7 @@ class RifleCompany(Unit):
         self._AddPosition('Senior Medic', 'C', 'N2')
 
 
-class RiflePlatoon(Unit):
+class RiflePlatoon(Platoon):
 
     def _SetSubUnits(self):
         for i in range(3):

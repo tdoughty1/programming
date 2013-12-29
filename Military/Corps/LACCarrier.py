@@ -9,5 +9,5 @@ class Battalion_Det_CLAC(Battalion):
     pass
 
 
-class Brigade_Det_CLAC(Battalion):
+class Brigade_Det_CLAC(Brigade):
     pass
