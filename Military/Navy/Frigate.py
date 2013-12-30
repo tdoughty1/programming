@@ -67,7 +67,12 @@ class AdminDept(Department):
 
 
 class TacticalDept(Department):
-    pass
+    
+    def _SetRoster(self):
+        self._AddPosition('Tactical Officer' ,'O3','A', self)
+        self._AddPosition('Assistant Tactical Officer', 'O2', 'A', self)
+        for i in range(2):
+            self._AddPosition('Junior Tactical Officer', 'O1', 'A', self)
 
 
 class EngineeringDept(Department):
@@ -85,4 +90,6 @@ class MedicalDept(Department):
 class FrigateOrg(Unit):
     
     def _SetRoster(self):
-        self._AddPosition('Commanding Officer', 'O3', 'N', self)
+        self._AddPosition('Commanding Officer', 'O4', 'A', self)
+        self._AddPosition('Executive Officer', 'O3', 'A', self)
+        self._AddPosition('Boatswain', 'N5', 'A', self)
