@@ -1,5 +1,5 @@
 from Imperium.Military.BaseClasses import Unit
-from Imperium.Military.Corps.UnitBaseClasses import Platoon, Company
+from Imperium.Military.Corps.BaseUnitClasses import Platoon, Company
 
 
 class RifleCompany(Company):
@@ -7,7 +7,7 @@ class RifleCompany(Company):
     def _SetSubUnits(self):
         for i in range(3):
             self._SubUnits.append(RiflePlatoon(self))
-        self._SubUnits.append(WeaponsSection(self))
+        self._SubUnits.append(WeaponsPlatoon(self))
 
     def _SetPositions(self):
 
@@ -20,6 +20,21 @@ class RifleCompany(Company):
         self._AddPosition('Senior Medic', 'C', 'N2')
 
 
+class WeaponsPlatoon(Platoon):
+
+    def _SetSubUnits(self):
+        self._SubUnits.append(RiflePlatoon(self))
+        for i in range(2):
+            self._SubUnits.append(WeaponsPlatoon(self))
+
+    def _SetPositions(self):
+        self._AddPosition('Platoon Leader', 'C', 'O1')
+        self._AddPosition('Platoon Sergeant', 'C', 'N3')
+        self._AddPosition('Plasma Gunner', 'C', 'E4')
+        self._AddPosition('Plasma Gunner', 'C', 'E4')
+        self._AddPosition('Medic', 'C', 'N1')
+
+
 class RiflePlatoon(Platoon):
 
     def _SetSubUnits(self):
@@ -30,7 +45,6 @@ class RiflePlatoon(Platoon):
     def _SetPositions(self):
         self._AddPosition('Platoon Leader', 'C', 'O1')
         self._AddPosition('Platoon Sergeant', 'C', 'N3')
-        self._AddPosition('Platoon RTO', 'C', 'E4')
         self._AddPosition('Plasma Gunner', 'C', 'E4')
         self._AddPosition('Plasma Gunner', 'C', 'E4')
         self._AddPosition('Medic', 'C', 'N1')

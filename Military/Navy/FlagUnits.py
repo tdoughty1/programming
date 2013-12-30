@@ -1,5 +1,7 @@
 from Imperium.Military.BaseClasses import Unit
-from Imperium.Military.Navy.Ships import Frigate, Destroyer, LightCruiser, \
+from Imperium.Military.Corps.Frigate import Company_Det_FG
+from Imperium.Military.Navy.Frigate import Frigate
+from Imperium.Military.Navy.Ships import Destroyer, LightCruiser, \
     HeavyCruiser, Battlecruiser, Battleship, Dreadnought, SuperDreadnought, \
     LACCarrier
 
@@ -11,6 +13,7 @@ class Element_FG(Unit):
     def _SetSubUnits(self):
         for i in range(6):
             self._SubUnits.append(Frigate(self))
+        self._SubUnits.append(Company_Det_FG(self))
 
 
 class Flotilla_FG(Unit):

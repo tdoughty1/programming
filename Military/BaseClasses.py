@@ -47,6 +47,8 @@ class Unit(DObject, Branched):
 
     def _AddPosition(self, name, branch=None, rank=None, unit=None, pos=None):
 
+        print name
+
         if unit is None:
             unit = self
 
