@@ -19,7 +19,9 @@ class BoatDiv(Division):
 
 
 class CommunicationDiv(Division):
-    pass
+    
+    def _SetRoster(self):
+        self._AddPosition('Communications Officer', 'O2', 'A', self)
 
 
 class AuxiliaryDiv(Division):
@@ -59,7 +61,9 @@ class SensorDiv(Division):
 
 
 class SupplyDept(Department):
-    pass
+    
+    def _SetRoster(self):
+        self._AddPosition('Supply Officer', 'O2', 'A', self)
 
 
 class AdminDept(Department):
@@ -76,11 +80,15 @@ class TacticalDept(Department):
 
 
 class EngineeringDept(Department):
-    pass
+    
+    def _SetRoster(self):
+        self._AddPosition('Engineering Officer', 'O3', 'A', self)
 
 
 class OperationsDept(Department):
-    pass
+    
+    def _SetRoster(self):
+        self._AddPosition('Operations Officer', 'O3', 'A', self)
 
 
 class MedicalDept(Department):
