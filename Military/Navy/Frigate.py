@@ -1,6 +1,8 @@
 from Imperium.Military.BaseClasses import Unit
 from Imperium.Military.Navy.BaseClasses import Division, Department
 from Imperium.Military.Corps.Frigate import LightPlatoon_Det_FG
+from Imperium.Military.Corps.Frigate import Company_Det_HQ_CO_FG
+from Imperium.Military.Corps.Frigate import Company_Det_HQ_XO_FG
 
 
 class MasterAtArmsOffice(Unit):
@@ -25,10 +27,20 @@ class SecurityDetachment(Unit):
 
     def _SetSubUnits(self):
         self._SubUnits.append(LightPlatoon_Det_FG(self))
+        if len(self._CmdUnit._CmdUnit._SubUnits) == 0:
+            self._SubUnits.append(Company_Det_HQ_CO_FG(self))
+        elif len(self._CmdUnit._CmdUnit._SubUnits) == 1:
+            self._SubUnits.append(Company_Det_HQ_XO_FG(self))
 
     def _SetPositions(self):
-        Pos = self._SubUnits[0]._TOE[0]
-        self._AddPosition('Detachment Commander', 'A', 'O2', self, pos=Pos)
+        if len(self._CmdUnit._CmdUnit._SubUnits) < 2:
+            Pos = self._SubUnits[1]._TOE[0]
+            Rank = Pos._rank
+            self._AddPosition('Detachment Commander', 'C', Rank, self, pos=Pos)
+        else:
+            Pos = self._SubUnits[0]._TOE[0]
+            Rank = Pos._rank
+            self._AddPosition('Detachment Commander', 'C', Rank, self, pos=Pos)
 
 
 class AstrogationDiv(Division):

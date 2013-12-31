@@ -14,7 +14,7 @@ class Unit(DObject, Branched):
         DObject.__init__(self)
 
         self._CmdUnit = cmdUnit
-        self._TacCmdUnit = None
+        self._AdmCmdUnit = None
         self._SubUnits = []
 
         self._TOE = []
@@ -153,7 +153,6 @@ class Position(DObject, Branched, Ranked):
     # Set Function Checking Routines
     ##########################################################################
     def _SetUnit(self, unit):
-
         if not isinstance(unit, Unit):
             print 'ERROR in Position():'
             print 'Unit must be a unit object!'
@@ -164,6 +163,16 @@ class Position(DObject, Branched, Ranked):
     # Set Function Checking Routines
     ##########################################################################
 
-    def _LinkPosition(self, pos):
-        self._LinkedPosition.append(pos)
-        pos._LinkedPosition.append(self)
+    def _LinkPosition(self, oldPos):
+
+        # First link old position to new position
+        self._LinkedPosition.append(oldPos)
+
+        # Next link all positions linked to the old position to new position
+        # and link new position to all positions linked to the old position
+        for pos in oldPos._LinkedPosition:
+            self._LinkedPosition.append(pos)
+            pos._LinkedPosition.append(self)
+
+        # Finally link this new position to the old one
+        oldPos._LinkedPosition.append(self)
