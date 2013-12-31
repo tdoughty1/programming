@@ -18,19 +18,25 @@ class LightPlatoon_Det_FG(Platoon):
         self._AddPosition('Medic', 'C', 'N1')
 
 
-class Company_Det_HQ_FG(Unit):
+class Company_Det_HQ_XO_FG(Unit):
+
+    def _SetPositions(self):
+        Pos = self._CmdUnit._SubUnits[1]._TOE[0]
+        self._AddPosition('Executive Officer', 'C', 'O2', pos=Pos)
+        Pos = self._CmdUnit._SubUnits[1]._TOE[1]
+        self._AddPosition('Armorer', 'C', 'N2', pos=Pos)
+
+
+class Company_Det_HQ_CO_FG(Unit):
 
     def _SetPositions(self):
         Pos = self._CmdUnit._SubUnits[0]._TOE[0]
         self._AddPosition('Commanding Officer', 'C', 'O3', pos=Pos)
-        Pos = self._SubUnits[sample(range(1, 7), 1)].TOE[0]
-        self._AddPosition('Executive Officer', 'C', 'O2', pos=Pos)
-        Pos = self._SubUnits[0]._TOE[1]
+        Pos = self._CmdUnit._SubUnits[0]._TOE[1]
         self._AddPosition('First Sergeant', 'C', 'N4', pos=Pos)
         self._AddPosition('Clerk', 'C', 'N1')
         self._AddPosition('Supply Sergeant', 'C', 'N2')
-        self._AddPosition('Armorer', 'C', 'N2')
-        Pos = self._SubUnits[0]._TOE[3]
+        Pos = self._CmdUnit._SubUnits[0]._TOE[3]
         self._AddPosition('Senior Medic', 'C', 'N2', pos=Pos)
 
 
@@ -40,9 +46,18 @@ class Company_Det_FG(Company):
         for i in range(6):
             Platoon = self._CmdUnit._SubUnits[i]._SubUnits[6]._SubUnits[0]
             self._SubUnits.append(Platoon)
-        CoHQ = Company_Det_HQ_FG(self)
+            Platoon._TacCmdUnit = self
+        CoHQ = Company_Det_HQ_CO_FG(self)
         self._SubUnits.append(CoHQ)
         self._CmdUnit._SubUnits[0]._SubUnits[6]._SubUnits.append(CoHQ)
+        CoHQ._CmdUnit = self._CmdUnit._SubUnits[0]._SubUnits[6]
+        CoHQ._TacCmdUnit = self
+        XoHQ = Company_Det_HQ_XO_FG(self)
+        self._SubUnits.append(XoHQ)
+        self._CmdUnit._SubUnits[1]._SubUnits[6]._SubUnits.append(XoHQ)
+        XoHQ._CmdUnit = self._CmdUnit._SubUnits[1]._SubUnits[6]
+        XoHQ._TacCmdUnit = self
+
 
 
 class Battalion_Det_FG(Battalion):

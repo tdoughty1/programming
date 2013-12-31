@@ -14,6 +14,7 @@ class Unit(DObject, Branched):
         DObject.__init__(self)
 
         self._CmdUnit = cmdUnit
+        self._TacCmdUnit = None
         self._SubUnits = []
 
         self._TOE = []
@@ -47,8 +48,6 @@ class Unit(DObject, Branched):
 
     def _AddPosition(self, name, branch=None, rank=None, unit=None, pos=None):
 
-        print name
-
         if unit is None:
             unit = self
 
@@ -62,8 +61,12 @@ class Unit(DObject, Branched):
         #   1. pop previous position from subunit roster
         #   2. decrement rank value
         if pos is not None:
-            ind = pos._unit._Roster.index(pos)
-            pos._unit._Roster.pop(ind)
+            try:
+                ind = pos._unit._Roster.index(pos)
+            except(ValueError):
+                pass
+            else:
+                pos._unit._Roster.pop(ind)
             oldrank = pos._rank.GetCode()
             pos._unit._Ranks[oldrank] -= 1
 

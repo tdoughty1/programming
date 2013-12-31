@@ -13,7 +13,7 @@ class Element_FG(Unit):
     def _SetSubUnits(self):
         for i in range(6):
             self._SubUnits.append(Frigate(self))
-        self._SubUnits.append(Company_Det_FG(self))
+        self._AdminUnits = [Company_Det_FG(self)]
 
 
 class Flotilla_FG(Unit):
