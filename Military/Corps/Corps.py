@@ -7,7 +7,7 @@ class RifleCompany(Company):
     def _SetSubUnits(self):
         for i in range(3):
             self._SubUnits.append(RiflePlatoon(self))
-        self._SubUnits.append(WeaponsPlatoon(self))
+        self._SubUnits.append(WeaponsSection(self))
 
     def _SetPositions(self):
 
@@ -20,12 +20,12 @@ class RifleCompany(Company):
         self._AddPosition('Senior Medic', 'C', 'N2')
 
 
-class WeaponsPlatoon(Platoon):
+class WeaponsCompany(Platoon):
 
     def _SetSubUnits(self):
         self._SubUnits.append(RiflePlatoon(self))
-        for i in range(2):
-            self._SubUnits.append(WeaponsPlatoon(self))
+        for i in range(3):
+            self._SubUnits.append(WeaponsSection(self))
 
     def _SetPositions(self):
         self._AddPosition('Platoon Leader', 'C', 'O1')

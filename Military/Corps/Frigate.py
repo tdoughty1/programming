@@ -1,5 +1,3 @@
-from random import sample
-
 from Imperium.Military.BaseClasses import Unit
 from Imperium.Military.Corps.BaseUnitClasses import Platoon, Company, Battalion
 from Imperium.Military.Corps.Corps import RifleSquad
