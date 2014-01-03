@@ -1,6 +1,10 @@
 from Imperium.Military.BaseClasses import Unit
 
 
+class Section(Unit):
+    pass
+
+
 class Platoon(Unit):
     pass
 
