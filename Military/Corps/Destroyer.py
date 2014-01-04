@@ -1,5 +1,5 @@
 from Imperium.Military.BaseClasses import Unit
-from Imperium.Military.Corps.UnitBaseClasses import Platoon, Company, Battalion
+from Imperium.Military.Corps.BaseUnitClasses import Platoon, Company, Battalion
 from Imperium.Military.Corps.Corps import RifleSquad
 
 
@@ -60,5 +60,70 @@ class Company_Det_DS(Company):
         self._SubUnits.append(Company_Det_HQ_DS(self))
 
 
+class Battalion_Det_HQ_CO_DS(Unit):
+
+    def _SetPositions(self):
+        Flot = self._CmdUnit._CmdUnit._CmdUnit
+        CO = Flot._SubUnits[0]._AdminUnits[0]._SubUnits[6]._SubUnits[0]._TOE[0]
+        self._AddPosition('Battalion Commanding Officer', 'C', 'O5', self,
+                          pos=CO)
+        SM = Flot._SubUnits[0]._AdminUnits[0]._SubUnits[6]._SubUnits[0]._TOE[1]
+        self._AddPosition('Sergeant Major', 'C', 'N5', self, pos=SM)
+        CM = Flot._SubUnits[0]._AdminUnits[0]._SubUnits[6]._SubUnits[0]._TOE[2]
+        self._AddPosition('Battalion Chief Medic', 'C', 'N3', pos=CM)
+
+
+class Battalion_Det_HQ_XO_DS(Unit):
+
+    def _SetPositions(self):
+        Flot = self._CmdUnit._CmdUnit._CmdUnit
+        CO = Flot._SubUnits[1]._AdminUnits[0]._SubUnits[6]._SubUnits[0]._TOE[0]
+        self._AddPosition('Battalion Executive Officer', 'C', 'O4', self,
+                          pos=CO)
+
+
+class Battalion_Det_HQ_S14_DS(Unit):
+
+    def _SetPositions(self):
+        Flot = self._CmdUnit._CmdUnit._CmdUnit
+        AS = Flot._SubUnits[3]._AdminUnits[0]._SubUnits[6]._SubUnits[0]._TOE[0]
+        self._AddPosition('Battalion Adjutant/Supply Officer', 'C', 'O3', self,
+                          pos=AS)
+        BQ = Flot._SubUnits[3]._AdminUnits[0]._SubUnits[6]._SubUnits[0]._TOE[3]
+        self._AddPosition('Battalion Quartermaster', 'C', 'N3', self, pos=BQ)
+        BC = Flot._SubUnits[3]._AdminUnits[0]._SubUnits[6]._SubUnits[0]._TOE[4]
+        self._AddPosition('Battalion Clerk', 'C', 'N3', pos=BC)
+
+
+class Battalion_Det_HQ_S23_DS(Unit):
+
+    def _SetPositions(self):
+        Flot = self._CmdUnit._CmdUnit._CmdUnit
+        OI = Flot._SubUnits[2]._AdminUnits[0]._SubUnits[6]._SubUnits[0]._TOE[0]
+        self._AddPosition('Battalion Intelligence/Operations Officer', 'C',
+                          'O4', self, pos=OI)
+        OC = Flot._SubUnits[2]._AdminUnits[0]._SubUnits[6]._SubUnits[0]._TOE[1]
+        self._AddPosition('Battalion Operations Chief', 'C', 'N3', self,
+                          pos=OC)
+        IC = Flot._SubUnits[2]._AdminUnits[0]._SubUnits[6]._SubUnits[0]._TOE[2]
+        self._AddPosition('Battalion Intelligence Chief', 'C', 'N2', self,
+                          pos=IC)
+
+
+class Battalion_Det_HQ_DS(Unit):
+
+    def _SetSubUnits(self):
+        self._SubUnits.append(Battalion_Det_HQ_CO_DS(self))
+        self._SubUnits.append(Battalion_Det_HQ_XO_DS(self))
+        self._SubUnits.append(Battalion_Det_HQ_S23_DS(self))
+        self._SubUnits.append(Battalion_Det_HQ_S14_DS(self))
+
+
 class Battalion_Det_DS(Battalion):
-    pass
+
+    def _SetSubUnits(self):
+        for i in range(4):
+            Company = self._CmdUnit._SubUnits[i]._AdminUnits[0]
+            self._SubUnits.append(Company)
+            Company._AdmCmdUnit = self
+        self._SubUnits.append(Battalion_Det_HQ_DS(self))

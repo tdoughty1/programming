@@ -1,5 +1,6 @@
 from Imperium.Military.BaseClasses import Unit
 from Imperium.Military.Corps.Frigate import Company_Det_FG, Battalion_Det_FG
+from Imperium.Military.Corps.Destroyer import Company_Det_DS, Battalion_Det_DS
 from Imperium.Military.Navy.Frigate import Frigate
 from Imperium.Military.Navy.Ships import Destroyer, LightCruiser, \
     HeavyCruiser, Battlecruiser, Battleship, Dreadnought, SuperDreadnought, \
@@ -8,40 +9,58 @@ from Imperium.Military.Navy.Ships import Destroyer, LightCruiser, \
 
 class Element_FG(Unit):
 
-    CO = 'Commander'
-
     def _SetSubUnits(self):
         for i in range(6):
             self._SubUnits.append(Frigate(self))
         self._AdminUnits = [Company_Det_FG(self)]
 
+    def _SetPositions(self):
+        Pos = self._SubUnits[0]._TOE[0]
+        self._AddPosition('Element Senior Officer', 'A', 'O5', self,
+                          pos=Pos)
+
 
 class Flotilla_FG(Unit):
 
-    CO = 'Captain JG'
-
     def _SetSubUnits(self):
         for i in range(4):
-            self._SubUnits.append(Element_FG(self))
+            tempElement = Element_FG(self)
+            tempElement._CmdUnit = None
+            tempElement._AdmCmdUnit = self
+            self._SubUnits.append(tempElement)
         self._AdminUnits = [Battalion_Det_FG(self)]
+
+    def _SetPositions(self):
+        Pos = self._SubUnits[0]._TOE[0]
+        self._AddPosition('Flotilla Senior Officer', 'A', 'O6', self, pos=Pos)
 
 
 class Element_DS(Unit):
 
-    CO = 'Commander'
-
     def _SetSubUnits(self):
         for i in range(4):
             self._SubUnits.append(Destroyer(self))
+        self._AdminUnits = [Company_Det_DS(self)]
+
+    def _SetPositions(self):
+        Pos = self._SubUnits[0]._TOE[0]
+        self._AddPosition('Element Senior Officer', 'A', 'O5', self,
+                          pos=Pos)
 
 
 class Flotilla_DS(Unit):
 
-    CO = 'Captain JG'
-
     def _SetSubUnits(self):
         for i in range(4):
-            self._SubUnits.append(Flotilla_DS(self))
+            tempElement = Element_DS(self)
+            tempElement._CmdUnit = None
+            tempElement._AdmCmdUnit = self
+            self._SubUnits.append(tempElement)
+        self._AdminUnits = [Battalion_Det_FG(self)]
+
+    def _SetPositions(self):
+        Pos = self._SubUnits[0]._TOE[0]
+        self._AddPosition('Flotilla Senior Officer', 'A', 'O6', self, pos=Pos)
 
 
 class Element_CL(Unit):

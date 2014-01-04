@@ -9,13 +9,19 @@ from Imperium.BaseClasses import DObject
 
 class Rank(DObject):
 
-    def __init__(self, name, level, branch, category):
+    def __init__(self, name, level, branch, category, split=False,
+                 slevel=None):
         DObject.__init__(self)
+
+        self._issplit = split
 
         self._SetName(name)
         self._SetBranch(branch)
         self._SetCategory(category)
         self._SetLevel(level)
+
+        if self._issplit:
+            self._sublevel = slevel
 
     def __str__(self):
         return self._category._name[0] + str(self._level) + ' ' + \
@@ -95,7 +101,11 @@ class Rank(DObject):
                  'Officer']
         # For same category ranks
         if self._category == other._category:
-            return self._level > other._level
+            if(self._issplit and other._issplit and
+               self._level == other._level):
+                return self._sublevel > other._sublevel
+            else:
+                return self._level > other._level
 
         # If self is Warrant Officer and other is Officer - 3 Offset
         elif(self._category._name == Order[2] and
@@ -126,7 +136,11 @@ class Rank(DObject):
                  'Officer']
         # For same category ranks
         if self._category == other._category:
-            return self._level >= other._level
+            if(self._issplit and other._issplit and
+               self._level == other._level):
+                return self._sublevel >= other._sublevel
+            else:
+                return self._level >= other._level
 
         # If self is Warrant Officer and other is Officer - 3 Offset
         elif(self._category._name == Order[2] and
@@ -150,7 +164,13 @@ class Rank(DObject):
 
         # Otherwise can determine from category
         else:
-            return self._category > other._category
+            return self._category >= other._category
+
+    def __eq__(self, other):
+        return self >= other and not self > other
+
+    def __ne__(self, other):
+        return not self == other
 
     def __lt__(self, other):
         return not self >= other
