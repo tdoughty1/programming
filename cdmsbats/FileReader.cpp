@@ -21,7 +21,7 @@ int main ()
         cout << "Correctly Opened '/home/tdoughty1/Workspace/data/raw/01120411_1132/01120411_1132_F0003.gz'" << endl;
     }
 
-    int nread = 4;
+    int nread = 4; // FIXME - Remove Hardcoded value?
     uint32_t header[nread];
 
     int readcheck = gzread(fgzRawDataPtr, header, nread*sizeof(int32_t));
@@ -32,16 +32,16 @@ int main ()
     }
     else
     {
-        /*cout << setbase(16) << "Endian Check = 0x" << header[0] << endl;
+        cout << setbase(16) << "Endian Check = 0x" << header[0] << endl;
         cout << setbase(16) << "File Header = 0x" << header[1] << endl;
         cout << setbase(16) << "Config Header = 0x" << header[2] << endl;
-        cout << setbase(10) << "Config Length = " << header[3] << endl;*/
+        cout << setbase(10) << "Config Length = " << header[3] << endl;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////
     // Read Detector Config Info
     ////////////////////////////////////////////////////////////////////////////////////////////
-    for(int i=0;i<180;i++)
+    for(int i=0;i<180;i++) // FIXME - Remove Hardcoded value! Switch to while loop?
     {
         uint32_t buffer[2];
 
