@@ -153,7 +153,7 @@ int main ()
         }
         else
         {
-            for(int i=0; i<2; i++)
+            for(int i=0; i<4; i++)
             {
 
                 int nread = 2;
@@ -191,7 +191,7 @@ int main ()
                             cout << "Time Since Last Event = " << abuffer[4] << endl;
                             cout << "Livetime Since Last Event = " << abuffer[5] << endl;
                         }
-                    }
+                    } // End of Admin Record Implementation
                     else if(lheader[0] == 0x80)
                     {
                         uint32_t tbuffer[lheader[1]];
@@ -209,6 +209,25 @@ int main ()
                             for(int j=1; j<=6; j++)
                             {
                                 cout << "Trigger Mask " << setbase(10) << j << " = " << setbase(16) << tbuffer[j] << endl;
+                            }
+                        }
+                    } // End of Trigger Record Implementation
+                    else if(lheader[0] == 0x81)
+                    {
+                        uint32_t tbuffer[lheader[1]];
+
+                        int readcheck = gzread(fgzRawDataPtr,tbuffer,lheader[1]);
+
+                        if(readcheck == -1)
+                        {
+                            cout << "Error Reading Trigger Mask Record" << endl;
+                        }
+                        else
+                        {
+                            cout << "Reading Trigger Mask Record" << endl;
+                            for(int j=0; j<6; j++)
+                            {
+                                cout << "TLB Mask " << setbase(10) << j+1 << " = " << setbase(16) << tbuffer[j] << endl;
                             }
                         }
                     }
