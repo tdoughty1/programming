@@ -1,0 +1,4 @@
+# Codeblocks compiling organization
+bin
+obj
+*.depend
