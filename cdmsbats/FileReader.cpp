@@ -140,12 +140,12 @@ int main ()
     else
     {
         cout << "Event Header Successfully Read" << endl;
-        cout << setbase(16) << "Event Header = " << eheader[0] << endl;
+        /*cout << setbase(16) << "Event Header = " << eheader[0] << endl;
         cout << setbase(16) << "Event Tag = " << (eheader[0]>>16) << endl;
         cout << setbase(16) << "Event Class = " << (eheader[0] & 0x0000F000) << endl;
         cout << setbase(16) << "Event Category = " << (eheader[0] & 0x00000F00) << endl;
         cout << setbase(16) << "Event Type = " << (eheader[0] & 0x000000FF) << endl;
-        cout << setbase(10) << "Event Length = " << eheader[1] << endl;
+        cout << setbase(10) << "Event Length = " << eheader[1] << endl;*/
 
         if(eheader[0]>>16 != 0xa980)
         {
@@ -153,8 +153,9 @@ int main ()
         }
         else
         {
-            for(int i=0; i<5; i++)
+            for(int i=0; i<185; i++)
             {
+                cout << "i = " << setbase(10) << i << endl;
 
                 int nread = 2;
                 int32_t lheader[nread];
@@ -168,8 +169,8 @@ int main ()
                 else
                 {
                     cout << "Reading Logical Header" << endl;
-                    cout << setbase(16) << "Logical Header ID = " << lheader[0] << endl;
-                    cout << setbase(10) << "Logical Header Length = " << lheader[1] << endl;
+                    /*cout << setbase(16) << "Logical Header ID = " << lheader[0] << endl;
+                    cout << setbase(10) << "Logical Header Length = " << lheader[1] << endl;*/
 
                     if (lheader[1] == 0)
                     {
@@ -178,7 +179,7 @@ int main ()
                     } // Skip if record length is 0 because not implemented (ie GPS)
                     else if(lheader[0] == 0x2)
                     {
-                        uint32_t abuffer[lheader[1]];
+                        uint32_t abuffer[lheader[1]/4];
 
                         int readcheck = gzread(fgzRawDataPtr,abuffer,lheader[1]);
 
@@ -189,17 +190,17 @@ int main ()
                         else
                         {
                             cout << "Reading Admin Record" << endl;
-                            cout << "Series Number Date = " << abuffer[0] << endl;
+                            /*cout << "Series Number Date = " << abuffer[0] << endl;
                             cout << "Series Number Time = " << abuffer[1] << endl;
                             cout << "Event Number = " << abuffer[2] << endl;
                             cout << "Event Time = " << abuffer[3] << endl;
                             cout << "Time Since Last Event = " << abuffer[4] << endl;
-                            cout << "Livetime Since Last Event = " << abuffer[5] << endl;
+                            cout << "Livetime Since Last Event = " << abuffer[5] << endl;*/
                         }
                     } // End of Admin Record Implementation
                     else if(lheader[0] == 0x80)
                     {
-                        uint32_t tbuffer[lheader[1]];
+                        uint32_t tbuffer[lheader[1]/4];
 
                         int readcheck = gzread(fgzRawDataPtr,tbuffer,lheader[1]);
 
@@ -210,16 +211,16 @@ int main ()
                         else
                         {
                             cout << "Reading Trigger Record" << endl;
-                            cout << "Trigger Time = " << tbuffer[0] << endl;
+                            /*cout << "Trigger Time = " << tbuffer[0] << endl;
                             for(int j=1; j<=6; j++)
                             {
                                 cout << "Trigger Mask " << setbase(10) << j << " = " << setbase(16) << tbuffer[j] << endl;
-                            }
+                            }*/
                         }
                     } // End of Trigger Record Implementation
                     else if(lheader[0] == 0x81)
                     {
-                        uint32_t tbuffer[lheader[1]];
+                        uint32_t tbuffer[lheader[1]/4];
 
                         int readcheck = gzread(fgzRawDataPtr,tbuffer,lheader[1]);
 
@@ -230,15 +231,15 @@ int main ()
                         else
                         {
                             cout << "Reading Trigger Mask Record" << endl;
-                            for(int j=0; j<6; j++)
+                            /*for(int j=0; j<6; j++)
                             {
                                 cout << "TLB Mask " << setbase(10) << j+1 << " = " << setbase(16) << tbuffer[j] << endl;
-                            }
+                            }*/
                         }
                     } // End of Trigger Logic Board Record Implementation
                     else if(lheader[0] == 0x60)
                     {
-                        uint32_t gbuffer[lheader[1]];
+                        uint32_t gbuffer[lheader[1]/4];
 
                         int readcheck = gzread(fgzRawDataPtr,gbuffer,lheader[1]);
 
@@ -249,14 +250,110 @@ int main ()
                         else
                         {
                             cout << "Reading GPS Record" << endl;
-                            cout << "GPS Date = " << setbase(16) << gbuffer[0] << endl;
+                            /*cout << "GPS Date = " << setbase(16) << gbuffer[0] << endl;
                             cout << "GPS Time = " << setbase(16) << gbuffer[2] << endl;
-                            cout << "GPS us = " << setbase(16) << gbuffer[3] << endl;
+                            cout << "GPS us = " << setbase(16) << gbuffer[3] << endl;*/
                         }
-                    }
+                    } // End of GPS Trigger Logic
+                    else if(lheader[0] == 0x11)
+                    {
+                        uint32_t bhbuffer[2];
+
+                        int readcheck = gzread(fgzRawDataPtr,bhbuffer,2*sizeof(uint32_t));
+
+                        if(readcheck == -1)
+                        {
+                            cout << "Error Reading Trace Bookkeeping Header" << endl;
+                        }
+                        else
+                        {
+                            cout << "Reading Trace Bookkeeping Header" << endl;
+                            /*cout << "Bookkeeping Header = 0x" << setbase(16) << bhbuffer[0] << endl;
+                            cout << "Bookkeeping Length = " << setbase(10) << bhbuffer[1] << endl;*/
+
+                            uint32_t bbuffer[bhbuffer[1]/4];
+
+                            int readcheck = gzread(fgzRawDataPtr,bbuffer,bhbuffer[1]);
+                            if(readcheck == -1)
+                            {
+                                cout << "Error Reading Trace Bookkeeping Record" << endl;
+                            }
+                            else
+                            {
+                                cout << "Reading Trace Bookkeeping Record" << endl;
+                                /*cout << "Digitizer Base Address = " << setbase(16) << bbuffer[0] << endl;
+                                cout << "Digitizer Channel = " << setbase(10) << bbuffer[1] << endl;
+                                cout << "Detector Code = " << setbase(10) << bbuffer[2] << endl;*/
+                            }
+                        } // End of Tracebookkeeping Record
+
+                        uint32_t tbbuffer[2];
+
+                        readcheck = gzread(fgzRawDataPtr,tbbuffer,2*sizeof(uint32_t));
+
+                        if(readcheck == -1)
+                        {
+                            cout << "Error Reading Timebase Header" << endl;
+                        }
+                        else
+                        {
+                            cout << "Reading Timebase Header" << endl;
+                            /*cout << "Timebase Header = 0x" << setbase(16) << tbbuffer[0] << endl;
+                            cout << "Timebase Length = " << setbase(10) << tbbuffer[1] << endl;*/
+
+                            uint32_t trbuffer[tbbuffer[1]/4];
+
+                            int readcheck = gzread(fgzRawDataPtr,trbuffer,tbbuffer[1]);
+                            if(readcheck == -1)
+                            {
+                                cout << "Error Reading Timebase Record" << endl;
+                            }
+                            else
+                            {
+                                cout << "Reading Timebase Record" << endl;
+                                /*cout << "t0 = " << setbase(10) << (int32_t) trbuffer[0] << endl;
+                                cout << "delta t = " << setbase(10) << trbuffer[1] << endl;
+                                cout << "nsamples = " << setbase(10) << trbuffer[2] << endl;*/
+                            }
+                        } // End of time base
+
+                        uint32_t theader[2];
+
+                        readcheck = gzread(fgzRawDataPtr,theader,2*sizeof(uint32_t));
+
+                        if(readcheck == -1)
+                        {
+                            cout << "Error Reading Trace Header" << endl;
+                        }
+                        else
+                        {
+                            cout << "Reading Trace Header"  << endl;
+                            /*cout << "Trace Header = 0x" << setbase(16) << theader[0] << endl;
+                            cout << "Number of Samples = " << setbase(10) << theader[1] << endl;*/
+
+                            int32_t pbuffer[theader[1]/2];
+
+                            int readcheck = gzread(fgzRawDataPtr,pbuffer,theader[1]*2);
+                            if(readcheck == -1)
+                            {
+                                cout << "Error Reading Pulse" << endl;
+                            }
+                            else
+                            {
+                                cout << "Reading Pulse" << endl;
+                                /*for(int j=0;j<204;j++)
+                                {
+                                    cout << "Pulse Record Value = " << pbuffer[j] << endl;
+                                    cout << "Upper Half (Sample " << (2*j) << ") = " << (pbuffer[j]>>16) << endl;
+                                    cout << "Lower Half (Sample " << (2*j + 1) << ") = " << (pbuffer[j]&0x0000FFFF) << endl;
+                                }*/
+                            }
+                        }
+
+                    } // End of Trace Record
                     else
                     {
-                        cout << "Unimplemented Logical Record" << endl;
+                        cout << "Unimplemented Logical Record = 0x" << setbase(16) << lheader[0] << endl;
                         exit(1);
                     }
                 }
