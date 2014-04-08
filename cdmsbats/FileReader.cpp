@@ -15,6 +15,7 @@ int main ()
     if(fgzRawDataPtr == NULL)
     {
         cout << "ERROR: Opening File '/home/tdoughty1/Workspace/data/raw/01120411_1132/01120411_1132_F0003.gz'" << endl;
+        exit(1);
     }
     else
     {
@@ -29,13 +30,14 @@ int main ()
     if(readcheck == -1)
     {
         cout << "ERROR: Reading Header Entries";
+        exit(1);
     }
     else
     {
-        cout << setbase(16) << "Endian Check = 0x" << header[0] << endl;
+        /*cout << setbase(16) << "Endian Check = 0x" << header[0] << endl;
         cout << setbase(16) << "File Header = 0x" << header[1] << endl;
         cout << setbase(16) << "Config Header = 0x" << header[2] << endl;
-        cout << setbase(10) << "Config Length = " << header[3] << endl;
+        cout << setbase(10) << "Config Length = " << header[3] << endl;*/
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////
@@ -49,12 +51,13 @@ int main ()
         if(readcheck == -1)
         {
             cout << "ERROR: Reading Channel Config Entries";
+            exit(1);
         }
         else
         {
             //cout << "Checking Channel Config Header" << endl;
 
-            if(buffer[0]==65537)
+            if(buffer[0]==65537) //FIXME - Switch Hardcoded Value to imported constant
             {
                 //cout << "Found Phonon Config Settings" << endl;
                 /*cout << setbase(16) << "Phonon Config Header = " << buffer[0] << endl;
@@ -65,7 +68,8 @@ int main ()
                 readcheck = gzread(fgzRawDataPtr, pbuffer, buffer[1]);
                 if(readcheck == -1)
                 {
-                    cout << "ERROR: Reading Phonon Config Settings" << endl;;
+                    cout << "ERROR: Reading Phonon Config Settings" << endl;
+                    exit(1);
                 }
                 else
                 {
@@ -86,7 +90,7 @@ int main ()
                     cout << setbase(10) << "Trace Length = " << pbuffer[10] << endl;*/
                 } //Successfully read Phonon Record
             }
-            else if(buffer[0] == 65538)
+            else if(buffer[0] == 65538) //FIXME - Switch Hardcoded Value to imported constant
             {
                 /*cout << "Found Charge Config Settings" << endl;
                 cout << setbase(16) << "Charge Config Header = " << buffer[0] << endl;
@@ -98,6 +102,7 @@ int main ()
                 if(readcheck == -1)
                 {
                     cout << "ERROR: Reading Charge Config Settings" << endl;
+                    exit(1);
                 }
                 else
                 {
@@ -127,7 +132,7 @@ int main ()
     ////////////////////////////////////////////////////////////////////////////////////////////
     // Read Event Info
     ////////////////////////////////////////////////////////////////////////////////////////////
-    for(int EvNum = 1; EvNum<=500;EvNum++)
+    for(int EvNum = 1; EvNum<=500;EvNum++) // FIXME - Remove Hardcoded value! Switch to while loop?
     {
         nread = 2;
         uint32_t eheader[nread];
@@ -137,6 +142,7 @@ int main ()
         if(readcheck == -1)
         {
             cout << "ERROR: Reading Event Header" << endl;
+            exit(1);
         }
         else
         {
@@ -148,13 +154,14 @@ int main ()
             cout << setbase(16) << "Event Type = " << (eheader[0] & 0x000000FF) << endl;
             cout << setbase(10) << "Event Length = " << eheader[1] << endl;*/
 
-            if(eheader[0]>>16 != 0xa980)
+            if(eheader[0]>>16 != 0xa980) //FIXME - Switch Hardcoded Value to imported constant
             {
                 cout << "ERROR in Event Header: Unknown Event Tag" << endl;
+                exit(1);
             }
             else
             {
-                for(int i=0; i<185; i++)
+                for(int i=0; i<185; i++) // FIXME - Remove Hardcoded value! Switch to while loop?
                 {
                     //cout << "i = " << setbase(10) << i << endl;
 
@@ -165,6 +172,7 @@ int main ()
                     if(readcheck == -1)
                     {
                         cout << "ERROR: Reading Logical Header" << endl;
+                        exit(1);
                     }
                     else
                     {
@@ -177,7 +185,7 @@ int main ()
                             //cout << setbase(16) << "Skipping Record for Type 0x" << lheader[0] << endl;
                             continue;
                         } // Skip if record length is 0 because not implemented (ie GPS)
-                        else if(lheader[0] == 0x2)
+                        else if(lheader[0] == 0x2) //FIXME - Switch Hardcoded Value to imported constant
                         {
                             uint32_t abuffer[lheader[1]/4];
 
@@ -185,6 +193,7 @@ int main ()
                             if(readcheck == -1)
                             {
                                 cout << "Error Reading Admin Record" << endl;
+                                exit(1);
                             }
                             else
                             {
@@ -197,7 +206,7 @@ int main ()
                                 cout << "Livetime Since Last Event = " << abuffer[5] << endl;*/
                             }
                         } // End of Admin Record Implementation
-                        else if(lheader[0] == 0x80)
+                        else if(lheader[0] == 0x80) //FIXME - Switch Hardcoded Value to imported constant
                         {
                             uint32_t tbuffer[lheader[1]/4];
 
@@ -205,6 +214,7 @@ int main ()
                             if(readcheck == -1)
                             {
                                 cout << "Error Reading Trigger Record" << endl;
+                                exit(1);
                             }
                             else
                             {
@@ -216,7 +226,7 @@ int main ()
                                 }*/
                             }
                         } // End of Trigger Record Implementation
-                        else if(lheader[0] == 0x81)
+                        else if(lheader[0] == 0x81) //FIXME - Switch Hardcoded Value to imported constant
                         {
                             uint32_t tbuffer[lheader[1]/4];
 
@@ -224,6 +234,7 @@ int main ()
                             if(readcheck == -1)
                             {
                                 cout << "Error Reading Trigger Mask Record" << endl;
+                                exit(1);
                             }
                             else
                             {
@@ -234,7 +245,7 @@ int main ()
                                 }*/
                             }
                         } // End of Trigger Logic Board Record Implementation
-                        else if(lheader[0] == 0x60)
+                        else if(lheader[0] == 0x60) //FIXME - Switch Hardcoded Value to imported constant
                         {
                             uint32_t gbuffer[lheader[1]/4];
 
@@ -242,6 +253,7 @@ int main ()
                             if(readcheck == -1)
                             {
                                 cout << "Error Reading GPS Record" << endl;
+                                exit(1);
                             }
                             else
                             {
@@ -251,7 +263,7 @@ int main ()
                                 cout << "GPS us = " << setbase(16) << gbuffer[3] << endl;*/
                             }
                         } // End of GPS Trigger Logic
-                        else if(lheader[0] == 0x11)
+                        else if(lheader[0] == 0x11) //FIXME - Switch Hardcoded Value to imported constant
                         {
                             uint32_t bhbuffer[2];
 
@@ -260,6 +272,7 @@ int main ()
                             if(readcheck == -1)
                             {
                                 cout << "Error Reading Trace Bookkeeping Header" << endl;
+                                exit(1);
                             }
                             else
                             {
@@ -273,6 +286,7 @@ int main ()
                                 if(readcheck == -1)
                                 {
                                     cout << "Error Reading Trace Bookkeeping Record" << endl;
+                                    exit(1);
                                 }
                                 else
                                 {
@@ -290,6 +304,7 @@ int main ()
                             if(readcheck == -1)
                             {
                                 cout << "Error Reading Timebase Header" << endl;
+                                exit(1);
                             }
                             else
                             {
@@ -303,6 +318,7 @@ int main ()
                                 if(readcheck == -1)
                                 {
                                     cout << "Error Reading Timebase Record" << endl;
+                                    exit(1);
                                 }
                                 else
                                 {
@@ -320,6 +336,7 @@ int main ()
                             if(readcheck == -1)
                             {
                                 cout << "Error Reading Trace Header" << endl;
+                                exit(1);
                             }
                             else
                             {
@@ -333,6 +350,7 @@ int main ()
                                 if(readcheck == -1)
                                 {
                                     cout << "Error Reading Pulse" << endl;
+                                    exit(1);
                                 }
                                 else
                                 {
@@ -347,7 +365,7 @@ int main ()
                             }
 
                         } // End of Trace Record
-                        else if(lheader[0] == 0x21)
+                        else if(lheader[0] == 0x21) //FIXME - Switch Hardcoded Value to imported constant
                         {
                             uint32_t hbuffer[lheader[1]/4];
 
@@ -355,6 +373,7 @@ int main ()
                             if(readcheck == -1)
                             {
                                 cout << "Error Reading History Buffer Record" << endl;
+                                exit(1);
                             }
                             else
                             {
