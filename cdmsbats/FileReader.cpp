@@ -153,7 +153,7 @@ int main ()
         }
         else
         {
-            for(int i=0; i<4; i++)
+            for(int i=0; i<5; i++)
             {
 
                 int nread = 2;
@@ -171,7 +171,12 @@ int main ()
                     cout << setbase(16) << "Logical Header ID = " << lheader[0] << endl;
                     cout << setbase(10) << "Logical Header Length = " << lheader[1] << endl;
 
-                    if(lheader[0] == 0x2)
+                    if (lheader[1] == 0)
+                    {
+                        cout << setbase(16) << "Skipping Record for Type 0x" << lheader[0] << endl;
+                        continue;
+                    } // Skip if record length is 0 because not implemented (ie GPS)
+                    else if(lheader[0] == 0x2)
                     {
                         uint32_t abuffer[lheader[1]];
 
@@ -229,6 +234,24 @@ int main ()
                             {
                                 cout << "TLB Mask " << setbase(10) << j+1 << " = " << setbase(16) << tbuffer[j] << endl;
                             }
+                        }
+                    } // End of Trigger Logic Board Record Implementation
+                    else if(lheader[0] == 0x60)
+                    {
+                        uint32_t gbuffer[lheader[1]];
+
+                        int readcheck = gzread(fgzRawDataPtr,gbuffer,lheader[1]);
+
+                        if(readcheck == -1)
+                        {
+                            cout << "Error Reading GPS Record" << endl;
+                        }
+                        else
+                        {
+                            cout << "Reading GPS Record" << endl;
+                            cout << "GPS Date = " << setbase(16) << gbuffer[0] << endl;
+                            cout << "GPS Time = " << setbase(16) << gbuffer[2] << endl;
+                            cout << "GPS us = " << setbase(16) << gbuffer[3] << endl;
                         }
                     }
                     else
