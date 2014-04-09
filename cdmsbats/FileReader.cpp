@@ -1,6 +1,7 @@
 #include <iostream>
 #include <iomanip>
 #include <cstdlib>
+#include <string>
 #include <zlib.h>
 #include <stdint.h>
 using namespace std;
@@ -9,17 +10,19 @@ int main ()
 {
     cout << "START" << endl;
 
+    string fileName = "/home/tdoughty1/Workspace/data/raw/01120411_1132/01120411_1132_F0003.gz";
+
     gzFile fgzRawDataPtr;
-    fgzRawDataPtr = gzopen("/home/tdoughty1/Workspace/data/raw/01120411_1132/01120411_1132_F0003.gz","rb");
+    fgzRawDataPtr = gzopen(fileName.c_str(),"rb");
 
     if(fgzRawDataPtr == NULL)
     {
-        cout << "ERROR: Opening File '/home/tdoughty1/Workspace/data/raw/01120411_1132/01120411_1132_F0003.gz'" << endl;
+        cout << "ERROR: Opening File " << fileName << endl;
         exit(1);
     }
     else
     {
-        cout << "Correctly Opened '/home/tdoughty1/Workspace/data/raw/01120411_1132/01120411_1132_F0003.gz'" << endl;
+        cout << "Correctly Opened " << fileName << endl;
     }
 
     int nread = 4; // FIXME - Remove Hardcoded value?
@@ -396,4 +399,5 @@ int main ()
         }
     }
     gzclose(fgzRawDataPtr);
+    return 0;
 }
