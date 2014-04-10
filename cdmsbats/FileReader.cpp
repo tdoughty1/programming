@@ -46,7 +46,11 @@ int main ()
     ////////////////////////////////////////////////////////////////////////////////////////////
     // Read Detector Config Info
     ////////////////////////////////////////////////////////////////////////////////////////////
-    for(int i=0;i<180;i++) // FIXME - Remove Hardcoded value! Switch to while loop?
+    int ReadWords = 0;
+
+    cout << setbase(10) << header[3]/4 << endl;
+
+    while(ReadWords < header[3]/4)
     {
         uint32_t buffer[2];
 
@@ -58,16 +62,16 @@ int main ()
         }
         else
         {
+            ReadWords += 2;
             //cout << "Checking Channel Config Header" << endl;
 
-            if(buffer[0]==65537) //FIXME - Switch Hardcoded Value to imported constant
+            if(buffer[0]==0x10001) //FIXME - Switch Hardcoded Value to imported constant
             {
                 //cout << "Found Phonon Config Settings" << endl;
                 /*cout << setbase(16) << "Phonon Config Header = " << buffer[0] << endl;
                 cout << setbase(10) << "Phonon Config Length = " << buffer[1] << endl;*/
 
                 int32_t pbuffer[buffer[1]];
-
                 readcheck = gzread(fgzRawDataPtr, pbuffer, buffer[1]);
                 if(readcheck == -1)
                 {
@@ -76,6 +80,7 @@ int main ()
                 }
                 else
                 {
+                    ReadWords += buffer[1]/4;
                     /*cout << "Reading Phonon Config Settings" << endl;
                     cout << setbase(10) << "Detector Code = " << pbuffer[0] << endl;
                     cout << setbase(10) << "Detector Type = " << pbuffer[0]/1000000 << endl;
@@ -93,14 +98,13 @@ int main ()
                     cout << setbase(10) << "Trace Length = " << pbuffer[10] << endl;*/
                 } //Successfully read Phonon Record
             }
-            else if(buffer[0] == 65538) //FIXME - Switch Hardcoded Value to imported constant
+            else if(buffer[0] == 0x10002) //FIXME - Switch Hardcoded Value to imported constant
             {
                 /*cout << "Found Charge Config Settings" << endl;
                 cout << setbase(16) << "Charge Config Header = " << buffer[0] << endl;
                 cout << setbase(10) << "Charge Config Length = " << buffer[1] << endl;*/
 
                 int32_t qbuffer[buffer[1]];
-
                 int readcheck = gzread(fgzRawDataPtr, qbuffer, buffer[1]);
                 if(readcheck == -1)
                 {
@@ -109,6 +113,7 @@ int main ()
                 }
                 else
                 {
+                    ReadWords += buffer[1]/4;
                     /*cout << "Reading Charge Config Settings" << endl;
                     cout << setbase(10) << "Detector Code = " << qbuffer[0] << endl;
                     cout << setbase(10) << "Detector Type = " << qbuffer[0]/1000000 << endl;
@@ -135,7 +140,8 @@ int main ()
     ////////////////////////////////////////////////////////////////////////////////////////////
     // Read Event Info
     ////////////////////////////////////////////////////////////////////////////////////////////
-    for(int EvNum = 1; EvNum<=500;EvNum++) // FIXME - Remove Hardcoded value! Switch to while loop?
+    int EventNumber = 0;
+    while(gzeof(fgzRawDataPtr) == 0)
     {
         nread = 2;
         uint32_t eheader[nread];
@@ -149,6 +155,12 @@ int main ()
         }
         else
         {
+            EventNumber++;
+            if(gzeof(fgzRawDataPtr) != 0)
+            {
+                continue;
+            }
+            cout << "Reading Event Number " << setbase(10) << EventNumber << endl;
             //cout << "Event Header Successfully Read" << endl;
             /*cout << setbase(16) << "Event Header = " << eheader[0] << endl;
             cout << setbase(16) << "Event Tag = " << (eheader[0]>>16) << endl;
