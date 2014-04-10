@@ -1,0 +1,9 @@
+# Spyder Configuration File
+.spyderworkspace
+
+# Ignore Python compiled files
+*.pyc
+
+# Ignore Unix generated files
+*~
+*#
