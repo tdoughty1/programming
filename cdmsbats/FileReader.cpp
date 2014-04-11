@@ -4,6 +4,7 @@
 #include <string>
 #include <zlib.h>
 #include <stdint.h>
+#include <time.h>
 using namespace std;
 
 int main ()
@@ -11,6 +12,8 @@ int main ()
     cout << "START" << endl;
 
     string fileName = "/home/tdoughty1/Workspace/data/raw/01120411_1132/01120411_1132_F0003.gz";
+
+    time_t startTime = time(0);
 
     gzFile fgzRawDataPtr;
     fgzRawDataPtr = gzopen(fileName.c_str(),"rb");
@@ -48,7 +51,7 @@ int main ()
     ////////////////////////////////////////////////////////////////////////////////////////////
     int ReadWords = 0;
 
-    cout << setbase(10) << header[3]/4 << endl;
+    //cout << setbase(10) << header[3]/4 << endl;
 
     while(ReadWords < header[3]/4)
     {
@@ -160,7 +163,7 @@ int main ()
             {
                 continue;
             }
-            cout << "Reading Event Number " << setbase(10) << EventNumber << endl;
+            //cout << "Reading Event Number " << setbase(10) << EventNumber << endl;
             //cout << "Event Header Successfully Read" << endl;
             /*cout << setbase(16) << "Event Header = " << eheader[0] << endl;
             cout << setbase(16) << "Event Tag = " << (eheader[0]>>16) << endl;
@@ -411,5 +414,10 @@ int main ()
         }
     }
     gzclose(fgzRawDataPtr);
+
+    time_t endTime = time(0);
+
+    cout << "Loading Data took " << setprecision(4) << endTime-startTime << endl;
+
     return 0;
 }
