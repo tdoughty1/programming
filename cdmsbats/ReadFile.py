@@ -7,9 +7,11 @@ Created on Wed Apr  9 20:11:33 2014
 
 from numpy import fromstring
 import gzip
-
+import time
 
 fName = '/home/tdoughty1/Workspace/data/raw/01120411_1132/01120411_1132_F0003.gz'
+
+startTime = time.time()
 
 fgzRawDataPtr = gzip.open(fName)
 
@@ -51,18 +53,13 @@ while fgzRawDataPtr.tell() < Endpos:
 ###############################################################################
 # Loop through Events
 ###############################################################################
-eof = False
+nEvent = 0
+while nEvent < 500:
 
-while not eof:
+    EventHeader = fromstring(fgzRawDataPtr.read(4*2), dtype='I')
+    nEvent += 1
 
-    try:
-        EventHeader = fromstring(fgzRawDataPtr.read(4*2), dtype='I')
-    except:
-        found = True
-
-    if eof:
-        continue
-
+    #print "Loading Event Number ", nEvent
     #print "Event Header = 0x%x" % EventHeader[0]
     #print "Event Record Length = %d" % EventHeader[1]
 
@@ -132,3 +129,7 @@ while not eof:
 
         print "Found Unimplemented Record Type 0x%x" % LogicalHeader[0]
         break
+
+endTime = time.time()
+
+print "Loading File took %d s" % (endTime-startTime)
