@@ -2,6 +2,8 @@ import GZip
 
 gzFile = GZip.open("/home/tdoughty1/Workspace/data/raw/01120411_1132/01120411_1132_F0002.gz","r")
 
+startTime = time()
+
 FileHeader = Array(Int32,2)
 read(gzFile,FileHeader)
 
@@ -76,7 +78,7 @@ while !eof(gzFile)
     end
 
     EventCount += 1
-    println(string("Reading Event ", EventCount))
+    #println(string("Reading Event ", EventCount))
 
     #println(string("Event Header Word = 0x", hex(EventHeader[1])))
     #println(string("Event Tag = 0x", hex(EventHeader[1]>>16)))
@@ -171,5 +173,8 @@ while !eof(gzFile)
         pos = position(gzFile)
     end
 end
+
+endTime = time()
+println(string("Loading File took ", endTime-startTime, "s"))
 
 close(gzFile)
