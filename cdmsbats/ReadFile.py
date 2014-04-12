@@ -10,8 +10,9 @@ from CDMSRawFileStream import CDMSRawFileStream
 from AdminRecord import AdminRecord
 from TriggerRecord import TriggerRecord
 from TLBRecord import TLBRecord
-from HistoryRecord import HistoryRecord
 from GPSRecord import GPSRecord
+from TraceRecord import TraceRecord
+from HistoryRecord import HistoryRecord
 
 
 fName = '/home/tdoughty1/Workspace/data/raw/01120411_1132/01120411_1132_F0003.gz'
@@ -63,18 +64,19 @@ AdminPtr = AdminRecord()
 TriggerPtr = TriggerRecord()
 TLBPtr = TLBRecord()
 GPSPtr = GPSRecord()
+TracePtr = TraceRecord()
 HistoryPtr = HistoryRecord()
 
 ###############################################################################
 # Loop through Events
 ###############################################################################
 nEvent = 0
-while nEvent < 50:
+while nEvent < 400:
 
     EventHeader = fgzRawDataPtr.ReadWords(4*2)
     nEvent += 1
 
-    print "Loading Event Number ", nEvent
+    #print "Loading Event Number ", nEvent
     #print "Event Header = 0x%x" % EventHeader[0]
     #print "Event Record Length = %d" % EventHeader[1]
 
@@ -98,64 +100,27 @@ while nEvent < 50:
             continue
 
         if LogicalHeader[0] == 0x2:
-
             AdminPtr.ReadRecord(fgzRawDataPtr, LogicalHeader[1])
-            endtime1 = datetime.now()
-            diff1 = endtime1-startTime1
-            print "Reading Admin Record took %d %06d" % (diff1.seconds, diff1.microseconds)
             continue
 
         if LogicalHeader[0] == 0x80:
             TriggerPtr.ReadRecord(fgzRawDataPtr, LogicalHeader[1])
-            endtime1 = datetime.now()
-            diff1 = endtime1-startTime1
-            print "Reading Trigger Record took %d %06d" % (diff1.seconds, diff1.microseconds)
             continue
 
         if LogicalHeader[0] == 0x81:
             TLBPtr.ReadRecord(fgzRawDataPtr, LogicalHeader[1])
-            endtime1 = datetime.now()
-            diff1 = endtime1-startTime1
-            print "Reading TLB Record took %d %06d" % (diff1.seconds, diff1.microseconds)
             continue
 
         if LogicalHeader[0] == 0x60:
             GPSPtr.ReadRecord(fgzRawDataPtr, LogicalHeader[1])
-            endtime1 = datetime.now()
-            diff1 = endtime1-startTime1
-            print "Reading GPS Record took %d %06d" % (diff1.seconds, diff1.microseconds)
             continue
 
         if LogicalHeader[0] == 0x11:
-            #print "Found Trace Record"
-
-            BookHeader = fgzRawDataPtr.ReadWords(4*2)
-            #print "Bookkeeping Header = 0x%x" % BookHeader[0]
-            #print "Bookkeeping Record Length = %d" % BookHeader[1]
-
-            BookRecord = fgzRawDataPtr.ReadWords(BookHeader[1])
-
-            TimeBaseHeader = fgzRawDataPtr.ReadWords(4*2)
-            #print "Timebase Header = 0x%x" % TimeBaseHeader[0]
-            #print "Timebase Record Length = %d" % TimeBaseHeader[1]
-
-            TimeBaseRecord = fgzRawDataPtr.ReadWords(TimeBaseHeader[1])
-
-            TraceHeader = fgzRawDataPtr.ReadWords(4*2)
-            #print "Trace Header = 0x%x" % TraceHeader[0]
-            #print "Trace Sample Number = %d" % TraceHeader[1]
-
-            TraceRecord = fgzRawDataPtr.ReadWords(TraceHeader[1]*2)
-            endtime1 = datetime.now()
-            diff1 = endtime1-startTime1
-            print "Reading Trace Record took %d %06d" % (diff1.seconds, diff1.microseconds)
+            TracePtr.ReadRecord(fgzRawDataPtr, LogicalHeader[1])
             continue
 
         if LogicalHeader[0] == 0x21:
             HistoryPtr.ReadRecord(fgzRawDataPtr, LogicalHeader[1])
-            endtime1 = datetime.now()
-            diff1 = endtime1-startTime1
-            print "Reading History Record took %d %06d" % (diff1.seconds, diff1.microseconds)
             continue
 
         print "Found Unimplemented Record Type 0x%x" % LogicalHeader[0]
