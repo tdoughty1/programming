@@ -16,13 +16,13 @@ class TraceRecord(DataRecord):
         print "Found Admin Record"
 
     def _InitValues(self):
-        self._BookRecord = BookRecord()
-        self._TimeRecord = TimeRecord()
+        self._BookPtr = BookRecord()
+        self._TimePtr = TimeRecord()
         self._Trace = None
 
-    def ReadRecord(self, filePtr, RecordLength, debug=False):
+    def ReadRecord(self, filePtr, RecordLength, mode='uint32', debug=False):
 
-        endPos = filePtr.Tell()+RecordLength
+        endPos = filePtr.Tell() + RecordLength
 
         while filePtr.Tell() < endPos:
             TraceHeader = filePtr.ReadWords(4*2)
@@ -33,12 +33,12 @@ class TraceRecord(DataRecord):
 
             # Bookkeeping Record
             if TraceHeader[0] == 0x11:
-                self._BookRecord.ReadRecord(filePtr, TraceHeader[1], debug)
+                self._BookPtr.ReadRecord(filePtr, TraceHeader[1], mode, debug)
                 continue
 
             # Timebase Record
             if TraceHeader[0] == 0x12:
-                self._TimeRecord.ReadRecord(filePtr, TraceHeader[1], debug)
+                self._TimePtr.ReadRecord(filePtr, TraceHeader[1], mode, debug)
                 continue
 
             if TraceHeader[0] == 0x13:

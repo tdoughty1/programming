@@ -25,9 +25,9 @@ class DataRecord:
 
     # Primary Function Call for data record
     # Responsibility of ReadRecord to return filePtr to starting point
-    def ReadRecord(self, filePtr, RecordLength, debug=False):
+    def ReadRecord(self, filePtr, RecordLength, mode='I', debug=False):
 
-        Record = filePtr.ReadWords(RecordLength)
+        Record = filePtr.ReadWords(RecordLength, mode)
 
         self.StoreValues(Record)
 

@@ -24,6 +24,6 @@ class BookRecord(DataRecord):
         self._detCode = Record[2]
 
     def PrintValues(self):
-        print "Digitizer Base Address = %d" % self._digBaseAddress
+        print "Digitizer Base Address = 0x%x" % self._digBaseAddress
         print "Digitizer Channel = %d" % self._digChannel
         print "DetCode = %d" % self._detCode
