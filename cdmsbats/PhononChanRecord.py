@@ -35,10 +35,10 @@ class PhononChanRecord(DataRecord):
         self._qetBias = float(Record[3])/100
         self._squidBias = float(Record[4])/100
         self._lockPoint = float(Record[5])/100
-        self._rtfOffset = Record[6]
+        self._rtfOffset = float(Record[6])/1e6
         self._varGain = Record[7]
-        self._deltat = Record[8]
-        self._t0 = Record[9]
+        self._deltat = float(Record[8])/1000
+        self._t0 = float(Record[9])/1000
         self._traceLength = Record[10]
 
     def PrintValues(self):
@@ -49,8 +49,8 @@ class PhononChanRecord(DataRecord):
         print "QET Bias = %6.2f pA" % self._qetBias
         print "SQUID Bias = %6.2f pA" % self._squidBias
         print "SQUID Lock Point = %4.2f uV" % self._lockPoint
-        print "RTF Offset = %4.2f V" % (float(self._rtfOffset)/1e6)
+        print "RTF Offset = %4.2f V" % self._rtfOffset
         print "Variable Gain = %d" % self._varGain
-        print "Delta T = %4.2f us" % (float(self._deltat)/1000)
-        print "t0 = %5.1f us" % (float(self._t0)/1000)
+        print "Delta T = %4.2f us" % self._deltat
+        print "t0 = %5.1f us" % self._t0
         print "Trace Length = %d" % self._traceLength
