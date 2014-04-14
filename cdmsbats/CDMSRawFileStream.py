@@ -61,7 +61,7 @@ class CDMSRawFileStream:
         else:
             print "Error seeking position, no opened file."
 
-    def ReadWords(self, nBytes, mode='I'):
+    def ReadWords(self, nBytes, mode='int32'):
 
         if self._Open:
             return fromstring(self._FileStream.read(nBytes), dtype=mode)

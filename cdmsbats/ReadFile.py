@@ -16,13 +16,13 @@ from EventRecord import EventRecord
 DetectorConfigPtr = DetectorConfigRecord()
 EventPtr = EventRecord()
 
-fName = '/home/tdoughty1/Workspace/data/raw/01120411_1132/01120411_1132_F0001.gz'
+fName = '/home/tdoughty1/Workspace/data/raw/01120411_1132/01120411_1132_F0003.gz'
 
 startTime = datetime.now()
 
 fgzRawDataPtr = CDMSRawFileStream(fName)
 
-FileHeader = fgzRawDataPtr.ReadWords(4*2)
+FileHeader = fgzRawDataPtr.ReadWords(4*2, 'int32')
 
 print "Endian Check = 0x%x" % FileHeader[0]
 print "File Header = 0x%x" % FileHeader[1]
@@ -41,9 +41,9 @@ DetectorConfigPtr.ReadRecord(fgzRawDataPtr, ConfigHeader[1])
 # Loop through Events
 ###############################################################################
 nEvent = 0
-while nEvent < 500:
+while nEvent < 1:
 
-    EventHeader = fgzRawDataPtr.ReadWords(4*2)
+    EventHeader = fgzRawDataPtr.ReadWords(4*2, 'uint32')
     nEvent += 1
 
     print "Loading Event Number ", nEvent
