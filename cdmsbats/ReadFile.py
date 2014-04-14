@@ -16,7 +16,7 @@ from EventRecord import EventRecord
 DetectorConfigPtr = DetectorConfigRecord()
 EventPtr = EventRecord()
 
-fName = '/home/tdoughty1/Workspace/data/raw/01120411_1132/01120411_1132_F0003.gz'
+fName = '/home/tdoughty1/Workspace/data/raw/01120411_1132/01120411_1132_F0001.gz'
 
 startTime = datetime.now()
 
