@@ -24,16 +24,16 @@ fgzRawDataPtr = CDMSRawFileStream(fName)
 
 FileHeader = fgzRawDataPtr.ReadWords(4*2, 'int32')
 
-print "Endian Check = 0x%x" % FileHeader[0]
-print "File Header = 0x%x" % FileHeader[1]
+#print "Endian Check = 0x%x" % FileHeader[0]
+#print "File Header = 0x%x" % FileHeader[1]
 
 ###############################################################################
 # Read Detector Config Record
 ###############################################################################
 ConfigHeader = fgzRawDataPtr.ReadWords(4*2)
 
-print "Config Header = 0x%x" % ConfigHeader[0]
-print "Config Record Length = %d" % ConfigHeader[1]
+#print "Config Header = 0x%x" % ConfigHeader[0]
+#print "Config Record Length = %d" % ConfigHeader[1]
 
 DetectorConfigPtr.ReadRecord(fgzRawDataPtr, ConfigHeader[1])
 
@@ -41,16 +41,16 @@ DetectorConfigPtr.ReadRecord(fgzRawDataPtr, ConfigHeader[1])
 # Loop through Events
 ###############################################################################
 nEvent = 0
-while nEvent < 1:
+while nEvent < 500:
 
     EventHeader = fgzRawDataPtr.ReadWords(4*2, 'uint32')
     nEvent += 1
 
     print "Loading Event Number ", nEvent
-    print "Event Header = 0x%x" % EventHeader[0]
-    print "Event Record Length = %d" % EventHeader[1]
+    #print "Event Header = 0x%x" % EventHeader[0]
+    #print "Event Record Length = %d" % EventHeader[1]
 
-    EventPtr.ReadRecord(fgzRawDataPtr, EventHeader[1])
+    EventPtr.ReadRecord(fgzRawDataPtr, EventHeader[1], debug=False)
 
 endTime = datetime.now()
 

@@ -64,8 +64,6 @@ class EventRecord(DataRecord):
                 continue
 
             if LogicalHeader[0] == 0x21:
-                print 'Record Byte Length = %d' % LogicalHeader[1]
-                print 'Record Word Length = %d' % (LogicalHeader[1]/4)
                 self._HistoryPtr.ReadRecord(filePtr, LogicalHeader[1], debug=debug)
                 continue
 
