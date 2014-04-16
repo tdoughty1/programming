@@ -121,8 +121,6 @@ void CDMSRawFileStream::ReadWords(int nBytes, uint32_t* ArrayPtr)
     if(_Open)
     {
 
-        cout << setbase(16) <<"Array Ptr = 0x" << ArrayPtr << endl;
-
         int bytesRead = gzread(_FileStream, ArrayPtr, nBytes);
 
         if(bytesRead == -1)
