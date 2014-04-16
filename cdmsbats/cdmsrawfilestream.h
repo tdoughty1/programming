@@ -16,22 +16,22 @@ class CDMSRawFileStream
         CDMSRawFileStream();
 
         /** Constructer with file open */
-        CDMSRawFileStream(string fname, string mode);
+        CDMSRawFileStream(string, string);
 
         /** Default destructor */
         virtual ~CDMSRawFileStream();
 
-        int Open(string fName, string mode);
+        int Open(string, string);
 
         int Close();
 
         int Tell();
 
-        int Seek(int nPos);
+        int Seek(int);
 
-        int Skip(int nPos);
+        int Skip(int);
 
-        void ReadWords(int nBytes, uint32_t* ArrayPtr);
+        void ReadWords(int, uint32_t*);
 
     protected:
 

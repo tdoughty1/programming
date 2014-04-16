@@ -8,7 +8,7 @@ class ChargeChanRecord : public DataRecord
 {
     public:
 
-        void StoreValues(uint32_t* Record);
+        void StoreValues(uint32_t*);
 
         void PrintValues();
 
