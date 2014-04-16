@@ -21,11 +21,11 @@ void PhononChanRecord::StoreValues(uint32_t* Record)
     _detCode = Record[0];
     _towerNum = Record[1];
     _driverGain = float(Record[2])/100;
-    _qetBias = float(Record[3])/100
-    _squidBias = float(Record[4])/100
-    _lockPoint = float(Record[5])/100
+    _qetBias = float(Record[3])/100;
+    _squidBias = float(Record[4])/100;
+    _lockPoint = float(Record[5])/100;
     _rtfOffset = float(Record[6])/1e6;
-    _varGain = Record[7]
+    _varGain = Record[7];
     _deltat = float(Record[8])/1000;
     _t0 = float(Record[9])/1000;
     _traceLength = Record[10];
