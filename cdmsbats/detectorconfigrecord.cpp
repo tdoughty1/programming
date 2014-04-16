@@ -22,10 +22,18 @@ void DetectorConfigRecord::ReadRecord(CDMSRawFileStream* filePtr, int RecordLeng
     uint32_t ChanHeader[4*2];
 
     int endPos = filePtr->Tell() + RecordLength;
+
+    cout << "End Position = %d" << endPos << endl;
+
     while(filePtr->Tell() < endPos)
     {
-
         filePtr->ReadWords(4*2, ChanHeader);
+
+        if(debug)
+        {
+            cout << "Channel Header = 0x" << setbase(16) << ChanHeader[0] << endl;
+            cout << "Channel Length = " << setbase(10) << ChanHeader[1] << endl;
+        }
 
         // Record of No length
         if(ChanHeader[1] == 0)
