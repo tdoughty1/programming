@@ -1,5 +1,10 @@
 #include "datarecord.h"
 
+DataRecord::DataRecord()
+{
+    _InitValues();
+}
+
 DataRecord::DataRecord(bool debug=false)
 {
     _InitValues();
