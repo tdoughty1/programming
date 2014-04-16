@@ -8,11 +8,14 @@
 #include <zlib.h>
 
 #include "cdmsrawfilestream.h"
+#include "detectorconfigrecord.h"
 
 using namespace std;
 
 int main()
 {
+    DetectorConfigRecord* DetectorConfigPtr = new DetectorConfigRecord();
+
     cout << "START" << endl;
 
     string fileName = "/home/tdoughty1/Workspace/data/raw/01120411_1132/01120411_1132_F0003.gz";
@@ -34,15 +37,20 @@ int main()
     cout << setbase(16) << "Config Header = 0x" << ConfigHeader[0] << endl;
     cout << setbase(10) << "Config Length = " << ConfigHeader[1] << endl;
 
-/**
     ////////////////////////////////////////////////////////////////////////////////////////////
     // Read Detector Config Info
     ////////////////////////////////////////////////////////////////////////////////////////////
-    int ReadWords = 0;
+    DetectorConfigPtr->ReadRecord(fgzRawDataPtr, ConfigHeader[1], true);
+
+
+
+
+
+//    int ReadWords = 0;
 
     //cout << setbase(10) << header[3]/4 << endl;
 
-    while(ReadWords < header[3]/4)
+/**    while(ReadWords < header[3]/4)
     {
         uint32_t buffer[2];
 
