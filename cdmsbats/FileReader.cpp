@@ -2,6 +2,7 @@
 #include <iomanip>
 #include <cstdlib>
 #include <string>
+#include <typeinfo>
 #include <stdint.h>
 #include <time.h>
 #include <zlib.h>
@@ -21,31 +22,19 @@ int main()
     CDMSRawFileStream* fgzRawDataPtr = new CDMSRawFileStream(fileName, "rb");
 
     int nread = 2; // FIXME - Remove Hardcoded value?
-    uint32_t header[nread];
+    uint32_t FileHeader[nread];
 
-    int readcheck = fgzRawDataPtr->ReadWords(nread*sizeof(int32_t), header);
+    fgzRawDataPtr->ReadWords(nread*sizeof(int32_t), FileHeader);
+    cout << "Endian Check = 0x" << setbase(16) << FileHeader[0] << endl;
+    cout << "File Header = 0x" << setbase(16) << FileHeader[1] << endl;
 
-    cout << "Read " << readcheck << " bytes" << endl;
-    cout << "They are: " << endl;
-    for(int i=0;i<nread;i++)
-    {
-        cout << "0x" << setbase(16) << header[i] << endl;
-    }
+    uint32_t ConfigHeader[nread];
 
-    /**
-    if(readcheck == -1)
-    {
-        cout << "ERROR: Reading Header Entries";
-        exit(1);
-    }
-    else
-    {
-//        cout << setbase(16) << "Endian Check = 0x" << header[0] << endl;
-//        cout << setbase(16) << "File Header = 0x" << header[1] << endl;
-//        cout << setbase(16) << "Config Header = 0x" << header[2] << endl;
-//        cout << setbase(10) << "Config Length = " << header[3] << endl;
-    }
+    fgzRawDataPtr->ReadWords(nread*sizeof(int32_t), ConfigHeader);
+    cout << setbase(16) << "Config Header = 0x" << ConfigHeader[0] << endl;
+    cout << setbase(10) << "Config Length = " << ConfigHeader[1] << endl;
 
+/**
     ////////////////////////////////////////////////////////////////////////////////////////////
     // Read Detector Config Info
     ////////////////////////////////////////////////////////////////////////////////////////////

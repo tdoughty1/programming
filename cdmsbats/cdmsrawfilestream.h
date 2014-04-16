@@ -31,7 +31,7 @@ class CDMSRawFileStream
 
         int Skip(int nPos);
 
-        int ReadWords(int nBytes, uint32_t* ArrayPtr);
+        void ReadWords(int nBytes, uint32_t* ArrayPtr);
 
     protected:
 

@@ -116,7 +116,7 @@ int CDMSRawFileStream::Skip(int nPos)
 
 //TODO Add Template Metaprogramming
 
-int CDMSRawFileStream::ReadWords(int nBytes, uint32_t* ArrayPtr)
+void CDMSRawFileStream::ReadWords(int nBytes, uint32_t* ArrayPtr)
 {
     if(_Open)
     {
@@ -129,14 +129,15 @@ int CDMSRawFileStream::ReadWords(int nBytes, uint32_t* ArrayPtr)
         {
             cout << "ERROR in CDMSRawFileStream::ReadWords:" << endl;
             cout << "Problem reading from file " << _FileName << endl;
+            exit(EXIT_FAILURE);
         }
 
-        return bytesRead;
+        return;
     }
     else
     {
-        cout << "WARNING in CDMSRawFileStream::ReadWords:" << endl;
-        cout << "No open file, no actions taken" << endl;
-        return -2;
+        cout << "ERROR in CDMSRawFileStream::ReadWords:" << endl;
+        cout << "No open file to read from" << endl;
+        exit(EXIT_FAILURE);
     }
 }
