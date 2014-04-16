@@ -16,20 +16,20 @@ class DataRecord
         virtual ~DataRecord();
 
         // Dummy Method - should be overloaded by Inheriting Classes
-        void StoreValues(uint32_t*) {};
+        virtual void StoreValues(uint32_t*) {};
 
         // Dummy Method - should be overloaded by Inheriting Classes
-        void PrintValues() {};
+        virtual void PrintValues() {cout << "In Data Record Print Values Method" << endl;};
 
         // Primary Method Call for data record
         void ReadRecord(CDMSRawFileStream*, int, bool);
 
     protected:
         // Dummy Method - should be overloaded by Inheriting Classes
-        void _InitValues() {};
+        virtual void _InitValues() {};
 
         // Dummy Method - should be overloaded by Inheriting Classes
-        void _PrintLine() {};
+        virtual void _PrintLine() {};
 
     private:
 };

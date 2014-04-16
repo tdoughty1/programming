@@ -23,6 +23,9 @@ DataRecord::~DataRecord()
 void DataRecord::ReadRecord(CDMSRawFileStream* filePtr, int RecordLength, bool debug)
 {
 
+    cout << "In DataRecord::ReadRecord" << endl;
+    cout << "Debug value = " << debug << endl;
+
     uint32_t *Record;
     Record = new uint32_t[RecordLength/4];
 
