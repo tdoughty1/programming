@@ -2,12 +2,15 @@
 #include <iomanip>
 #include <cstdlib>
 #include <string>
-#include <zlib.h>
 #include <stdint.h>
 #include <time.h>
+#include <zlib.h>
+
+#include "cdmsrawfilestream.h"
+
 using namespace std;
 
-int main ()
+int main()
 {
     cout << "START" << endl;
 
@@ -15,24 +18,21 @@ int main ()
 
     time_t startTime = time(0);
 
-    gzFile fgzRawDataPtr;
-    fgzRawDataPtr = gzopen(fileName.c_str(),"rb");
+    CDMSRawFileStream* fgzRawDataPtr = new CDMSRawFileStream(fileName, "rb");
 
-    if(fgzRawDataPtr == NULL)
-    {
-        cout << "ERROR: Opening File " << fileName << endl;
-        exit(1);
-    }
-    else
-    {
-        cout << "Correctly Opened " << fileName << endl;
-    }
-
-    int nread = 4; // FIXME - Remove Hardcoded value?
+    int nread = 2; // FIXME - Remove Hardcoded value?
     uint32_t header[nread];
 
-    int readcheck = gzread(fgzRawDataPtr, header, nread*sizeof(int32_t));
+    int readcheck = fgzRawDataPtr->ReadWords(nread*sizeof(int32_t), header);
 
+    cout << "Read " << readcheck << " bytes" << endl;
+    cout << "They are: " << endl;
+    for(int i=0;i<nread;i++)
+    {
+        cout << "0x" << setbase(16) << header[i] << endl;
+    }
+
+    /**
     if(readcheck == -1)
     {
         cout << "ERROR: Reading Header Entries";
@@ -40,10 +40,10 @@ int main ()
     }
     else
     {
-        /*cout << setbase(16) << "Endian Check = 0x" << header[0] << endl;
-        cout << setbase(16) << "File Header = 0x" << header[1] << endl;
-        cout << setbase(16) << "Config Header = 0x" << header[2] << endl;
-        cout << setbase(10) << "Config Length = " << header[3] << endl;*/
+//        cout << setbase(16) << "Endian Check = 0x" << header[0] << endl;
+//        cout << setbase(16) << "File Header = 0x" << header[1] << endl;
+//        cout << setbase(16) << "Config Header = 0x" << header[2] << endl;
+//        cout << setbase(10) << "Config Length = " << header[3] << endl;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////
@@ -71,8 +71,8 @@ int main ()
             if(buffer[0]==0x10001) //FIXME - Switch Hardcoded Value to imported constant
             {
                 //cout << "Found Phonon Config Settings" << endl;
-                /*cout << setbase(16) << "Phonon Config Header = " << buffer[0] << endl;
-                cout << setbase(10) << "Phonon Config Length = " << buffer[1] << endl;*/
+//                cout << setbase(16) << "Phonon Config Header = " << buffer[0] << endl;
+//                cout << setbase(10) << "Phonon Config Length = " << buffer[1] << endl;
 
                 int32_t pbuffer[buffer[1]];
                 readcheck = gzread(fgzRawDataPtr, pbuffer, buffer[1]);
@@ -84,28 +84,28 @@ int main ()
                 else
                 {
                     ReadWords += buffer[1]/4;
-                    /*cout << "Reading Phonon Config Settings" << endl;
-                    cout << setbase(10) << "Detector Code = " << pbuffer[0] << endl;
-                    cout << setbase(10) << "Detector Type = " << pbuffer[0]/1000000 << endl;
-                    cout << setbase(10) << "Detector Number = " << (pbuffer[0]%1000000)/1000 << endl;
-                    cout << setbase(10) << "Channel Number = " << pbuffer[0]%1000 << endl;
-                    cout << setbase(10) << "Tower Number = " << pbuffer[1] << endl;
-                    cout << setbase(10) << "Driver Gain = " << pbuffer[2]/100 << endl;
-                    cout << setbase(10) << "QET bias = " << pbuffer[3]/100 << endl;
-                    cout << setbase(10) << "Squid bias = " << pbuffer[4]/100 << endl;
-                    cout << setbase(10) << "Squid Lockpoint = " << pbuffer[5]/100 << endl;
-                    cout << setbase(10) << "RTF Offset = " << pbuffer[6] << endl;
-                    cout << setbase(10) << "Variable Gain = " << pbuffer[7] << endl;
-                    cout << setbase(10) << "Delta T = " << pbuffer[8] << endl;
-                    cout << setbase(10) << "TO = " << pbuffer[9] << endl;
-                    cout << setbase(10) << "Trace Length = " << pbuffer[10] << endl;*/
+//                    cout << "Reading Phonon Config Settings" << endl;
+//                    cout << setbase(10) << "Detector Code = " << pbuffer[0] << endl;
+//                    cout << setbase(10) << "Detector Type = " << pbuffer[0]/1000000 << endl;
+//                    cout << setbase(10) << "Detector Number = " << (pbuffer[0]%1000000)/1000 << endl;
+//                    cout << setbase(10) << "Channel Number = " << pbuffer[0]%1000 << endl;
+//                    cout << setbase(10) << "Tower Number = " << pbuffer[1] << endl;
+//                    cout << setbase(10) << "Driver Gain = " << pbuffer[2]/100 << endl;
+//                    cout << setbase(10) << "QET bias = " << pbuffer[3]/100 << endl;
+//                    cout << setbase(10) << "Squid bias = " << pbuffer[4]/100 << endl;
+//                    cout << setbase(10) << "Squid Lockpoint = " << pbuffer[5]/100 << endl;
+//                    cout << setbase(10) << "RTF Offset = " << pbuffer[6] << endl;
+//                    cout << setbase(10) << "Variable Gain = " << pbuffer[7] << endl;
+//                    cout << setbase(10) << "Delta T = " << pbuffer[8] << endl;
+//                    cout << setbase(10) << "TO = " << pbuffer[9] << endl;
+//                    cout << setbase(10) << "Trace Length = " << pbuffer[10] << endl;
                 } //Successfully read Phonon Record
             }
             else if(buffer[0] == 0x10002) //FIXME - Switch Hardcoded Value to imported constant
             {
-                /*cout << "Found Charge Config Settings" << endl;
-                cout << setbase(16) << "Charge Config Header = " << buffer[0] << endl;
-                cout << setbase(10) << "Charge Config Length = " << buffer[1] << endl;*/
+//                cout << "Found Charge Config Settings" << endl;
+//                cout << setbase(16) << "Charge Config Header = " << buffer[0] << endl;
+//                cout << setbase(10) << "Charge Config Length = " << buffer[1] << endl;
 
                 int32_t qbuffer[buffer[1]];
                 int readcheck = gzread(fgzRawDataPtr, qbuffer, buffer[1]);
@@ -117,18 +117,18 @@ int main ()
                 else
                 {
                     ReadWords += buffer[1]/4;
-                    /*cout << "Reading Charge Config Settings" << endl;
-                    cout << setbase(10) << "Detector Code = " << qbuffer[0] << endl;
-                    cout << setbase(10) << "Detector Type = " << qbuffer[0]/1000000 << endl;
-                    cout << setbase(10) << "Detector Number = " << (qbuffer[0]%1000000)/1000 << endl;
-                    cout << setbase(10) << "Channel Number = " << qbuffer[0]%1000 << endl;
-                    cout << setbase(10) << "Tower Number = " << qbuffer[1] << endl;
-                    cout << setbase(10) << "Driver Gain = " << qbuffer[2]/100 << endl;
-                    cout << setbase(10) << "Voltage bias = " << qbuffer[3]/100 << endl;
-                    cout << setbase(10) << "RTF Offset = " << qbuffer[4] << endl;
-                    cout << setbase(10) << "Delta T = " << qbuffer[5] << endl;
-                    cout << setbase(10) << "TO = " << qbuffer[6] << endl;
-                    cout << setbase(10) << "Trace Length = " << qbuffer[7] << endl;*/
+//                    cout << "Reading Charge Config Settings" << endl;
+//                    cout << setbase(10) << "Detector Code = " << qbuffer[0] << endl;
+//                    cout << setbase(10) << "Detector Type = " << qbuffer[0]/1000000 << endl;
+//                    cout << setbase(10) << "Detector Number = " << (qbuffer[0]%1000000)/1000 << endl;
+//                    cout << setbase(10) << "Channel Number = " << qbuffer[0]%1000 << endl;
+//                    cout << setbase(10) << "Tower Number = " << qbuffer[1] << endl;
+//                    cout << setbase(10) << "Driver Gain = " << qbuffer[2]/100 << endl;
+//                    cout << setbase(10) << "Voltage bias = " << qbuffer[3]/100 << endl;
+//                    cout << setbase(10) << "RTF Offset = " << qbuffer[4] << endl;
+//                    cout << setbase(10) << "Delta T = " << qbuffer[5] << endl;
+//                    cout << setbase(10) << "TO = " << qbuffer[6] << endl;
+//                    cout << setbase(10) << "Trace Length = " << qbuffer[7] << endl;
                 } // Successfully Read Charge Settings
             }
             else
@@ -165,12 +165,12 @@ int main ()
             }
             //cout << "Reading Event Number " << setbase(10) << EventNumber << endl;
             //cout << "Event Header Successfully Read" << endl;
-            /*cout << setbase(16) << "Event Header = " << eheader[0] << endl;
-            cout << setbase(16) << "Event Tag = " << (eheader[0]>>16) << endl;
-            cout << setbase(16) << "Event Class = " << (eheader[0] & 0x0000F000) << endl;
-            cout << setbase(16) << "Event Category = " << (eheader[0] & 0x00000F00) << endl;
-            cout << setbase(16) << "Event Type = " << (eheader[0] & 0x000000FF) << endl;
-            cout << setbase(10) << "Event Length = " << eheader[1] << endl;*/
+            //cout << setbase(16) << "Event Header = " << eheader[0] << endl;
+            //cout << setbase(16) << "Event Tag = " << (eheader[0]>>16) << endl;
+            //cout << setbase(16) << "Event Class = " << (eheader[0] & 0x0000F000) << endl;
+            //cout << setbase(16) << "Event Category = " << (eheader[0] & 0x00000F00) << endl;
+            //cout << setbase(16) << "Event Type = " << (eheader[0] & 0x000000FF) << endl;
+            //cout << setbase(10) << "Event Length = " << eheader[1] << endl;
 
             if(eheader[0]>>16 != 0xa980) //FIXME - Switch Hardcoded Value to imported constant
             {
@@ -195,8 +195,8 @@ int main ()
                     else
                     {
                         //cout << "Reading Logical Header" << endl;
-                        /*cout << setbase(16) << "Logical Header ID = " << lheader[0] << endl;
-                        cout << setbase(10) << "Logical Header Length = " << lheader[1] << endl;*/
+//                        cout << setbase(16) << "Logical Header ID = " << lheader[0] << endl;
+//                        cout << setbase(10) << "Logical Header Length = " << lheader[1] << endl;
 
                         if (lheader[1] == 0)
                         {
@@ -216,12 +216,12 @@ int main ()
                             else
                             {
                                 //cout << "Reading Admin Record" << endl;
-                                /*cout << "Series Number Date = " << abuffer[0] << endl;
-                                cout << "Series Number Time = " << abuffer[1] << endl;
-                                cout << "Event Number = " << abuffer[2] << endl;
-                                cout << "Event Time = " << abuffer[3] << endl;
-                                cout << "Time Since Last Event = " << abuffer[4] << endl;
-                                cout << "Livetime Since Last Event = " << abuffer[5] << endl;*/
+//                                cout << "Series Number Date = " << abuffer[0] << endl;
+//                                cout << "Series Number Time = " << abuffer[1] << endl;
+//                                cout << "Event Number = " << abuffer[2] << endl;
+//                                cout << "Event Time = " << abuffer[3] << endl;
+//                                cout << "Time Since Last Event = " << abuffer[4] << endl;
+//                                cout << "Livetime Since Last Event = " << abuffer[5] << endl;
                             }
                         } // End of Admin Record Implementation
                         else if(lheader[0] == 0x80) //FIXME - Switch Hardcoded Value to imported constant
@@ -237,11 +237,11 @@ int main ()
                             else
                             {
                                 //cout << "Reading Trigger Record" << endl;
-                                /*cout << "Trigger Time = " << tbuffer[0] << endl;
-                                for(int j=1; j<=6; j++)
-                                {
-                                    cout << "Trigger Mask " << setbase(10) << j << " = " << setbase(16) << tbuffer[j] << endl;
-                                }*/
+//                                cout << "Trigger Time = " << tbuffer[0] << endl;
+//                                for(int j=1; j<=6; j++)
+//                                {
+//                                    cout << "Trigger Mask " << setbase(10) << j << " = " << setbase(16) << tbuffer[j] << endl;
+//                                }
                             }
                         } // End of Trigger Record Implementation
                         else if(lheader[0] == 0x81) //FIXME - Switch Hardcoded Value to imported constant
@@ -257,10 +257,10 @@ int main ()
                             else
                             {
                                 //cout << "Reading Trigger Mask Record" << endl;
-                                /*for(int j=0; j<6; j++)
+                                for(int j=0; j<6; j++)
                                 {
                                     cout << "TLB Mask " << setbase(10) << j+1 << " = " << setbase(16) << tbuffer[j] << endl;
-                                }*/
+                                }
                             }
                         } // End of Trigger Logic Board Record Implementation
                         else if(lheader[0] == 0x60) //FIXME - Switch Hardcoded Value to imported constant
@@ -276,9 +276,9 @@ int main ()
                             else
                             {
                                 //cout << "Reading GPS Record" << endl;
-                                /*cout << "GPS Date = " << setbase(16) << gbuffer[0] << endl;
-                                cout << "GPS Time = " << setbase(16) << gbuffer[2] << endl;
-                                cout << "GPS us = " << setbase(16) << gbuffer[3] << endl;*/
+//                                cout << "GPS Date = " << setbase(16) << gbuffer[0] << endl;
+//                                cout << "GPS Time = " << setbase(16) << gbuffer[2] << endl;
+//                                cout << "GPS us = " << setbase(16) << gbuffer[3] << endl;
                             }
                         } // End of GPS Trigger Logic
                         else if(lheader[0] == 0x11) //FIXME - Switch Hardcoded Value to imported constant
@@ -295,8 +295,8 @@ int main ()
                             else
                             {
                                 //cout << "Reading Trace Bookkeeping Header" << endl;
-                                /*cout << "Bookkeeping Header = 0x" << setbase(16) << bhbuffer[0] << endl;
-                                cout << "Bookkeeping Length = " << setbase(10) << bhbuffer[1] << endl;*/
+//                                cout << "Bookkeeping Header = 0x" << setbase(16) << bhbuffer[0] << endl;
+//                                cout << "Bookkeeping Length = " << setbase(10) << bhbuffer[1] << endl;
 
                                 uint32_t bbuffer[bhbuffer[1]/4];
 
@@ -309,9 +309,9 @@ int main ()
                                 else
                                 {
                                     //cout << "Reading Trace Bookkeeping Record" << endl;
-                                    /*cout << "Digitizer Base Address = " << setbase(16) << bbuffer[0] << endl;
-                                    cout << "Digitizer Channel = " << setbase(10) << bbuffer[1] << endl;
-                                    cout << "Detector Code = " << setbase(10) << bbuffer[2] << endl;*/
+                                    cout << "Digitizer Base Address = " << setbase(16) << bbuffer[0] << endl;
+//                                    cout << "Digitizer Channel = " << setbase(10) << bbuffer[1] << endl;
+//                                    cout << "Detector Code = " << setbase(10) << bbuffer[2] << endl;
                                 }
                             } // End of Tracebookkeeping Record
 
@@ -327,8 +327,8 @@ int main ()
                             else
                             {
                                 //cout << "Reading Timebase Header" << endl;
-                                /*cout << "Timebase Header = 0x" << setbase(16) << tbbuffer[0] << endl;
-                                cout << "Timebase Length = " << setbase(10) << tbbuffer[1] << endl;*/
+//                                cout << "Timebase Header = 0x" << setbase(16) << tbbuffer[0] << endl;
+//                                cout << "Timebase Length = " << setbase(10) << tbbuffer[1] << endl;
 
                                 uint32_t trbuffer[tbbuffer[1]/4];
 
@@ -341,9 +341,9 @@ int main ()
                                 else
                                 {
                                     //cout << "Reading Timebase Record" << endl;
-                                    /*cout << "t0 = " << setbase(10) << (int32_t) trbuffer[0] << endl;
+                                    cout << "t0 = " << setbase(10) << (int32_t) trbuffer[0] << endl;
                                     cout << "delta t = " << setbase(10) << trbuffer[1] << endl;
-                                    cout << "nsamples = " << setbase(10) << trbuffer[2] << endl;*/
+                                    cout << "nsamples = " << setbase(10) << trbuffer[2] << endl;
                                 }
                             } // End of time base
 
@@ -359,8 +359,8 @@ int main ()
                             else
                             {
                                 //cout << "Reading Trace Header"  << endl;
-                                /*cout << "Trace Header = 0x" << setbase(16) << theader[0] << endl;
-                                cout << "Number of Samples = " << setbase(10) << theader[1] << endl;*/
+                                //cout << "Trace Header = 0x" << setbase(16) << theader[0] << endl;
+                                //cout << "Number of Samples = " << setbase(10) << theader[1] << endl;
 
                                 int32_t pbuffer[theader[1]/2];
 
@@ -373,12 +373,12 @@ int main ()
                                 else
                                 {
                                     //cout << "Reading Pulse" << endl;
-                                    /*for(int j=0;j<204;j++)
-                                    {
-                                        cout << "Pulse Record Value = " << pbuffer[j] << endl;
-                                        cout << "Upper Half (Sample " << (2*j) << ") = " << (pbuffer[j]>>16) << endl;
-                                        cout << "Lower Half (Sample " << (2*j + 1) << ") = " << (pbuffer[j]&0x0000FFFF) << endl;
-                                    }*/
+                                    //for(int j=0;j<204;j++)
+                                    //{
+                                    //    cout << "Pulse Record Value = " << pbuffer[j] << endl;
+                                    //    cout << "Upper Half (Sample " << (2*j) << ") = " << (pbuffer[j]>>16) << endl;
+                                    //    cout << "Lower Half (Sample " << (2*j + 1) << ") = " << (pbuffer[j]&0x0000FFFF) << endl;
+                                    //}
                                 }
                             }
 
@@ -397,10 +397,10 @@ int main ()
                             {
                                 //cout << "Reading History Record" << endl;
                                 //cout << "Number of Veto Times = " << hbuffer[0] << endl;
-                                /*for(int j=1; j<=6; j++)
-                                {
-                                    cout << "Trigger Mask " << setbase(10) << j << " = " << setbase(16) << tbuffer[j] << endl;
-                                }*/
+//                                for(int j=1; j<=6; j++)
+//                                {
+//                                    cout << "Trigger Mask " << setbase(10) << j << " = " << setbase(16) << tbuffer[j] << endl;
+//                                }
                             }
                         } // End of History Buffer Record
                         else
@@ -412,8 +412,8 @@ int main ()
                 }
             } // Correctly formatted event header
         }
-    }
-    gzclose(fgzRawDataPtr);
+    }*/
+    fgzRawDataPtr->Close();
 
     time_t endTime = time(0);
 
