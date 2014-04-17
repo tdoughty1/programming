@@ -10,17 +10,20 @@ from DataRecord import DataRecord
 
 class GPSRecord(DataRecord):
 
-    def _PrintLine(self):
-        print "Found GPS Record"
+    def __init__(self):
 
-    def _InitValues(self):
-        pass
+        self._Date = None
+        self._Time = None
+        self._SubTime = None
 
     def StoreValues(self, Record):
 
-        print "Error in GPSRecord:"
-        print "Should not reach this point"
-        pass
+        self._Date = Record[0]
+        self._Time = Record[1]
+        self._SubTime = Record[2]
 
     def PrintValues(self):
-        pass
+
+        print "GPS Date = %d" % self._Date
+        print "GPS Time = %d" % self._Time
+        print "GPS SubTime = %d" % self._SubTime
