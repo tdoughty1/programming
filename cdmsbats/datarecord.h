@@ -7,29 +7,21 @@ class DataRecord
 {
     public:
         /** Default constructor */
-        DataRecord();
-
-        /** Standard constructor */
-        DataRecord(bool);
+        DataRecord(){};
 
         /** Default destructor */
-        virtual ~DataRecord();
+        virtual ~DataRecord(){};
 
         // Dummy Method - should be overloaded by Inheriting Classes
-        virtual void StoreValues(uint32_t*) {};
+        virtual void StoreValues(int32_t*) = 0;
 
         // Dummy Method - should be overloaded by Inheriting Classes
-        virtual void PrintValues() {cout << "In Data Record Print Values Method" << endl;};
+        virtual void PrintValues() = 0;
 
         // Primary Method Call for data record
         void ReadRecord(CDMSRawFileStream*, int, bool);
 
     protected:
-        // Dummy Method - should be overloaded by Inheriting Classes
-        virtual void _InitValues() {};
-
-        // Dummy Method - should be overloaded by Inheriting Classes
-        virtual void _PrintLine() {};
 
     private:
 };
