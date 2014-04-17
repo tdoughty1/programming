@@ -23,4 +23,4 @@ class TLBRecord : public DataRecord
         int32_t _TriggerMask[6];
 };
 
-#endif // TRIGGERRECORD_H
+#endif // TLBRECORD_H
