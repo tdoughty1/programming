@@ -114,9 +114,57 @@ int CDMSRawFileStream::Skip(int nPos)
     }
 }
 
-//TODO Add Template Metaprogramming
+//TODO Add Template Metaprogramming for now overload function
+
+void CDMSRawFileStream::ReadWords(int nBytes, int32_t* ArrayPtr)
+{
+    if(_Open)
+    {
+
+        int bytesRead = gzread(_FileStream, ArrayPtr, nBytes);
+
+        if(bytesRead == -1)
+        {
+            cout << "ERROR in CDMSRawFileStream::ReadWords:" << endl;
+            cout << "Problem reading from file " << _FileName << endl;
+            exit(EXIT_FAILURE);
+        }
+
+        return;
+    }
+    else
+    {
+        cout << "ERROR in CDMSRawFileStream::ReadWords:" << endl;
+        cout << "No open file to read from" << endl;
+        exit(EXIT_FAILURE);
+    }
+}
 
 void CDMSRawFileStream::ReadWords(int nBytes, uint32_t* ArrayPtr)
+{
+    if(_Open)
+    {
+
+        int bytesRead = gzread(_FileStream, ArrayPtr, nBytes);
+
+        if(bytesRead == -1)
+        {
+            cout << "ERROR in CDMSRawFileStream::ReadWords:" << endl;
+            cout << "Problem reading from file " << _FileName << endl;
+            exit(EXIT_FAILURE);
+        }
+
+        return;
+    }
+    else
+    {
+        cout << "ERROR in CDMSRawFileStream::ReadWords:" << endl;
+        cout << "No open file to read from" << endl;
+        exit(EXIT_FAILURE);
+    }
+}
+
+void CDMSRawFileStream::ReadWords(int nBytes, uint16_t* ArrayPtr)
 {
     if(_Open)
     {

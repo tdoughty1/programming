@@ -31,7 +31,12 @@ class CDMSRawFileStream
 
         int Skip(int);
 
+        // Overloaded function
+        void ReadWords(int, int32_t*);
+
         void ReadWords(int, uint32_t*);
+
+        void ReadWords(int, uint16_t*);
 
     protected:
 
