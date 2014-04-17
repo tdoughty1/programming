@@ -16,22 +16,20 @@ int main()
 {
     DetectorConfigRecord* DetectorConfigPtr = new DetectorConfigRecord();
 
-    cout << "START" << endl;
-
     string fileName = "/home/tdoughty1/Workspace/data/raw/01120411_1132/01120411_1132_F0003.gz";
 
-    time_t startTime = time(0);
+    clock_t startTime = clock();
 
     CDMSRawFileStream* fgzRawDataPtr = new CDMSRawFileStream(fileName, "rb");
 
     int nread = 2; // FIXME - Remove Hardcoded value?
-    uint32_t FileHeader[nread];
+    int32_t FileHeader[nread];
 
     fgzRawDataPtr->ReadWords(nread*sizeof(int32_t), FileHeader);
     cout << "Endian Check = 0x" << setbase(16) << FileHeader[0] << endl;
     cout << "File Header = 0x" << setbase(16) << FileHeader[1] << endl;
 
-    uint32_t ConfigHeader[nread];
+    int32_t ConfigHeader[nread];
 
     fgzRawDataPtr->ReadWords(nread*sizeof(int32_t), ConfigHeader);
     cout << setbase(16) << "Config Header = 0x" << ConfigHeader[0] << endl;
@@ -40,11 +38,12 @@ int main()
     ////////////////////////////////////////////////////////////////////////////////////////////
     // Read Detector Config Info
     ////////////////////////////////////////////////////////////////////////////////////////////
-    DetectorConfigPtr->ReadRecord(fgzRawDataPtr, ConfigHeader[1], true);
+    DetectorConfigPtr->ReadRecord(fgzRawDataPtr, ConfigHeader[1], false);
 
 
-
-
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // Loop through Events
+    ////////////////////////////////////////////////////////////////////////////////////////////
 
 //    int ReadWords = 0;
 
@@ -271,7 +270,7 @@ int main()
                                 exit(1);
                             }
                             else
-                            {
+                            {10**
                                 //cout << "Reading GPS Record" << endl;
 //                                cout << "GPS Date = " << setbase(16) << gbuffer[0] << endl;
 //                                cout << "GPS Time = " << setbase(16) << gbuffer[2] << endl;
@@ -394,7 +393,7 @@ int main()
                             {
                                 //cout << "Reading History Record" << endl;
                                 //cout << "Number of Veto Times = " << hbuffer[0] << endl;
-//                                for(int j=1; j<=6; j++)
+//                                f'''or(int j=1; j<=6; j++)
 //                                {
 //                                    cout << "Trigger Mask " << setbase(10) << j << " = " << setbase(16) << tbuffer[j] << endl;
 //                                }
@@ -412,9 +411,9 @@ int main()
     }*/
     fgzRawDataPtr->Close();
 
-    time_t endTime = time(0);
+    clock_t endTime = clock();
 
-    cout << "Loading Data took " << setprecision(4) << endTime-startTime << endl;
+    cout << "Loading Data took " << setprecision(2) << (float(endTime-startTime)/CLOCKS_PER_SEC) << endl;
 
     return 0;
 }
