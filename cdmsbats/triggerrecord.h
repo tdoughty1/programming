@@ -13,7 +13,7 @@ class TriggerRecord : public DataRecord
         /** Default destructor */
         virtual ~TriggerRecord(){};
 
-        void StoreValues(uint32_t*);
+        void StoreValues(int32_t*);
 
         void PrintValues();
 

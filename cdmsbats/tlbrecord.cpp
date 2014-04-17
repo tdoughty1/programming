@@ -5,7 +5,7 @@ TLBRecord::TLBRecord()
     _TriggerTime = NULL;
 }
 
-void TLBRecord::StoreValues(uint32_t* Record)
+void TLBRecord::StoreValues(int32_t* Record)
 {
     _TriggerTime = Record[0];
     for(int i=0; i<6; i++)

@@ -29,7 +29,7 @@ class TraceRecord : public DataRecord
 
         BookRecord* _BookPtr;
         TimeRecord* _TimePtr;
-        uint16_t* _Trace[];
+        uint16_t _Trace[];
 };
 
 #endif // TRACERECORD_H

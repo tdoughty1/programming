@@ -9,12 +9,14 @@
 
 #include "cdmsrawfilestream.h"
 #include "detectorconfigrecord.h"
+#include "eventrecord.h"
 
 using namespace std;
 
 int main()
 {
     DetectorConfigRecord* DetectorConfigPtr = new DetectorConfigRecord();
+    EventRecord* EventPtr = new EventRecord();
 
     string fileName = "/home/tdoughty1/Workspace/data/raw/01120411_1132/01120411_1132_F0003.gz";
 

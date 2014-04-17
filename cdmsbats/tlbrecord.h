@@ -13,7 +13,7 @@ class TLBRecord : public DataRecord
         /** Default destructor */
         virtual ~TLBRecord(){};
 
-        void StoreValues(uint32_t*);
+        void StoreValues(int32_t*);
 
         void PrintValues();
 

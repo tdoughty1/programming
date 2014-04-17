@@ -5,7 +5,7 @@ TriggerRecord::TriggerRecord()
     _TriggerTime = NULL;
 }
 
-void TriggerRecord::StoreValues(uint32_t* Record)
+void TriggerRecord::StoreValues(int32_t* Record)
 {
     _TriggerTime = Record[0];
     for(int i=0; i<6; i++)

@@ -1,49 +1,54 @@
-#include "tracerecord.h"
+#include <iostream>
+#include <iomanip>
+#include <cstdlib>
+#include <string>
+#include <typeinfo>
+#include <stdint.h>
+#include <time.h>
+#include <zlib.h>
+#include "histsubrecord.h"
 
-TraceRecord::TraceRecord()
+// Primary Function Call for data record
+void HistSubRecord::ReadRecord(int32_t* Record, int index, bool debug=false)
 {
-    _BookPtr = new BookRecord();
-    _TimePtr = new TimeRecord();
+    int start;
+
+    // Get number of times stored
+    _nTimes = Record[index];
+    index++;
+
+    // Store number of times
+    for(int i=0; i < _nTimes; i++)
+    {
+        _Times[i] = Record[index];
+        index++;
+    }
+
+    // Get number of masks stored
+    _nMasks = Record[index];
+    index++;
+
+    // Store all masks for all times
+    for(int i=0; i < _nTimes; i++)
+    {
+        for(int j=0; i < _nMasks; i++)
+        {
+            _Masks[i][j] = Record[index];
+            index++;
+        }
+    }
 }
 
-void TraceRecord::ReadRecord(CDMSRawFileStream* filePtr, int RecordLength, bool debug=false)
+void HistSubRecord::PrintValues()
 {
-    int endPos = filePtr->Tell() + RecordLength;
-
-    while(filePtr->Tell() < endPos)
+    for(int i=0; i < _nTimes; i++)
     {
-        int32_t TraceHeader[2];
-        filePtr->ReadWords(2*sizeof(int32_t)*2, TraceHeader);
+        cout << "time " << (i+1) << " = " << _Times[i] << endl;
 
-        // Record of No length
-        if(TraceHeader[1] == 0)
+        for(int j=0; j < _nMasks; j++)
         {
-            continue;
+            cout << "time " << (i+1) << " - mask " << (j+1);
+            cout << " = 0x" << setbase(16) << _Masks[i][j] << endl;
         }
-
-        // Bookkeeping Record
-        if(TraceHeader[0] == 0x11)
-        {
-            _BookPtr->ReadRecord(filePtr, TraceHeader[1], debug);
-            continue;
-        }
-
-        // Timebase Record
-        if(TraceHeader[0] == 0x12)
-        {
-            _TimePtr->ReadRecord(filePtr, TraceHeader[1], debug);
-            continue;
-        }
-
-        // Trace Array
-        if(TraceHeader[0] == 0x13)
-        {
-            int nSamples = TraceHeader[1];
-            filePtr->ReadWords(nSamples*2, _Trace);
-            continue;
-        }
-
-        cout << "Found unexpected trace header" << endl;
-        exit(EXIT_FAILURE);
     }
 }

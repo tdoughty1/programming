@@ -39,8 +39,8 @@ void TraceRecord::ReadRecord(CDMSRawFileStream* filePtr, int RecordLength, bool 
         if(TraceHeader[0] == 0x13)
         {
             int nSamples = TraceHeader[1];
-            uint16_t tempArray[nSamples];
-            filePtr->ReadWords(nSamples*2, tempArray);
+            _Trace[nSamples];
+            filePtr->ReadWords(nSamples*2, _Trace);
             continue;
         }
 
