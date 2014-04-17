@@ -12,12 +12,10 @@ from DataRecord import DataRecord
 
 class HistSubRecord(DataRecord):
 
-    def _InitValues(self):
+    def __init__(self):
+
         self._Masks = []
         self._Times = None
-
-    def _PrintLine(self):
-        print "Found History Buffer Sub Record."
 
     # Primary Function Call for data record
     def ReadRecord(self, Record, index, debug=False):
@@ -52,8 +50,6 @@ class HistSubRecord(DataRecord):
         pass
 
     def PrintValues(self):
-
-        print len(self._Masks)
 
         nTime = 0
         for time in self._Times:

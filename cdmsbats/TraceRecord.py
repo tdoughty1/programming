@@ -12,10 +12,8 @@ from TimeRecord import TimeRecord
 
 class TraceRecord(DataRecord):
 
-    def _PrintLine(self):
-        print "Found Admin Record"
+    def __init__(self):
 
-    def _InitValues(self):
         self._BookPtr = BookRecord()
         self._TimePtr = TimeRecord()
         self._Trace = None

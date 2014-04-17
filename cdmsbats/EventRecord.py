@@ -16,10 +16,8 @@ from HistoryRecord import HistoryRecord
 
 class EventRecord(DataRecord):
 
-    def _PrintLine(self):
-        print "Found Admin Record"
+    def __init__(self):
 
-    def _InitValues(self):
         self._AdminPtr = AdminRecord()
         self._TriggerPtr = TriggerRecord()
         self._TLBPtr = TLBRecord()

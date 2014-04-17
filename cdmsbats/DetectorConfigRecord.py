@@ -12,12 +12,10 @@ from ChargeChanRecord import ChargeChanRecord
 
 class DetectorConfigRecord(DataRecord):
 
-    def _InitValues(self):
+    def __init__(self):
+
         self._pChanPtr = PhononChanRecord()
         self._qChanPtr = ChargeChanRecord()
-
-    def _PrintLine(self):
-        print "Found Detector Config Record"
 
     def ReadRecord(self, filePtr, RecordLength, mode='int32', debug=False):
 

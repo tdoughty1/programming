@@ -10,20 +10,20 @@ from DataRecord import DataRecord
 
 class BookRecord(DataRecord):
 
-    def _PrintLine(self):
-        print "Found Bookkeeping Record"
+    def __init__(self):
 
-    def _InitValues(self):
         self._digBaseAddress = None
         self._digChannel = None
         self._detCode = None
 
     def StoreValues(self, Record):
+
         self._digBaseAddress = Record[0]
         self._digChannel = Record[1]
         self._detCode = Record[2]
 
     def PrintValues(self):
+
         print "Digitizer Base Address = 0x%x" % self._digBaseAddress
         print "Digitizer Channel = %d" % self._digChannel
         print "DetCode = %d" % self._detCode

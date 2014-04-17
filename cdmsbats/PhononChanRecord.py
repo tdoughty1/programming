@@ -10,10 +10,7 @@ from DataRecord import DataRecord
 
 class PhononChanRecord(DataRecord):
 
-    def _PrintLine(self):
-        print "Found Phonon Channel Record"
-
-    def _InitValues(self):
+    def __init__(self):
 
         self._detCode = None
         self._towerNum = None

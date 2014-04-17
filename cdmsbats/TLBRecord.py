@@ -11,10 +11,7 @@ from DataRecord import DataRecord
 
 class TLBRecord(DataRecord):
 
-    def _PrintLine(self):
-        print "Found TLB Record"
-
-    def _InitValues(self):
+    def __init__(self):
 
         self._TriggerTime = None
         self._TriggerMask = None
@@ -25,6 +22,7 @@ class TLBRecord(DataRecord):
         self._TriggerMask = copy(Record[1:7])
 
     def PrintValues(self):
+
         print "Trigger Time = %d" % self._TriggerTime
         for i, mask in zip(range(len(self._TriggerMask)), self._TriggerMask):
             print "Tower %d TLB Mask = 0x%x" % (i+1, mask)

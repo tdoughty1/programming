@@ -10,10 +10,8 @@ from DataRecord import DataRecord
 
 class AdminRecord(DataRecord):
 
-    def _PrintLine(self):
-        print "Found Admin Record"
+    def __init__(self):
 
-    def _InitValues(self):
         self._SeriesNumber = None
         self._EventNumber = None
         self._EventTime = None
@@ -29,6 +27,7 @@ class AdminRecord(DataRecord):
         self._TimeSince = Record[5]
 
     def PrintValues(self):
+
         print "SeriesNumber = %d" % self._SeriesNumber
         print "EventNumber = %d" % self._EventNumber
         print "EventTime = %d" % self._EventTime

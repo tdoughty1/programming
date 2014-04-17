@@ -11,10 +11,8 @@ from HistSubRecord import HistSubRecord
 
 class HistoryRecord(DataRecord):
 
-    def _PrintLine(self):
-        print "Found History Record"
+    def __init__(self):
 
-    def _InitValues(self):
         self._VetoPtr = HistSubRecord()
         self._TrigPtr = HistSubRecord()
 
@@ -24,5 +22,6 @@ class HistoryRecord(DataRecord):
         index = self._TrigPtr.ReadRecord(Record, index)
 
     def PrintValues(self):
+
         self._VetoPtr.PrintValues()
         self._TrigPtr.PrintValues()
