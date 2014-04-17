@@ -8,7 +8,13 @@ class PhononChanRecord : public DataRecord
 {
     public:
 
-        void StoreValues(uint32_t*);
+        /** Default constructor */
+        PhononChanRecord();
+
+        /** Default destructor */
+        virtual ~PhononChanRecord(){};
+
+        void StoreValues(int32_t*);
 
         void PrintValues();
 
@@ -17,8 +23,6 @@ class PhononChanRecord : public DataRecord
     private:
 
         void _InitValues();
-
-        void _PrintLine(){cout << "Found Phonon Channel Record" << endl;}
 
         int _detCode;
         int _towerNum;

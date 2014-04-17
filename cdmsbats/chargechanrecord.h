@@ -8,17 +8,19 @@ class ChargeChanRecord : public DataRecord
 {
     public:
 
-        void StoreValues(uint32_t*);
+        /** Default constructor */
+        ChargeChanRecord();
+
+        /** Default destructor */
+        virtual ~ChargeChanRecord(){};
+
+        void StoreValues(int32_t*);
 
         void PrintValues();
 
     protected:
 
     private:
-
-        void _InitValues();
-
-        void _PrintLine(){cout << "Found Charge Channel Record" << endl;}
 
         int _detCode;
         int _towerNum;

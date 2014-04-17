@@ -6,24 +6,17 @@
 
 using namespace std;
 
-void DetectorConfigRecord::_InitValues()
+DetectorConfigRecord::DetectorConfigRecord()
 {
     _pChanPtr = new PhononChanRecord();
     _qChanPtr = new ChargeChanRecord();
 }
 
-void DetectorConfigRecord::_PrintLine()
-{
-    cout << "Found Detector Config Record" <<  endl;
-}
-
 void DetectorConfigRecord::ReadRecord(CDMSRawFileStream* filePtr, int RecordLength, bool debug=false)
 {
-    uint32_t ChanHeader[4*2];
+    int32_t ChanHeader[4*2];
 
     int endPos = filePtr->Tell() + RecordLength;
-
-    cout << "End Position = %d" << endPos << endl;
 
     while(filePtr->Tell() < endPos)
     {

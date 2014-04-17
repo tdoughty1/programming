@@ -9,16 +9,22 @@ class DetectorConfigRecord : public DataRecord
 {
     public:
 
+        /** Default constructor */
+        DetectorConfigRecord();
+
+        /** Default destructor */
+        virtual ~DetectorConfigRecord(){};
+
         void ReadRecord(CDMSRawFileStream*, int, bool);
 
-        void PrintValues(){};
+        void PrintValues(){cout << "In DetectorConfigRecord::PrintValues" << endl;};
+
+        void StoreValues(int32_t*){cout << "In DetectorConfigRecord::PrintValues" << endl;};
 
     protected:
     private:
 
         void _InitValues();
-
-        void _PrintLine();
 
         PhononChanRecord* _pChanPtr;
         ChargeChanRecord* _qChanPtr;

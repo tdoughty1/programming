@@ -1,7 +1,7 @@
 #include "chargechanrecord.h"
 #include "datarecord.h"
 
-void ChargeChanRecord::_InitValues()
+ChargeChanRecord::ChargeChanRecord()
 {
     _detCode = NULL;
     _towerNum = NULL;
@@ -13,7 +13,7 @@ void ChargeChanRecord::_InitValues()
     _traceLength = NULL;
 }
 
-void ChargeChanRecord::StoreValues(uint32_t* Record)
+void ChargeChanRecord::StoreValues(int32_t* Record)
 {
     _detCode = Record[0];
     _towerNum = Record[1];
@@ -29,10 +29,10 @@ void ChargeChanRecord::PrintValues()
 {
     cout << "Detector Code = " << _detCode << endl;
     cout << "Tower Number = " << _towerNum << endl;
-    cout << "Driver Gain = " << _driverGain << endl;
-    cout << "Channel Bias = " << setprecision(3) << _chanBias << " V" << endl;
-    cout << "RTF Offset = " << setprecision(3) << _rtfOffset << " V" << endl;
-    cout << "Delta T = " << setprecision(2) << _deltat << " us" << endl;
-    cout << "t0 = " << setprecision(1) << _t0 << " us" << endl;
+    cout << "Driver Gain = " << fixed << setprecision(1) << _driverGain << endl;
+    cout << "Channel Bias = " << fixed << setw(5) << setprecision(3) << _chanBias << " V" << endl;
+    cout << "RTF Offset = " << fixed << setw(5) << setprecision(3) << _rtfOffset << " V" << endl;
+    cout << "Delta T = " << fixed << setw(4) << setprecision(2) << _deltat << " us" << endl;
+    cout << "t0 = " << fixed << setw(5) << setprecision(1) << _t0 << " us" << endl;
     cout << "Trace Length = " << _traceLength << endl;
 }
