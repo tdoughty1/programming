@@ -1,11 +1,16 @@
+#include <iostream>
+#include <iomanip>
+
 #include "triggerrecord.h"
+
+using namespace std;
 
 TriggerRecord::TriggerRecord()
 {
     _TriggerTime = NULL;
 }
 
-void TriggerRecord::StoreValues(int32_t* Record)
+void TriggerRecord::StoreValues(uint32_t* Record)
 {
     _TriggerTime = Record[0];
     for(int i=0; i<6; i++)
@@ -16,7 +21,7 @@ void TriggerRecord::StoreValues(int32_t* Record)
 
 void TriggerRecord::PrintValues()
 {
-    cout << "Trigger Time = %d" << _TriggerTime << endl;
+    cout << "Trigger Time = " << _TriggerTime << endl;
 
     for(int i=0; i<6; i++)
     {

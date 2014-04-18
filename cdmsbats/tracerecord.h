@@ -22,6 +22,8 @@ class TraceRecord : public DataRecord
 
         void StoreValues(int32_t*){};
 
+        void StoreValues(uint32_t*){};
+
         void PrintValues(){};
 
     protected:
@@ -29,7 +31,7 @@ class TraceRecord : public DataRecord
 
         BookRecord* _BookPtr;
         TimeRecord* _TimePtr;
-        uint16_t _Trace[];
+        vector<uint16_t> _Trace;
 };
 
 #endif // TRACERECORD_H

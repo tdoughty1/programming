@@ -1,4 +1,8 @@
+#include <iostream>
+
 #include "gpsrecord.h"
+
+using namespace std;
 
 GPSRecord::GPSRecord()
 {

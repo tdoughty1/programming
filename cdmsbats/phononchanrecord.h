@@ -16,6 +16,8 @@ class PhononChanRecord : public DataRecord
 
         void StoreValues(int32_t*);
 
+        void StoreValues(uint32_t*){};
+
         void PrintValues();
 
     protected:

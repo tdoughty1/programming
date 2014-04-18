@@ -12,14 +12,17 @@ class DataRecord
         /** Default destructor */
         virtual ~DataRecord(){};
 
-        // Dummy Method - should be overloaded by Inheriting Classes
         virtual void StoreValues(int32_t*) = 0;
 
-        // Dummy Method - should be overloaded by Inheriting Classes
+        virtual void StoreValues(uint32_t*) = 0;
+
         virtual void PrintValues() = 0;
 
         // Primary Method Call for data record
-        void ReadRecord(CDMSRawFileStream*, int, bool);
+        // Overloaded to allow multiple read datatypes
+        void ReadRecord(CDMSRawFileStream*, int, uint32_t, bool);
+
+        void ReadRecord(CDMSRawFileStream*, int, int32_t, bool);
 
     protected:
 

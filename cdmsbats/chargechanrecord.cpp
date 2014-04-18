@@ -1,5 +1,10 @@
+#include <iostream>
+#include <iomanip>
+
 #include "chargechanrecord.h"
 #include "datarecord.h"
+
+using namespace std;
 
 ChargeChanRecord::ChargeChanRecord()
 {

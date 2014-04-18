@@ -1,5 +1,10 @@
+#include <iostream>
+#include <iomanip>
+
 #include "phononchanrecord.h"
 #include "datarecord.h"
+
+using namespace std;
 
 PhononChanRecord::PhononChanRecord()
 {

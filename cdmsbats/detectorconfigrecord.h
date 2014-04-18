@@ -17,9 +17,11 @@ class DetectorConfigRecord : public DataRecord
 
         void ReadRecord(CDMSRawFileStream*, int, bool);
 
-        void PrintValues(){cout << "In DetectorConfigRecord::PrintValues" << endl;};
+        void PrintValues(){};
 
-        void StoreValues(int32_t*){cout << "In DetectorConfigRecord::PrintValues" << endl;};
+        void StoreValues(int32_t*){};
+
+        void StoreValues(uint32_t*){};
 
     protected:
     private:

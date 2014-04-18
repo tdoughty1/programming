@@ -2,8 +2,6 @@
 #define CDMSRAWFILESTREAM_H
 
 #include <string>
-#include <iostream>
-#include <iomanip>
 
 #include <zlib.h>
 

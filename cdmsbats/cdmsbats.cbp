@@ -32,6 +32,36 @@
 			<Add option="-Wall" />
 		</Compiler>
 		<Unit filename="FileReader.cpp" />
+		<Unit filename="adminrecord.cpp" />
+		<Unit filename="adminrecord.h" />
+		<Unit filename="bookrecord.cpp" />
+		<Unit filename="bookrecord.h" />
+		<Unit filename="cdmsrawfilestream.cpp" />
+		<Unit filename="cdmsrawfilestream.h" />
+		<Unit filename="chargechanrecord.cpp" />
+		<Unit filename="chargechanrecord.h" />
+		<Unit filename="datarecord.cpp" />
+		<Unit filename="datarecord.h" />
+		<Unit filename="detectorconfigrecord.cpp" />
+		<Unit filename="detectorconfigrecord.h" />
+		<Unit filename="eventrecord.cpp" />
+		<Unit filename="eventrecord.h" />
+		<Unit filename="gpsrecord.cpp" />
+		<Unit filename="gpsrecord.h" />
+		<Unit filename="historyrecord.cpp" />
+		<Unit filename="historyrecord.h" />
+		<Unit filename="histsubrecord.cpp" />
+		<Unit filename="histsubrecord.h" />
+		<Unit filename="phononchanrecord.cpp" />
+		<Unit filename="phononchanrecord.h" />
+		<Unit filename="timerecord.cpp" />
+		<Unit filename="timerecord.h" />
+		<Unit filename="tlbrecord.cpp" />
+		<Unit filename="tlbrecord.h" />
+		<Unit filename="tracerecord.cpp" />
+		<Unit filename="tracerecord.h" />
+		<Unit filename="triggerrecord.cpp" />
+		<Unit filename="triggerrecord.h" />
 		<Extensions>
 			<envvars />
 			<code_completion />

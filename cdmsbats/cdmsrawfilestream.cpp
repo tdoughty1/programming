@@ -1,6 +1,7 @@
 #include <string>
 #include <iostream>
 #include <iomanip>
+#include <vector>
 #include <zlib.h>
 #include "cdmsrawfilestream.h"
 
@@ -166,9 +167,9 @@ void CDMSRawFileStream::ReadWords(int nBytes, uint32_t* ArrayPtr)
 
 void CDMSRawFileStream::ReadWords(int nBytes, uint16_t* ArrayPtr)
 {
+
     if(_Open)
     {
-
         int bytesRead = gzread(_FileStream, ArrayPtr, nBytes);
 
         if(bytesRead == -1)

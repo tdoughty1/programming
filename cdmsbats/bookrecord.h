@@ -13,7 +13,9 @@ class BookRecord : public DataRecord
         /** Default destructor */
         virtual ~BookRecord(){};
 
-        void StoreValues(int32_t*);
+        void StoreValues(uint32_t*);
+
+        void StoreValues(int32_t*){};
 
         void PrintValues();
 

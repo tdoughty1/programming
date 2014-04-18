@@ -1,4 +1,9 @@
+#include <iostream>
+#include <iomanip>
+
 #include "tracerecord.h"
+
+using namespace std;
 
 TraceRecord::TraceRecord()
 {
@@ -12,8 +17,16 @@ void TraceRecord::ReadRecord(CDMSRawFileStream* filePtr, int RecordLength, bool 
 
     while(filePtr->Tell() < endPos)
     {
+        cout << "Location before Reading Trace Header " << filePtr->Tell() << endl;
+
         int32_t TraceHeader[2];
-        filePtr->ReadWords(2*sizeof(int32_t)*2, TraceHeader);
+        filePtr->ReadWords(sizeof(int32_t)*2, TraceHeader);
+
+        if(debug)
+        {
+            cout << "Trace Header = 0x" << setbase(16) << TraceHeader[0] << endl;
+            cout << "Trace Length Value = " << setbase(10) << TraceHeader[1] << endl;
+        }
 
         // Record of No length
         if(TraceHeader[1] == 0)
@@ -24,14 +37,16 @@ void TraceRecord::ReadRecord(CDMSRawFileStream* filePtr, int RecordLength, bool 
         // Bookkeeping Record
         if(TraceHeader[0] == 0x11)
         {
-            _BookPtr->ReadRecord(filePtr, TraceHeader[1], debug);
+            uint32_t mode;
+            _BookPtr->ReadRecord(filePtr, TraceHeader[1], mode, debug);
             continue;
         }
 
         // Timebase Record
         if(TraceHeader[0] == 0x12)
         {
-            _TimePtr->ReadRecord(filePtr, TraceHeader[1], debug);
+            uint32_t mode;
+            _TimePtr->ReadRecord(filePtr, TraceHeader[1], mode, debug);
             continue;
         }
 
@@ -39,9 +54,19 @@ void TraceRecord::ReadRecord(CDMSRawFileStream* filePtr, int RecordLength, bool 
         if(TraceHeader[0] == 0x13)
         {
             int nSamples = TraceHeader[1];
-            _Trace[nSamples];
-            filePtr->ReadWords(nSamples*2, _Trace);
-            continue;
+
+            uint16_t TempArray[nSamples];
+
+            cout << "Trace Start = " << filePtr->Tell() << endl;
+            filePtr->ReadWords(nSamples*2, TempArray);
+            cout << "Trace Finish = " << filePtr->Tell() << endl;
+
+            for(int i=0; i<nSamples; i++)
+            {
+                _Trace.push_back(TempArray[i]);
+            }
+
+            break;
         }
 
         cout << "Found unexpected trace header" << endl;

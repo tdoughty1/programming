@@ -1,41 +1,54 @@
 #include <iostream>
 #include <iomanip>
-#include <cstdlib>
-#include <string>
-#include <typeinfo>
-#include <stdint.h>
-#include <time.h>
-#include <zlib.h>
+
 #include "histsubrecord.h"
 
+using namespace std;
+
 // Primary Function Call for data record
-void HistSubRecord::ReadRecord(int32_t* Record, int index, bool debug=false)
+void HistSubRecord::ReadRecord(CDMSRawFileStream* filePtr, bool debug=false)
 {
-    int start;
-
     // Get number of times stored
-    _nTimes = Record[index];
-    index++;
+    int32_t nT[1];
+    filePtr->ReadWords(4, nT);
+    _nTimes = nT[0];
 
-    // Store number of times
-    for(int i=0; i < _nTimes; i++)
+    /////////////////////////////////////////////////////
+    // Store times
+    /////////////////////////////////////////////////////
+    int32_t tempTArray[_nTimes];
+    filePtr->ReadWords(_nTimes*4, tempTArray);
+
+    for(int i=0; i<_nTimes; i++)
     {
-        _Times[i] = Record[index];
-        index++;
+        _Times.push_back(tempTArray[i]);
     }
 
     // Get number of masks stored
-    _nMasks = Record[index];
-    index++;
+    int32_t nM[1];
+    filePtr->ReadWords(4, nM);
+    _nMasks = nM[0];
 
-    // Store all masks for all times
+    /////////////////////////////////////////////////////
+    // Store all masks for each time
+    /////////////////////////////////////////////////////
+
+    // Define temporary array and vector for convenience
+    uint32_t tempMArray[_nMasks];
+    vector<uint32_t> tempVec;
+
     for(int i=0; i < _nTimes; i++)
     {
-        for(int j=0; i < _nMasks; i++)
+        // Get array of Masks
+        filePtr->ReadWords(_nMasks*4, tempMArray);
+
+        // Store Masks in a vector
+        for(int j=0; j < _nMasks; j++)
         {
-            _Masks[i][j] = Record[index];
-            index++;
+            tempVec.push_back(tempMArray[j]);
         }
+        _Masks.push_back(tempVec);
+        tempVec.clear();
     }
 }
 
@@ -43,11 +56,11 @@ void HistSubRecord::PrintValues()
 {
     for(int i=0; i < _nTimes; i++)
     {
-        cout << "time " << (i+1) << " = " << _Times[i] << endl;
+        cout << "time " << setbase(10) << (i+1) << " = " << _Times[i] << endl;
 
         for(int j=0; j < _nMasks; j++)
         {
-            cout << "time " << (i+1) << " - mask " << (j+1);
+            cout << "time " << setbase(10) << (i+1) << " - mask " << (j+1);
             cout << " = 0x" << setbase(16) << _Masks[i][j] << endl;
         }
     }

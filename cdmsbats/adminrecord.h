@@ -13,18 +13,20 @@ class AdminRecord : public DataRecord
         /** Default destructor */
         virtual ~AdminRecord(){};
 
-        void StoreValues(int32_t*);
+        void StoreValues(int32_t*){};
+
+        void StoreValues(uint32_t*);
 
         void PrintValues();
 
     protected:
     private:
 
-        int _SeriesNumber;
-        int _EventNumber;
-        int _EventTime;
-        int _LiveTime;
-        int _TimeSince;
+        uint64_t _SeriesNumber;
+        uint32_t _EventNumber;
+        uint32_t _EventTime;
+        uint32_t _LiveTime;
+        uint32_t _TimeSince;
 };
 
 #endif // ADMINRECORD_H

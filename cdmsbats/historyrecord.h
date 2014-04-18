@@ -14,7 +14,11 @@ class HistoryRecord : public DataRecord
         /** Default destructor */
         virtual ~HistoryRecord(){};
 
-        void StoreValues(int32_t*);
+        void ReadRecord(CDMSRawFileStream*, int, bool);
+
+        void StoreValues(int32_t*){};
+
+        void StoreValues(uint32_t*){};
 
         void PrintValues();
 

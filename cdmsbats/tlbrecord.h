@@ -1,6 +1,8 @@
 #ifndef TLBRECORD_H
 #define TLBRECORD_H
 
+#include <vector>
+
 #include "datarecord.h"
 
 
@@ -13,14 +15,15 @@ class TLBRecord : public DataRecord
         /** Default destructor */
         virtual ~TLBRecord(){};
 
-        void StoreValues(int32_t*);
+        void StoreValues(int32_t*){};
+
+        void StoreValues(uint32_t*);
 
         void PrintValues();
 
     protected:
     private:
-        int32_t _TriggerTime;
-        int32_t _TriggerMask[6];
+        vector<int32_t> _TriggerMask;
 };
 
 #endif // TLBRECORD_H

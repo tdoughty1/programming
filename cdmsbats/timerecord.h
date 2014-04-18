@@ -13,15 +13,17 @@ class TimeRecord : public DataRecord
         /** Default destructor */
         virtual ~TimeRecord(){};
 
-        void StoreValues(int32_t*);
+        void StoreValues(int32_t*){};
+
+        void StoreValues(uint32_t*);
 
         void PrintValues();
 
     protected:
     private:
 
-        int _t0;
-        int _deltat;
+        float _t0;
+        float _deltat;
         int _N;
 };
 

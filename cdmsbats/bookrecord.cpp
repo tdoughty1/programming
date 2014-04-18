@@ -1,4 +1,9 @@
+#include <iostream>
+#include <iomanip>
+
 #include "bookrecord.h"
+
+using namespace std;
 
 BookRecord::BookRecord()
 {
@@ -7,7 +12,7 @@ BookRecord::BookRecord()
     _detCode = NULL;
 }
 
-void BookRecord::StoreValues(int32_t* Record)
+void BookRecord::StoreValues(uint32_t* Record)
 {
     _digBaseAddress = Record[0];
     _digChannel = Record[1];
@@ -17,6 +22,6 @@ void BookRecord::StoreValues(int32_t* Record)
 void BookRecord::PrintValues()
 {
     cout << "Digitizer Base Address = 0x" << setbase(16) << _digBaseAddress << endl;
-    cout << "Digitizer Channel = " << _digChannel << endl;
-    cout << "Detector Code = " << _detCode << endl;
+    cout << "Digitizer Channel = " << setbase(10) << _digChannel << endl;
+    cout << "Detector Code = " << setbase(10) << _detCode << endl;
 }

@@ -1,4 +1,9 @@
+#include <iostream>
+#include <iomanip>
+
 #include "eventrecord.h"
+
+using namespace std;
 
 EventRecord::EventRecord()
 {
@@ -19,10 +24,12 @@ void EventRecord::ReadRecord(CDMSRawFileStream* filePtr, int RecordLength, bool 
         int32_t LogicalHeader[2];
         filePtr->ReadWords(2*sizeof(int32_t), LogicalHeader);
 
+        cout << "Location after Reading Logical Header = " << setbase(10) << filePtr->Tell() << endl;
+
         if(debug)
         {
             cout << "Logical Header = 0x" << setbase(16) << LogicalHeader[0] << endl;
-            cout << "Logical Record Length = " << LogicalHeader[1] << endl;
+            cout << "Logical Record Length = " << setbase(10) << LogicalHeader[1] << endl;
         }
 
         if(LogicalHeader[1] == 0)
@@ -36,25 +43,29 @@ void EventRecord::ReadRecord(CDMSRawFileStream* filePtr, int RecordLength, bool 
 
         if(LogicalHeader[0] == 0x2)
         {
-            _AdminPtr->ReadRecord(filePtr, LogicalHeader[1], debug);
+            uint32_t mode;
+            _AdminPtr->ReadRecord(filePtr, LogicalHeader[1], mode, debug);
             continue;
         }
 
         if(LogicalHeader[0] == 0x80)
         {
-            _TriggerPtr->ReadRecord(filePtr, LogicalHeader[1], debug);
+            uint32_t mode;
+            _TriggerPtr->ReadRecord(filePtr, LogicalHeader[1], mode, debug);
             continue;
         }
 
         if(LogicalHeader[0] == 0x81)
         {
-            _TLBPtr->ReadRecord(filePtr, LogicalHeader[1], debug);
+            uint32_t mode;
+            _TLBPtr->ReadRecord(filePtr, LogicalHeader[1], mode, debug);
             continue;
         }
 
         if(LogicalHeader[0] == 0x60)
         {
-            _GPSPtr->ReadRecord(filePtr, LogicalHeader[1], debug);
+            uint32_t mode;
+            _GPSPtr->ReadRecord(filePtr, LogicalHeader[1], mode, debug);
             continue;
         }
 

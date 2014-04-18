@@ -14,19 +14,21 @@ class HistSubRecord : public DataRecord
         /** Default destructor */
         virtual ~HistSubRecord(){};
 
-        void ReadRecord(int32_t*, int, bool);
+        void ReadRecord(CDMSRawFileStream*, bool);
 
         void StoreValues(int32_t*){};
+
+        void StoreValues(uint32_t*){};
 
         void PrintValues();
 
     protected:
     private:
 
-        vector< vector<uint32_t>> _Masks;
-        vector<uint32_t> _Times;
-        int _nMasks;
-        int _nTimes;
+        vector< vector<uint32_t> > _Masks;
+        vector<int32_t> _Times;
+        int32_t _nMasks;
+        int32_t _nTimes;
 };
 
 #endif // HISTSUBRECORD_H

@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 
 #include "detectorconfigrecord.h"
 #include "phononchanrecord.h"
@@ -37,14 +38,16 @@ void DetectorConfigRecord::ReadRecord(CDMSRawFileStream* filePtr, int RecordLeng
         // Bookkeeping Record
         if(ChanHeader[0] == 0x10001)
         {
-            _pChanPtr->ReadRecord(filePtr, ChanHeader[1], debug);
+            int32_t mode;
+            _pChanPtr->ReadRecord(filePtr, ChanHeader[1], mode, debug);
             continue;
         }
 
         // Timebase Record
         if(ChanHeader[0] == 0x10002)
         {
-            _qChanPtr->ReadRecord(filePtr, ChanHeader[1], debug);
+            int32_t mode;
+            _qChanPtr->ReadRecord(filePtr, ChanHeader[1], mode, debug);
             continue;
         }
 

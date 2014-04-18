@@ -1,4 +1,8 @@
+#include <iostream>
+
 #include "adminrecord.h"
+
+using namespace std;
 
 AdminRecord::AdminRecord()
 {
@@ -9,7 +13,7 @@ AdminRecord::AdminRecord()
     _TimeSince = NULL;
 }
 
-void AdminRecord::StoreValues(int32_t* Record)
+void AdminRecord::StoreValues(uint32_t* Record)
 {
     _SeriesNumber = Record[0]*1e4 + Record[1];
     _EventNumber = Record[2];
