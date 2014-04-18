@@ -23,18 +23,22 @@ class DetectorConfigRecord(DataRecord):
         while filePtr.Tell() < endPos:
             ChanHeader = filePtr.ReadWords(4*2)
 
+            if(debug):
+                print "Channel Header = 0x%x" % ChanHeader[0]
+                print "Channel Length = %d" % ChanHeader[1]
+
             # Record of No length
             if ChanHeader[1] == 0:
                 continue
 
             # Bookkeeping Record
             if ChanHeader[0] == 0x10001:
-                self._pChanPtr.ReadRecord(filePtr, ChanHeader[1], mode, debug)
+                self._pChanPtr.ReadRecord(filePtr, ChanHeader[1], 'int32', debug)
                 continue
 
             # Timebase Record
             if ChanHeader[0] == 0x10002:
-                self._qChanPtr.ReadRecord(filePtr, ChanHeader[1], mode, debug)
+                self._qChanPtr.ReadRecord(filePtr, ChanHeader[1], 'int32', debug)
                 continue
 
             print "Found unexpected trace header"
