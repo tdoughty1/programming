@@ -36,7 +36,7 @@ class ChargeChanRecord(DataRecord):
 
         print "Detector Code = %d" % self._detCode
         print "Tower Number = %d" % self._towerNum
-        print "Driver Gain = %d" % self._driverGain
+        print "Driver Gain = %3.1f" % self._driverGain
         print "Channel Bias = %5.3f V" % self._chanBias
         print "RTF Offset = %5.3f V" % self._rtfOffset
         print "Delta T = %4.2f us" % self._deltat
