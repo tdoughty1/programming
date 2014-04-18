@@ -25,6 +25,10 @@ class TraceRecord(DataRecord):
         while filePtr.Tell() < endPos:
             TraceHeader = filePtr.ReadWords(4*2)
 
+            if debug:
+                print "Trace Header = 0x%x" % TraceHeader[0]
+                print "Trace Length Value = %d" % TraceHeader[1]
+
             # Record of No length
             if TraceHeader[1] == 0:
                 continue
