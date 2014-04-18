@@ -26,4 +26,4 @@ class BookRecord(DataRecord):
 
         print "Digitizer Base Address = 0x%x" % self._digBaseAddress
         print "Digitizer Channel = %d" % self._digChannel
-        print "DetCode = %d" % self._detCode
+        print "Detector Code = %d" % self._detCode
