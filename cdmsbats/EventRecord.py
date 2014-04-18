@@ -38,7 +38,8 @@ class EventRecord(DataRecord):
                 print "Logical Record Length = %d" % LogicalHeader[1]
 
             if LogicalHeader[1] == 0:
-                #print "Skipping Empty Record 0x%x" % LogicalHeader[0]
+                if debug:
+                    print "Skipping Empty Record 0x%x" % LogicalHeader[0]
                 continue
 
             if LogicalHeader[0] == 0x2:
