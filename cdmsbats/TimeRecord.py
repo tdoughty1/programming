@@ -25,6 +25,6 @@ class TimeRecord(DataRecord):
 
     def PrintValues(self):
 
-        print "t0 = %6.2f us" % (float(self._t0)/1000)
-        print u'\u0394t =  %3.2f us' % (float(self._deltat)/1000)
-        print "Number of Points = %d" % self._N
+        print "Start Time = %5.1f us" % (float(self._t0)/1000)
+        print "Delta Time = %3.1f us" % (float(self._deltat)/1000)
+        print "Number of Samples = %d" % self._N
