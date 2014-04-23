@@ -46,6 +46,11 @@ class TraceRecord(DataRecord):
             if TraceHeader[0] == 0x13:
                 nSamples = TraceHeader[1]
                 self._Trace = filePtr.ReadWords(nSamples/2*4, 'H')
+
+                if debug:
+                    print "First Element of Trace = %d" % self._Trace[0]
+                    print "Second Element of Trace = %d" % self._Trace[1]
+
                 continue
 
             print "Found unexpected trace header"
