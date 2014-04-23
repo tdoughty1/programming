@@ -24,8 +24,6 @@ void EventRecord::ReadRecord(CDMSRawFileStream* filePtr, int RecordLength, bool 
         int32_t LogicalHeader[2];
         filePtr->ReadWords(2*sizeof(int32_t), LogicalHeader);
 
-        cout << "Location after Reading Logical Header = " << setbase(10) << filePtr->Tell() << endl;
-
         if(debug)
         {
             cout << "Logical Header = 0x" << setbase(16) << LogicalHeader[0] << endl;
