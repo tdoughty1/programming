@@ -42,7 +42,7 @@ class PhononChanRecord(DataRecord):
 
         print "Detector Code = %d" % self._detCode
         print "Tower Number = %d" % self._towerNum
-        print "Driver Gain = %4.1f" % self._driverGain
+        print "Driver Gain = %3.1f" % self._driverGain
         print "QET Bias = %6.2f pA" % self._qetBias
         print "SQUID Bias = %6.2f pA" % self._squidBias
         print "SQUID Lock Point = %4.2f uV" % self._lockPoint
