@@ -31,12 +31,12 @@ class DetectorConfigRecord(DataRecord):
             if ChanHeader[1] == 0:
                 continue
 
-            # Bookkeeping Record
+            # Phonon Record Record
             if ChanHeader[0] == 0x10001:
                 self._pChanPtr.ReadRecord(filePtr, ChanHeader[1], 'int32', debug)
                 continue
 
-            # Timebase Record
+            # Charge Record
             if ChanHeader[0] == 0x10002:
                 self._qChanPtr.ReadRecord(filePtr, ChanHeader[1], 'int32', debug)
                 continue
