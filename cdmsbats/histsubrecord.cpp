@@ -18,10 +18,11 @@ void HistSubRecord::ReadRecord(CDMSRawFileStream* filePtr, bool debug=false)
     /////////////////////////////////////////////////////
     int32_t tempTArray[_nTimes];
     filePtr->ReadWords(_nTimes*4, tempTArray);
+    _Times.resize(_nTimes);
 
     for(int i=0; i<_nTimes; i++)
     {
-        _Times.push_back(tempTArray[i]);
+        _Times.at(i) = tempTArray[i];
     }
 
     // Get number of masks stored
