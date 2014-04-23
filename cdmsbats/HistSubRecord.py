@@ -25,7 +25,7 @@ class HistSubRecord(DataRecord):
         index += 1
 
         # Store number of times
-        start = index + 1
+        start = index
         end = start + nTimes
         self._Times = copy(Record[start:end])
         index += nTimes
