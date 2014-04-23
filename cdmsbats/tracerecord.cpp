@@ -17,8 +17,6 @@ void TraceRecord::ReadRecord(CDMSRawFileStream* filePtr, int RecordLength, bool 
 
     while(filePtr->Tell() < endPos)
     {
-        cout << "Location before Reading Trace Header " << filePtr->Tell() << endl;
-
         int32_t TraceHeader[2];
         filePtr->ReadWords(sizeof(int32_t)*2, TraceHeader);
 
@@ -55,18 +53,25 @@ void TraceRecord::ReadRecord(CDMSRawFileStream* filePtr, int RecordLength, bool 
         {
             int nSamples = TraceHeader[1];
 
-            uint16_t TempArray[nSamples];
+            // Try First Method
+            _Trace.clear();
+            _Trace.resize(nSamples);
 
-            cout << "Trace Start = " << filePtr->Tell() << endl;
+            uint16_t TempArray[nSamples];
             filePtr->ReadWords(nSamples*2, TempArray);
-            cout << "Trace Finish = " << filePtr->Tell() << endl;
 
             for(int i=0; i<nSamples; i++)
             {
-                _Trace.push_back(TempArray[i]);
+                _Trace.at(i) = TempArray[i];
             }
 
-            break;
+            if(debug)
+            {
+                cout << "First Element of Trace = " << _Trace.at(0) << endl;
+                cout << "Second Element of Trace = " << _Trace.at(1) << endl;
+            }
+
+            continue;
         }
 
         cout << "Found unexpected trace header" << endl;
