@@ -1,0 +1,11 @@
+# Ignore Eclipse generated files and folders
+.settings
+.classpath
+.project
+
+# Ignore compiled files
+bin
+
+# Ignore unix generated files
+*~
+#*#
