@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="cdmsbats" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/cdmsbats" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/cdmsbats" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+		</Compiler>
+		<Unit filename="FileReader.cpp" />
+		<Unit filename="adminrecord.cpp" />
+		<Unit filename="adminrecord.h" />
+		<Unit filename="bookrecord.cpp" />
+		<Unit filename="bookrecord.h" />
+		<Unit filename="cdmsrawfilestream.cpp" />
+		<Unit filename="cdmsrawfilestream.h" />
+		<Unit filename="chargechanrecord.cpp" />
+		<Unit filename="chargechanrecord.h" />
+		<Unit filename="datarecord.cpp" />
+		<Unit filename="datarecord.h" />
+		<Unit filename="detectorconfigrecord.cpp" />
+		<Unit filename="detectorconfigrecord.h" />
+		<Unit filename="eventrecord.cpp" />
+		<Unit filename="eventrecord.h" />
+		<Unit filename="gpsrecord.cpp" />
+		<Unit filename="gpsrecord.h" />
+		<Unit filename="historyrecord.cpp" />
+		<Unit filename="historyrecord.h" />
+		<Unit filename="histsubrecord.cpp" />
+		<Unit filename="histsubrecord.h" />
+		<Unit filename="phononchanrecord.cpp" />
+		<Unit filename="phononchanrecord.h" />
+		<Unit filename="timerecord.cpp" />
+		<Unit filename="timerecord.h" />
+		<Unit filename="tlbrecord.cpp" />
+		<Unit filename="tlbrecord.h" />
+		<Unit filename="tracerecord.cpp" />
+		<Unit filename="tracerecord.h" />
+		<Unit filename="triggerrecord.cpp" />
+		<Unit filename="triggerrecord.h" />
+		<Extensions>
+			<envvars />
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
