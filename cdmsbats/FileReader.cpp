@@ -61,7 +61,7 @@ int main()
         fgzRawDataPtr->ReadWords(nread*sizeof(uint32_t), EventHeader);
         if(debug)
         {
-            cout << "Loading Event Number " << nEvent << endl;
+            cout << setbase(10) << "Loading Event Number " << nEvent << endl;
             cout << setbase(16) << "Event Header = 0x" << EventHeader[0] << endl;
             cout << setbase(10) << "Event Record Length = " << EventHeader[1] << endl;
         }
