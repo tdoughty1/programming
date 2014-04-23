@@ -47,7 +47,7 @@ class EventRecord(DataRecord):
                 continue
 
             if LogicalHeader[0] == 0x80:
-                self._TriggerPtr.ReadRecord(filePtr, LogicalHeader[1], debug=debug)
+                self._TriggerPtr.ReadRecord(filePtr, LogicalHeader[1], 'uint32', debug=debug)
                 continue
 
             if LogicalHeader[0] == 0x81:
