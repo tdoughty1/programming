@@ -1,3 +1,5 @@
+module Sorts
+
 function mergesort(array_in)
 
     n = length(array_in)
@@ -51,4 +53,6 @@ function qmerge(array1, array2)
             k += 1
         end
     end
+end
+
 end
