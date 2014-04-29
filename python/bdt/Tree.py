@@ -19,42 +19,40 @@ class Tree(object):
     Counter = 0
     Objects = []
 
-    def __init__(self, df, level=0, debug=False, plots=False, side='top'):
+    def __init__(self, df, level=0, debug=False, plots=False, parent=None,
+                 side='Top'):
 
+        # Add to Tree Class Counter
         Tree.Counter += 1
         Tree.Objects.append(self)
 
+        # Include links to Parent Node and Child Nodes
         self.left = None
         self.right = None
+        self.parent = parent
+
+        # Store data and convenient info
         self.df = df
         self._nEv = len(df)
-        self._level = level + 1
-        self._side = side
-
         self._cSig = df['Class'] == 1
         self._cBgd = df['Class'] == 0
-
-        if len(self._cSig) != self._nEv:
-            print 'Unexpected Signal Cut Length: %d' % len(self._cSig)
-            exit(1)
-        if len(self._cBgd) != self._nEv:
-            print 'Unexpected Signal Cut Length: %d' % len(self._cBgd)
-            exit(1)
-
         self._nSig = sum(self._cSig)
         self._nBgd = sum(self._cBgd)
 
-        if debug:
-            print "Events in Tree = ", (self._nEv)
+        # Store Tree Info
+        self._level = level
+        self._side = side
 
-        if (self._nSig + self._nBgd) != self._nEv:
-            print "Unexpected Event Numbers"
-            print "Signal = ", self._nSig
-            print "Background = ", self._nBgd
-            exit(1)
-
+        # Store Purity/Gini Information
         self._Purity = float(self._nSig)/(self._nSig+self._nBgd)
         self._Gini = self._Purity*(1-self._Purity)
+        self._Info = self._nEv*self._Gini
+
+        # If not the root node, store changes
+        if self.parent is not None:
+            self._PurityGain = self._Purity - self.parent._Purity
+            self._GiniGain = self._Gini - self.parent._Gini
+            self._InfoGain = self.parent._Info - self._Info
 
         if self._nSig > 0 and self._nBgd > 0:
 
@@ -66,8 +64,10 @@ class Tree(object):
                 print "Filling Left Tree with %d events" % sum(cc)
                 print "Filling Right Tree with %d events" % sum(~cc)
 
-            self.left = Tree(self.df[cc], level=self._level, debug=debug, plots=plots, side='left')
-            self.right = Tree(self.df[~cc], level=self._level, debug=debug, plots=plots, side='right')
+            self.left = Tree(self.df[cc], level=self._level, parent=self,
+                             debug=debug, plots=plots, side='left')
+            self.right = Tree(self.df[~cc], level=self._level, parent=self,
+                              debug=debug, plots=plots, side='right')
 
     def FindCut(self, plots=False, debug=False):
 
@@ -128,16 +128,22 @@ class Tree(object):
                 if plots and Tree.Counter == 1:
 
                     f, axarr = plt.subplots(2, sharex=True)
-                    bs = axarr[0].scatter(self.df[var][self._cSig], self.df['Rand'][self._cSig], color='b', marker='.')
-                    gs = axarr[0].scatter(self.df[var][self._cBgd], self.df['Rand'][self._cBgd], color='g', marker='.')
+                    bs = axarr[0].scatter(self.df[var][self._cSig],
+                                          self.df['Rand'][self._cSig],
+                                          color='b', marker='.')
+                    gs = axarr[0].scatter(self.df[var][self._cBgd],
+                                          self.df['Rand'][self._cBgd],
+                                          color='g', marker='.')
                     axarr[0].set_xlim(min(cutVals), max(cutVals))
                     xax = axarr[0].get_xlim()
                     rl, = axarr[0].plot([cutVal]*2, [0, 1], 'r-')
-                    axarr[0].set_title('Cutting on %s\nSeperation Gain = %.2f' % (var, val))
+                    axarr[0].set_title('Cutting on %s\nSeperation Gain = %.2f'
+                                       % (var, val))
                     axarr[0].set_ylabel('Random Variable')
-                    axarr[0].legend((bs, gs, rl), ('Signal', 'Background', 'Current Cut'), loc='right')
+                    axarr[0].legend((bs, gs, rl), ('Signal', 'Background',
+                                                   'Current Cut'), loc='right')
 
-                    axarr[1].plot(cutVals[0:len(SG)],SG,'r-')
+                    axarr[1].plot(cutVals[0:len(SG)], SG, 'r-')
                     axarr[1].set_xlim(xax)
                     axarr[1].set_ylabel('Seperation Gain')
                     axarr[1].set_xlabel(var)
@@ -152,14 +158,21 @@ class Tree(object):
 
             if plots and Tree.Counter == 1:
                 f, axarr = plt.subplots(2, sharex=True)
-                bs = axarr[0].scatter(self.df[var][self._cSig], self.df['Rand'][self._cSig], color='b', marker='.')
-                gs = axarr[0].scatter(self.df[var][self._cBgd], self.df['Rand'][self._cBgd], color='g', marker='.')
+                bs = axarr[0].scatter(self.df[var][self._cSig],
+                                      self.df['Rand'][self._cSig],
+                                      color='b', marker='.')
+                gs = axarr[0].scatter(self.df[var][self._cBgd],
+                                      self.df['Rand'][self._cBgd],
+                                      color='g', marker='.')
                 axarr[0].set_xlim(min(cutVals), max(cutVals))
                 xax = axarr[0].get_xlim()
-                rl, = axarr[0].plot([cutVals[np.argmax(SG)]]*2, [0, 1], 'r-', label='Best Cut')
-                axarr[0].set_title('Cutting on %s\nSeperation Gain = %.2f' % (var, max(SG)))
+                rl, = axarr[0].plot([cutVals[np.argmax(SG)]]*2, [0, 1],
+                                    'r-', label='Best Cut')
+                axarr[0].set_title('Cutting on %s\nSeperation Gain = %.2f'
+                                   % (var, max(SG)))
                 axarr[0].set_ylabel('Random Variable')
-                axarr[0].legend((bs, gs, rl), ('Signal', 'Background', 'Best Cut'), loc='right')
+                axarr[0].legend((bs, gs, rl), ('Signal', 'Background',
+                                               'Best Cut'), loc='right')
 
                 axarr[1].plot(cutVals, SG, 'r-')
                 axarr[1].set_xlim(xax)
@@ -188,9 +201,12 @@ class Tree(object):
     def PrintTree(self):
 
         if self._level == 1:
-            print "Root Tree has %d events: %d Signal, %d Background" % (self._nEv, self._nSig, self._nBgd)
+            print "Root Tree has %d events: %d Signal, %d Background" \
+                % (self._nEv, self._nSig, self._nBgd)
         else:
-            print "Tree on the %s of level %d has %d events:  %d Signal, %d Background" % (self._side, self._level, self._nEv, self._nSig, self._nBgd)
+            print "Tree on the %s of level %d has %d events:  %d Signal, " \
+                "%d Background" % (self._side, self._level, self._nEv,
+                                   self._nSig, self._nBgd)
 
         if self.left is not None:
             self.left.PrintTree()
@@ -223,13 +239,20 @@ class Tree(object):
 
                 # If its a signal leaf fill blue
                 if node._nSig > node._nBgd:
-                    PlotNodes.append((pydot.Node("%d, B=%d, S=%d" % (i, node._nBgd, node._nSig), style="filled", fillcolor="blue"), node))
+                    PlotNodes.append((pydot.Node("%d, B=%d, S=%d" %
+                                                 (i, node._nBgd, node._nSig),
+                                                 style="filled",
+                                                 fillcolor="blue"), node))
                 # Otherwise fill green
                 else:
-                    PlotNodes.append((pydot.Node("%d, B=%d, S=%d" % (i, node._nBgd, node._nSig), style="filled", fillcolor="green"), node))
+                    PlotNodes.append((pydot.Node("%d, B=%d, S=%d" %
+                                                 (i, node._nBgd, node._nSig),
+                                                 style="filled",
+                                                 fillcolor="green"), node))
 
             # Otherwise no fill
-            PlotNodes.append((pydot.Node("%d, B=%d, S=%d" % (i, node._nBgd, node._nSig)), node))
+            PlotNodes.append((pydot.Node("%d, B=%d, S=%d" %
+                                         (i, node._nBgd, node._nSig)), node))
 
         #ok, now we add the nodes to the graph
         for gnode in PlotNodes:
@@ -246,7 +269,7 @@ class Tree(object):
                 graphnodeL = None
                 graphnodeR = None
 
-                # Loop treenodes to find connecting graph node of left and right treenodes
+                # Loop treenodes to find connecting graph nodes (L & R)
                 for node2 in PlotNodes:
                     if node2[1] is treenode.left:
                         graphnodeL = node2[0]
