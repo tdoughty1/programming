@@ -1,0 +1,5 @@
+# Codeblocks compiling organization
+bin
+obj
+*.depend
+*.layout
