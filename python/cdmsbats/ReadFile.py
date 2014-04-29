@@ -43,7 +43,7 @@ DetectorConfigPtr.ReadRecord(fgzRawDataPtr, ConfigHeader[1], 'uint32', debug)
 ###############################################################################
 # Loop through Events
 ###############################################################################
-'''
+
 nEvent = 0
 while nEvent < 500:
 
@@ -56,7 +56,7 @@ while nEvent < 500:
         print "Event Record Length = %d" % EventHeader[1]
 
     EventPtr.ReadRecord(fgzRawDataPtr, EventHeader[1], 'int32', debug)
-'''
+
 endTime = datetime.now()
 
 timeDiff = endTime-startTime
