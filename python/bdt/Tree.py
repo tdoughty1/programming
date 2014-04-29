@@ -9,6 +9,7 @@ import numpy as np
 import matplotlib.pylab as plt
 from operator import xor
 import warnings
+import pydot
 
 warnings.filterwarnings("ignore", category=DeprecationWarning, module="pandas")
 
@@ -127,14 +128,14 @@ class Tree(object):
                 if plots and Tree.Counter == 1:
 
                     f, axarr = plt.subplots(2, sharex=True)
-                    axarr[0].plot(self.df[var][self._cSig], self.df['Rand'][self._cSig], 'b.', label='Signal')
-                    axarr[0].plot(self.df[var][self._cBgd], self.df['Rand'][self._cBgd], 'g.', label='Background')
+                    bs = axarr[0].scatter(self.df[var][self._cSig], self.df['Rand'][self._cSig], color='b', marker='.')
+                    gs = axarr[0].scatter(self.df[var][self._cBgd], self.df['Rand'][self._cBgd], color='g', marker='.')
                     axarr[0].set_xlim(min(cutVals), max(cutVals))
                     xax = axarr[0].get_xlim()
-                    axarr[0].plot([cutVal]*2, [0, 1], 'r-', label='Current Cut')
+                    rl, = axarr[0].plot([cutVal]*2, [0, 1], 'r-')
                     axarr[0].set_title('Cutting on %s\nSeperation Gain = %.2f' % (var, val))
                     axarr[0].set_ylabel('Random Variable')
-                    axarr[0].legend(loc='right')
+                    axarr[0].legend((bs, gs, rl), ('Signal', 'Background', 'Current Cut'), loc='right')
 
                     axarr[1].plot(cutVals[0:len(SG)],SG,'r-')
                     axarr[1].set_xlim(xax)
@@ -151,14 +152,14 @@ class Tree(object):
 
             if plots and Tree.Counter == 1:
                 f, axarr = plt.subplots(2, sharex=True)
-                axarr[0].plot(self.df[var][self._cSig], self.df['Rand'][self._cSig], 'b.', label='Signal')
-                axarr[0].plot(self.df[var][self._cBgd], self.df['Rand'][self._cBgd], 'g.', label='Background')
+                bs = axarr[0].scatter(self.df[var][self._cSig], self.df['Rand'][self._cSig], color='b', marker='.')
+                gs = axarr[0].scatter(self.df[var][self._cBgd], self.df['Rand'][self._cBgd], color='g', marker='.')
                 axarr[0].set_xlim(min(cutVals), max(cutVals))
                 xax = axarr[0].get_xlim()
-                axarr[0].plot([cutVals[np.argmax(SG)]]*2, [0, 1], 'r-', label='Best Cut')
+                rl, = axarr[0].plot([cutVals[np.argmax(SG)]]*2, [0, 1], 'r-', label='Best Cut')
                 axarr[0].set_title('Cutting on %s\nSeperation Gain = %.2f' % (var, max(SG)))
                 axarr[0].set_ylabel('Random Variable')
-                axarr[0].legend(loc='right')
+                axarr[0].legend((bs, gs, rl), ('Signal', 'Background', 'Best Cut'), loc='right')
 
                 axarr[1].plot(cutVals, SG, 'r-')
                 axarr[1].set_xlim(xax)
@@ -206,3 +207,45 @@ class Tree(object):
             return True
 
         return self.left.CheckTree() and self.right.CheckTree()
+
+    def PlotTree(self):
+
+        graph = pydot.Dot(graph_type='digraph')
+
+        PlotNodes = []
+
+        i = 0
+        for node in Tree.Objects:
+            i += 1
+            PlotNodes.append((pydot.Node("%d, B=%d, S=%d" % (i, node._nBgd, node._nSig)), node))
+
+        #ok, now we add the nodes to the graph
+        for gnode in PlotNodes:
+            graph.add_node(gnode[0])
+
+        for node in PlotNodes:
+
+            treenode = node[1]
+            graphnode1 = node[0]
+
+            # If not a final node
+            if treenode.left is not None:
+
+                graphnodeL = None
+                graphnodeR = None
+
+                # Loop treenodes to find connecting graph node of left and right treenodes
+                for node2 in PlotNodes:
+                    if node2[1] is treenode.left:
+                        graphnodeL = node2[0]
+                    if node2[1] is treenode.right:
+                        graphnodeR = node2[0]
+
+                if graphnodeL is None or graphnodeR is None:
+                    print "Error finding nodes"
+                    exit()
+                else:
+                    graph.add_edge(pydot.Edge(graphnode1, graphnodeL))
+                    graph.add_edge(pydot.Edge(graphnode1, graphnodeR))
+
+        graph.write_png('figs/treegraph.png')
