@@ -56,7 +56,7 @@ class Tree(object):
         self._Purity = float(self._nSig)/(self._nSig+self._nBgd)
         self._Gini = self._Purity*(1-self._Purity)
 
-        if self._nSig > 1 and self._nBgd > 1:
+        if self._nSig > 0 and self._nBgd > 0:
 
             cutSet = self.FindCut(plots=plots, debug=debug)
             cc = df[cutSet[0]] < cutSet[1]
@@ -208,7 +208,7 @@ class Tree(object):
 
         return self.left.CheckTree() and self.right.CheckTree()
 
-    def PlotTree(self):
+    def GraphTree(self):
 
         graph = pydot.Dot(graph_type='digraph')
 
@@ -217,6 +217,18 @@ class Tree(object):
         i = 0
         for node in Tree.Objects:
             i += 1
+
+            # If node is a end leaf
+            if node.left is None and node.right is None:
+
+                # If its a signal leaf fill blue
+                if node._nSig > node._nBgd:
+                    PlotNodes.append((pydot.Node("%d, B=%d, S=%d" % (i, node._nBgd, node._nSig), style="filled", fillcolor="blue"), node))
+                # Otherwise fill green
+                else:
+                    PlotNodes.append((pydot.Node("%d, B=%d, S=%d" % (i, node._nBgd, node._nSig), style="filled", fillcolor="green"), node))
+
+            # Otherwise no fill
             PlotNodes.append((pydot.Node("%d, B=%d, S=%d" % (i, node._nBgd, node._nSig)), node))
 
         #ok, now we add the nodes to the graph
