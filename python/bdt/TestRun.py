@@ -62,4 +62,4 @@ for i in range(1, 5):
     os.system('convert -delay 10 -loop 0 animation/var%d*.png animation/var%d.gif' % (i, i))
     os.system('rm animation/var%d*.png'  % i)
 
-tree1.PlotTree()
+tree1.GraphTree()
