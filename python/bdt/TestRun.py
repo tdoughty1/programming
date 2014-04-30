@@ -10,7 +10,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.datasets import make_classification
 
-from Tree import Tree
+from TrainingTree import TrainingTree
+from TestingTree import TestingTree
 
 datafile = pd.HDFStore('datafile.h5')
 
@@ -38,6 +39,9 @@ if newdata:
 else:
     df = datafile['df']
 
+df['Training'] = df['Rand'] <= .5
+df['Testing'] = df['Rand'] > .5
+
 for col in df.columns:
 
     if col == 'Rand' or col == 'Class':
@@ -57,13 +61,14 @@ for col in df.columns:
     f.savefig('figs/%s_dist.png' % col)
     plt.close()
 
-tree1 = Tree(df)
+tree1 = TrainingTree(df[df['Training']])
 tree1.AnimateCuts()
 tree1.GraphTree(1)
+tree2 = TestingTree(tree1)
 
 print tree1.ScoreTree()
 
-print "Before pruning, %d nodes" % len(Tree.Objects)
+print "Before pruning, %d nodes" % len(TestingTree.Objects)
 
 i = 1
 while tree1.PruneTree():
@@ -71,6 +76,6 @@ while tree1.PruneTree():
     tree1.GraphTree(i)
     print tree1.ScoreTree()
 
-print "After pruning, %d nodes" % len(Tree.Objects)
+print "After pruning, %d nodes" % len(TestingTree.Objects)
 
-datafile.close
+datafile.close()

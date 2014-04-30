@@ -361,8 +361,8 @@ class TrainingTree(object):
             #If IG from both nodes is less than diff, remove both base nodes
             if ltree._InfoGain + rtree._InfoGain < diff:
                 #print "Pruning Tree #%d & #%d" % (ltree._num, rtree._num)
-                Tree.Objects.remove(ltree)
-                Tree.Objects.remove(rtree)
+                TrainingTree.Objects.remove(ltree)
+                TrainingTree.Objects.remove(rtree)
                 ptree.left = None
                 ptree.right = None
                 return True
@@ -400,3 +400,16 @@ class TrainingTree(object):
 
             return (score_left[0] + score_right[0],
                     score_left[1] + score_right[1])
+
+    def CreateTestingTree(self, other):
+
+        other.right = None
+        other.left = None
+
+        # Base case
+        if self.left is None and self.right is None:
+            return
+        else:
+            self.left.CreateTestingTree(other.left)
+            self.right.CreateTestingTree(other.right)
+            return
