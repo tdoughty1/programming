@@ -17,7 +17,7 @@ warnings.filterwarnings("ignore", category=DeprecationWarning, module="pandas")
 #from memory_profiler import profile
 
 
-class Tree(object):
+class TrainingTree(object):
 
     Counter = 0
     Objects = []
@@ -42,11 +42,11 @@ class Tree(object):
         # Store Tree Info
         self._level = level
         self._side = side
-        self._num = Tree.Counter
+        self._num = TrainingTree.Counter
 
         # Add to Tree Class Counter
-        Tree.Counter += 1
-        Tree.Objects.append(self)
+        TrainingTree.Counter += 1
+        TrainingTree.Objects.append(self)
 
         # Store Purity/Gini Information
         self._Purity = float(self._nSig)/(self._nSig+self._nBgd)
@@ -73,10 +73,12 @@ class Tree(object):
                 print "Filling Left Tree with %d events" % sum(cc)
                 print "Filling Right Tree with %d events" % sum(~cc)
 
-            self.left = Tree(self.df[cc], level=self._level, parent=self,
-                             debug=debug, plots=plots, side='left')
-            self.right = Tree(self.df[~cc], level=self._level, parent=self,
-                              debug=debug, plots=plots, side='right')
+            self.left = TrainingTree(self.df[cc], level=self._level,
+                                     parent=self, debug=debug, plots=plots,
+                                     side='left')
+            self.right = TrainingTree(self.df[~cc], level=self._level,
+                                      parent=self, debug=debug, plots=plots,
+                                      side='right')
 
     #@profile
     def FindCut(self, plots=False, debug=False):
@@ -135,7 +137,7 @@ class Tree(object):
 
                 SG.append(val)
 
-                if plots and Tree.Counter == 1:
+                if plots and TrainingTree.Counter == 1:
                     self.PlotCuts(var, val, cutVals, cutVal, SG, i)
 
                 if val > SeperationGain:
@@ -143,7 +145,7 @@ class Tree(object):
                     Var_Cut = var
                     Val_Cut = cutVal
 
-            if plots and Tree.Counter == 1:
+            if plots and TrainingTree.Counter == 1:
                 self.PlotBestCuts(var, val, cutVals, SG)
 
         cutSet = (Var_Cut, Val_Cut)
@@ -198,7 +200,7 @@ class Tree(object):
 
         PlotNodes = []
 
-        for node in Tree.Objects:
+        for node in TrainingTree.Objects:
 
             # If node is a end leaf
             if node.left is None and node.right is None:
@@ -206,24 +208,28 @@ class Tree(object):
                 # If its a signal leaf fill blue
                 if node._nSig > node._nBgd:
                     PlotNodes.append((pydot.Node("%d, B=%d, S=%d" %
-                                                 (node._num, node._nBgd, node._nSig),
+                                                 (node._num, node._nBgd,
+                                                  node._nSig),
                                                  style="filled",
                                                  fillcolor="blue"), node))
                 # If node its a background leaf fill blue
                 elif node._nSig < node._nBgd:
                     PlotNodes.append((pydot.Node("%d, B=%d, S=%d" %
-                                                 (node._num, node._nBgd, node._nSig),
+                                                 (node._num, node._nBgd,
+                                                  node._nSig),
                                                  style="filled",
                                                  fillcolor="green"), node))
                 # If node its an unknown leaf fill red
                 elif node._nSig == node._nBgd:
                     PlotNodes.append((pydot.Node("%d, B=%d, S=%d" %
-                                                 (node._num, node._nBgd, node._nSig),
+                                                 (node._num, node._nBgd,
+                                                  node._nSig),
                                                  style="filled",
                                                  fillcolor="red"), node))
             # Otherwise no fill
             PlotNodes.append((pydot.Node("%d, B=%d, S=%d" %
-                                         (node._num, node._nBgd, node._nSig)), node))
+                                         (node._num, node._nBgd, node._nSig)),
+                              node))
 
         #ok, now we add the nodes to the graph
         for gnode in PlotNodes:
@@ -332,7 +338,7 @@ class Tree(object):
             os.system('convert -delay 10 -loop 0 %s/%s*.png %s/%s.gif'
                       % (folder, col, folder, col))
             os.system('rm %s/%s*.png' % (folder, col))
-            os.system('convert %s1/%s.gif -fuzz 30%% -layers Optimize %s/%s.gif'
+            os.system('convert %s/%s.gif -fuzz 30%% -layers Optimize %s/%s.gif'
                       % (folder, col, folder, col))
 
     #@profile
@@ -348,13 +354,13 @@ class Tree(object):
             ltree = self.left
             rtree = self.right
 
-            print "Leaf is Node #", ltree._num
-            print "Leaf is Node #", rtree._num
-            print "Total Information Gain = %.2f" % (ltree._InfoGain + rtree._InfoGain)
+            #print "Leaf is Node #", ltree._num
+            #print "Leaf is Node #", rtree._num
+            #print "Total Information Gain = %.2f" % (ltree._InfoGain + rtree._InfoGain)
 
             #If IG from both nodes is less than diff, remove both base nodes
             if ltree._InfoGain + rtree._InfoGain < diff:
-                print "Pruning Tree #%d & #%d" % (ltree._num, rtree._num)
+                #print "Pruning Tree #%d & #%d" % (ltree._num, rtree._num)
                 Tree.Objects.remove(ltree)
                 Tree.Objects.remove(rtree)
                 ptree.left = None
