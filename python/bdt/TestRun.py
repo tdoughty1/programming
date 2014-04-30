@@ -5,7 +5,6 @@ Created on Mon Apr 28 14:50:16 2014
 @author: tdoughty1
 """
 
-import os
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -45,21 +44,33 @@ for col in df.columns:
         continue
 
     f, ax = plt.subplots(1)
-    bs = ax.scatter(df[col][df['Class']==1], df['Rand'][df['Class']==1], color='b', marker='.')
-    gs = ax.scatter(df[col][df['Class']==0], df['Rand'][df['Class']==0], color='g', marker='.')
+    f.set_size_inches((4, 5))
+    bs = ax.scatter(df[col][df['Class'] == 1], df['Rand'][df['Class'] == 1],
+                    color='b', marker='.')
+    gs = ax.scatter(df[col][df['Class'] == 0], df['Rand'][df['Class'] == 0],
+                    color='g', marker='.')
     ax.set_xlabel(col)
     ax.set_ylabel('Random Variable')
+    ax.set_ylim([0, 1.5])
     ax.set_title('Distribution of %s' % col)
-    ax.legend((bs, gs), ('Signal', 'Background'), loc='right')
+    ax.legend((bs, gs), ('Signal', 'Background'), loc=1, fontsize='small')
     f.savefig('figs/%s_dist.png' % col)
-    plt.close(f)
+    plt.close()
 
-tree1 = Tree(df, plots=True)
+tree1 = Tree(df)
+tree1.AnimateCuts()
+tree1.GraphTree(1)
 
-for i in range(1, 5):
-    print "Creating animation animation/var%d.gif" % i
+print tree1.ScoreTree()
 
-    os.system('convert -delay 10 -loop 0 animation/var%d*.png animation/var%d.gif' % (i, i))
-    os.system('rm animation/var%d*.png'  % i)
+print "Before pruning, %d nodes" % len(Tree.Objects)
 
-tree1.GraphTree()
+i = 1
+while tree1.PruneTree():
+    i += 1
+    tree1.GraphTree(i)
+    print tree1.ScoreTree()
+
+print "After pruning, %d nodes" % len(Tree.Objects)
+
+datafile.close
