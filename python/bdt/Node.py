@@ -5,8 +5,12 @@ Created on Tue Apr 29 18:24:06 2014
 @author: tdoughty1
 """
 
+from numpy import unique
 
-class Node:
+from BDTHelper import GetCut
+
+
+class Node(object):
 
     def __init__(self):
 
@@ -14,26 +18,47 @@ class Node:
         self._left = None
         self._right = None
 
-    def AddRight(self, right):
 
-        if isinstance(right, Node):
-            self._right = right
+class CutNode(Node):
+
+    def Train(self, data, trainNode, testNode):
+
+        # Base Case, node only has one class
+        if len(unique(data['Class'])) == 1:
+            self._left = None
+            self._right = None
+
+            trainNode._left = None
+            trainNode._right = None
+
+            testNode._left = None
+            testNode._right = None
+
+        # Recursive Call Case
         else:
-            pass
-            # Raise Exception
+            var, val = GetCut(data)
+            self.cut = (var, val)
+            trainNode.cut = (var, val)
+            testNode.cut = (var, val)
 
-    def AddLeft(self, left):
+            self._left = CutNode()
+            self._right = CutNode()
 
-        if isinstance(left, Node):
-            self._left = left
-        else:
-            pass
-            # Raise Exception
+            trainNode._left = TrainingNode()
+            trainNode._right = TrainingNode()
 
-    def AddParent(self, parent):
+            testNode._left = TestingNode()
+            testNode._right = TestingNode()
 
-        if isinstance(parent, Node):
-            self._parent = parent
-        else:
-            pass
-            # Raise Exception
+            self._left.Train(data[data[var] <= val],
+                             trainNode._left, testNode._left)
+            self._right.Train(data[data[var] > val],
+                              trainNode._right, testNode._right)
+
+
+class TrainingNode(Node):
+    pass
+
+
+class TestingNode(Node):
+    pass
