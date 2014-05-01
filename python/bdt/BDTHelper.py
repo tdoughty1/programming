@@ -40,10 +40,10 @@ def _Purity(data, debug=False):
 
     if debug:
         print 'nTotal = ', len(data)
-        print 'nSig = ', sum(data['Class'] == 1)
-        print "Purity = ", float(sum(data['Class'] == 1))/len(data)
+        print 'nSig = ', sum(data['Sig'])
+        print "Purity = ", float(sum(data['Sig']))/len(data)
 
-    return float(sum(data['Class']))/len(data)
+    return float(sum(data['Sig']))/len(data)
 
 
 def _Gini(data, debug=False):
@@ -80,14 +80,14 @@ def _PlotCut(data, var, cutVals, IG, nTree, nCut):
     ax2 = fig.add_subplot(212)
 
     # First subplot is scatter plot with cut shown
-    xdataS = data[var][data['Class'] == 1]
-    ydataS = data['Rand'][data['Class'] == 1]
-    xdataB = data[var][data['Class'] == 0]
-    ydataB = data['Rand'][data['Class'] == 0]
+    xdataS = data[var][data['Sig']]
+    ydataS = data['Rand'][data['Sig']]
+    xdataB = data[var][data['Bgd']]
+    ydataB = data['Rand'][data['Bgd']]
     ax1.plot(xdataS, ydataS, 'b.', label='Signal')
     ax1.plot(xdataB, ydataB, 'g.', label='Background')
     ax1.plot([cutVal]*2, [0, 1.5], 'r-', label='Optimal Cut')
-    ax1.legend(numpoints=1, loc=1)
+    ax1.legend(numpoints=1, loc=1, prop={'size':6})
     ax1.set_ylim([0, 1.5])
     ax1.set_ylabel('Arbitrary Value')
     ax1.set_xlim([min(cutVals), max(cutVals)])
@@ -127,14 +127,14 @@ def _PlotAnimateCut(data, var, val, cutVals, IG, nTree, nCut, i):
     ax2 = fig.add_subplot(212)
 
     # First subplot is scatter plot with cut shown
-    xdataS = data[var][data['Class'] == 1]
-    ydataS = data['Rand'][data['Class'] == 1]
-    xdataB = data[var][data['Class'] == 0]
-    ydataB = data['Rand'][data['Class'] == 0]
+    xdataS = data[var][data['Sig']]
+    ydataS = data['Rand'][data['Sig']]
+    xdataB = data[var][data['Bgd']]
+    ydataB = data['Rand'][data['Bgd']]
     ax1.plot(xdataS, ydataS, 'b.', label='Signal')
     ax1.plot(xdataB, ydataB, 'g.', label='Background')
     ax1.plot([val]*2, [0, 1.5], 'r-', label='Current Cut')
-    ax1.legend(numpoints=1, loc=1)
+    ax1.legend(numpoints=1, loc=1, prop={'size':6})
     ax1.set_ylim([0, 1.5])
     ax1.set_ylabel('Arbitrary Value')
     ax1.set_xlim([min(cutVals), max(cutVals)])

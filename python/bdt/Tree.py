@@ -5,6 +5,9 @@ Created on Wed Apr 30 09:01:58 2014
 @author: tdoughty1
 """
 
+from shutil import rmtree
+from os.path import isdir
+
 from Node import TrainingNode, TestingNode, CutNode
 
 
@@ -56,10 +59,18 @@ class DecisionTree(object):
         self._train = TrainingTree()
         self._test = TestingTree()
 
-    def Train(self, data):
+    def Train(self, data, plot=False, animate=False):
 
         cutNode = self._cuts._base
         trainNode = self._train._base
         testNode = self._test._base
 
-        cutNode.Train(data, trainNode, testNode)
+        if plot:
+            if isdir('figs'):
+                rmtree('figs')
+
+        if animate:
+            if isdir('animate'):
+                rmtree('animate')
+
+        cutNode.Train(data, trainNode, testNode, plot=plot, animate=animate)

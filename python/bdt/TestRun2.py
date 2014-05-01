@@ -26,10 +26,11 @@ tempdata = make_classification(nEvent, nClass)
 df = DataFrame(tempdata[0])
 df.columns = varNames
 df['Rand'] = random.rand(len(df))
-df['Class'] = tempdata[1]
+df['Sig'] = tempdata[1] == 1
+df['Bgd'] = tempdata[1] == 0
 df['Train'] = df['Rand'] >= .5
 df['Test'] = df['Rand'] < .5
 
 tempdata = make_classification(nEvent, nClass)
 
-bdt.Train(df)
+bdt.Train(df, animate=True, plot=True)
