@@ -10,16 +10,28 @@ from Node import TrainingNode, TestingNode, CutNode
 
 class Tree(object):
 
-    pass
+    Counter = 0
+    Objects = []
+
+    def __init__(self):
+        type(self).Counter += 1
+        type(self).Objects.append(self)
 
 
 class TrainingTree(Tree):
 
+    Counter = 0
+    Objects = []
+
     def __init__(self):
+        Tree.__init__(self)
         self._base = TrainingNode()
 
 
 class TestingTree(Tree):
+
+    Counter = 0
+    Objects = []
 
     def __init__(self):
         self._base = TestingNode()
@@ -27,11 +39,17 @@ class TestingTree(Tree):
 
 class CutTree(Tree):
 
+    Counter = 0
+    Objects = []
+
     def __init__(self):
         self._base = CutNode()
 
 
 class DecisionTree(object):
+
+    Counter = 0
+    Objects = []
 
     def __init__(self):
         self._cuts = CutTree()

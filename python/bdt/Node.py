@@ -18,8 +18,16 @@ class Node(object):
         self._left = None
         self._right = None
 
+        type(self).Objects.append(self)
+        type(self).Counter += 1
+
+        self._num = type(self).Counter
+
 
 class CutNode(Node):
+
+    Objects = []
+    Counter = 0
 
     def Train(self, data, trainNode, testNode):
 
@@ -36,7 +44,7 @@ class CutNode(Node):
 
         # Recursive Call Case
         else:
-            var, val = GetCut(data)
+            var, val = GetCut(data, 0, self._num, plot=True, animate=True)
             self.cut = (var, val)
             trainNode.cut = (var, val)
             testNode.cut = (var, val)
@@ -57,8 +65,12 @@ class CutNode(Node):
 
 
 class TrainingNode(Node):
-    pass
+
+    Objects = []
+    Counter = 0
 
 
 class TestingNode(Node):
-    pass
+
+    Objects = []
+    Counter = 0
