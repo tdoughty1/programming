@@ -44,7 +44,7 @@ class CutNode(Node):
         testNode._nBgd = len(test[data['Bgd']])
 
         # Base Case, node only has one class
-        if len(unique(data['Sig'])) == 1:
+        if len(train[data['Sig']]) == 0 or len(train[data['Bgd']]) == 0:
             self._left = None
             self._right = None
 
@@ -58,7 +58,7 @@ class CutNode(Node):
         else:
 
             # Get cut used at this node
-            var, val = GetCut(data, 0, self._num, plot=plot, animate=animate)
+            var, val = GetCut(train, 0, self._num, plot=plot, animate=animate)
 
             # Store cut in node for each of the trees
             self.cut = (var, val)
@@ -74,10 +74,10 @@ class CutNode(Node):
             testNode._right = TestingNode()
 
             # Recursive call moves further down tree
-            self._left.Train(data[data[var] <= val],
-                             trainNode._left, testNode._left)
-            self._right.Train(data[data[var] > val],
-                              trainNode._right, testNode._right)
+            self._left.Train(data[data[var] <= val], trainNode._left,
+                             testNode._left, plot=plot, animate=animate)
+            self._right.Train(data[data[var] > val], trainNode._right,
+                              testNode._right, plot=plot, animate=animate)
 
 
 class TrainingNode(Node):
