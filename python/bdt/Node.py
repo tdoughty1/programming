@@ -73,7 +73,7 @@ class Node(object):
 
         return score
 
-    def PruneNodes(self, score, testNode):
+    def PruneNodes(self, score, testNode, debug=False):
 
         Ltree = self._left
         Rtree = self._right
@@ -88,9 +88,10 @@ class Node(object):
             # If InfoGain is less than a threshold, then prune leaf
             if InfoGain < score:
 
-                print "Score Threshold = %.1f" % score
-                print "Pruning Nodes %d & %d" % (self._left._num, self._right._num)
-                print "Info Gain = %.2f" % InfoGain
+                if debug:
+                    print "Score Threshold = %.1f" % score
+                    print "Pruning Nodes %d & %d" % (Ltree._num, Rtree._num)
+                    print "Info Gain = %.2f" % InfoGain
 
                 self._left = None
                 self._right = None
