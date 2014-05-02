@@ -30,6 +30,13 @@ class TrainingTree(Tree):
         Tree.__init__(self)
         self._base = TrainingNode()
 
+    def Score(self):
+        scoreTuple = self._base.ScoreLeaves()
+        self._score = float(scoreTuple[0])/scoreTuple[1]
+
+    def Prune(self, score, testTree):
+        self._base.Prune(score, testTree._base)
+
 
 class TestingTree(Tree):
 
@@ -38,6 +45,10 @@ class TestingTree(Tree):
 
     def __init__(self):
         self._base = TestingNode()
+
+    def Score(self):
+        scoreTuple = self._base.ScoreLeaves()
+        self._score = float(scoreTuple[0])/scoreTuple[1]
 
 
 class CutTree(Tree):
@@ -74,3 +85,17 @@ class DecisionTree(object):
                 rmtree('animate')
 
         cutNode.Train(data, trainNode, testNode, plot=plot, animate=animate)
+
+        trainNode.TagLeaves()
+        testNode.TagLeaves()
+
+    def Score(self):
+        self._train.Score()
+        self._test.Score()
+
+    def Prune(self):
+
+        trainTree = self._train
+        testTree = self._test
+
+        trainTree.Prune(5, testTree)

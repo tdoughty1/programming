@@ -13,7 +13,7 @@ from Tree import DecisionTree
 
 bdt = DecisionTree()
 
-nEvent = 100
+nEvent = 2000
 nClass = 4
 
 varNames = []
@@ -33,4 +33,6 @@ df['Test'] = df['Rand'] < .5
 
 tempdata = make_classification(nEvent, nClass)
 
-bdt.Train(df, animate=True, plot=True)
+bdt.Train(df)
+bdt.Score()
+bdt.Prune()

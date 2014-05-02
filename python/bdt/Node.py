@@ -5,8 +5,6 @@ Created on Tue Apr 29 18:24:06 2014
 @author: tdoughty1
 """
 
-from numpy import unique
-
 from BDTHelper import GetCut
 
 
@@ -36,12 +34,8 @@ class CutNode(Node):
         test = data[data['Test']]
 
         # Count Events at this node, store in training and testing trees
-        trainNode._nEv = len(train)
-        testNode._nEv = len(test)
-        trainNode._nSig = len(train[data['Sig']])
-        testNode._nSig = len(test[data['Sig']])
-        trainNode._nBgd = len(train[data['Bgd']])
-        testNode._nBgd = len(test[data['Bgd']])
+        trainNode.StoreData(train)
+        testNode.StoreData(test)
 
         # Base Case, node only has one class
         if len(train[data['Sig']]) == 0 or len(train[data['Bgd']]) == 0:
@@ -58,12 +52,12 @@ class CutNode(Node):
         else:
 
             # Get cut used at this node
-            var, val = GetCut(train, 0, self._num, plot=plot, animate=animate)
+            cutTuple = GetCut(train, 0, self._num, plot=plot, animate=animate)
 
             # Store cut in node for each of the trees
-            self.cut = (var, val)
-            trainNode.cut = (var, val)
-            testNode.cut = (var, val)
+            self.cut = cutTuple
+            trainNode.cut = cutTuple
+            testNode.cut = cutTuple
 
             # Link Lower Values
             self._left = CutNode()
@@ -72,6 +66,9 @@ class CutNode(Node):
             trainNode._right = TrainingNode()
             testNode._left = TestingNode()
             testNode._right = TestingNode()
+
+            var = cutTuple[0]
+            val = cutTuple[1]
 
             # Recursive call moves further down tree
             self._left.Train(data[data[var] <= val], trainNode._left,
@@ -85,8 +82,98 @@ class TrainingNode(Node):
     Objects = []
     Counter = 0
 
+    def StoreData(self, data):
+
+        self._nEv = len(data)
+        self._nSig = len(data[data['Sig']])
+        self._nBgd = len(data[data['Bgd']])
+        self._Purity = float(self._nSig)/self._nEv
+        self._Gini = (1 - self._Purity)*self._Purity
+        self._Info = self._nEv*self._Gini
+
+    def TagLeaves(self):
+
+        # Base Case
+        if self._left is None and self._right is None:
+
+            if self._nSig > self._nBgd:
+                self._class = 'Sig'
+            elif self._nBgd > self._nSig:
+                self._class = 'Bgd'
+            else:
+                self._class = 'None'
+        # Otherwise move down tree
+        else:
+            self._left.TagLeaves()
+            self._right.TagLeaves()
+
+    def ScoreLeaves(self):
+
+        # BaseCase
+        if self._left is None and self._right is None:
+
+            if self._class == 'Sig':
+                score = (self._nSig, self._nEv)
+            elif self._class == 'Bgd':
+                score = (self._nBgd, self._nEv)
+            else:
+                score = (0, self._nEv)
+
+        # Otherwise move down tree
+        else:
+            scoreL = self._left.ScoreLeaves()
+            scoreR = self._right.ScoreLeaves()
+            score = (scoreL[0] + scoreR[0], scoreL[1] + scoreR[1])
+
+        return score
+
 
 class TestingNode(Node):
 
     Objects = []
     Counter = 0
+
+    def StoreData(self, data):
+
+        self._nEv = len(data)
+        self._nSig = len(data[data['Sig']])
+        self._nBgd = len(data[data['Bgd']])
+        self._Purity = float(self._nSig)/self._nEv
+        self._Gini = (1 - self._Purity)*self._Purity
+        self._Info = self._nEv*self._Gini
+
+    def TagLeaves(self):
+
+        # Base Case
+        if self._left is None and self._right is None:
+
+            if self._nSig > self._nBgd:
+                self._class = 'Sig'
+            elif self._nBgd > self._nSig:
+                self._class = 'Bgd'
+            else:
+                self._class = 'None'
+        # Otherwise move down tree
+        else:
+            self._left.TagLeaves()
+            self._right.TagLeaves()
+
+    def ScoreLeaves(self):
+
+        # BaseCase
+        if self._left is None and self._right is None:
+
+            if self._class == 'Sig':
+                score = (self._nSig, self._nEv)
+            elif self._class == 'Bgd':
+                score = (self._nBgd, self._nEv)
+            else:
+                score = (0, self._nEv)
+
+        # Otherwise move down tree
+        else:
+            scoreL = self._left.ScoreLeaves()
+            scoreR = self._right.ScoreLeaves()
+            score = (scoreL[0] + scoreR[0], scoreL[1] + scoreR[1])
+
+        return score
