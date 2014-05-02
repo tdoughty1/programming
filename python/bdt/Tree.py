@@ -53,9 +53,10 @@ class DecisionTree(object):
         self._TrainScore = float(trScoreTuple[0])/trScoreTuple[1]
         self._TestScore = float(tsScoreTuple[0])/tsScoreTuple[1]
 
-    def Prune(self):
-        while(self._TrainTree.PruneNodes(1, self._TestTree)):
-            print "Pruning Tree"
+    def Prune(self, score):
+
+        while(self._TrainTree.PruneNodes(score, self._TestTree)):
+            pass
 
     def PrintScore(self):
         print "Training Score = ", self._TrainScore

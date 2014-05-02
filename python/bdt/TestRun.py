@@ -13,7 +13,7 @@ from Tree import DecisionTree
 
 bdt = DecisionTree()
 
-nEvent = 40
+nEvent = 10000
 nClass = 4
 
 varNames = []
@@ -31,8 +31,6 @@ df['Bgd'] = tempdata[1] == 0
 df['Train'] = df['Rand'] >= .5
 df['Test'] = df['Rand'] < .5
 
-print df
-
 print "Training Events = ", len(df[df['Train']])
 print "Training Signal Events = ", len(df[df['Train'] & df['Sig']])
 print "Training Background Events = ", len(df[df['Train'] & df['Bgd']])
@@ -45,7 +43,6 @@ bdt.Train(df)
 bdt.Score()
 bdt.PrintScore()
 
-bdt.Prune()
-
+bdt.Prune(2.5)
 bdt.Score()
 bdt.PrintScore()
