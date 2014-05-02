@@ -127,6 +127,42 @@ class TrainingNode(Node):
 
         return score
 
+    def Prune(self, score, testNode):
+
+        Ltree = self._left
+        Rtree = self._right
+
+        # Base case, parent to leaf
+        if(Ltree._left is None and Ltree._right is None and
+           Rtree._left is None and Rtree._right is None):
+
+            # Get information gain from parent to leaf split
+            InfoGain = -(self._Info - self._left._Info - self._right._Info)
+
+            # If InfoGain is less than a threshold, then prune leaf
+            if InfoGain < score:
+                self._left = None
+                self._right = None
+
+                testNode._left = None
+                testNode._right = None
+                return True
+            else:
+                return False
+
+        # Otherwise move down Tree
+        else:
+            LP = False
+            RP = False
+
+            if Ltree._left is not None and Ltree._right is not None:
+                LP = Ltree.Prune(score, testNode._left)
+
+            if Rtree._left is not None and Rtree._right is not None:
+                RP = Rtree.Prune(score, testNode._right)
+
+            return (LP or RP)
+
 
 class TestingNode(Node):
 
@@ -136,11 +172,19 @@ class TestingNode(Node):
     def StoreData(self, data):
 
         self._nEv = len(data)
-        self._nSig = len(data[data['Sig']])
-        self._nBgd = len(data[data['Bgd']])
-        self._Purity = float(self._nSig)/self._nEv
-        self._Gini = (1 - self._Purity)*self._Purity
-        self._Info = self._nEv*self._Gini
+
+        if self._nEv == 0:
+            self._nSig = 0
+            self._nBgd = 0
+            self._Purity = 0
+            self._Gini = 0
+            self._Info = 0
+        else:
+            self._nSig = len(data[data['Sig']])
+            self._nBgd = len(data[data['Bgd']])
+            self._Purity = float(self._nSig)/self._nEv
+            self._Gini = (1 - self._Purity)*self._Purity
+            self._Info = self._nEv*self._Gini
 
     def TagLeaves(self):
 

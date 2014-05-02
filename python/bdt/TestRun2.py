@@ -34,5 +34,14 @@ df['Test'] = df['Rand'] < .5
 tempdata = make_classification(nEvent, nClass)
 
 bdt.Train(df)
+
 bdt.Score()
+bdt.PrintScore()
 bdt.Prune()
+
+bdt.Score()
+bdt.PrintScore()
+bdt.Prune()
+
+bdt.Score()
+bdt.PrintScore()

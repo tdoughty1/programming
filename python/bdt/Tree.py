@@ -98,4 +98,10 @@ class DecisionTree(object):
         trainTree = self._train
         testTree = self._test
 
-        trainTree.Prune(5, testTree)
+        trainTree.Prune(1, testTree)
+        trainTree.TagLeaves()
+        testTree.TagLeaves()
+
+    def PrintScore(self):
+        print "Training Score = ", self._train._score
+        print "Testing Score = ", self._test._score
