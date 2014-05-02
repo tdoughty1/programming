@@ -10,22 +10,112 @@ from BDTHelper import GetCut
 
 class Node(object):
 
-    def __init__(self):
+    def __init__(self, tree=None, parent=None):
 
-        self._parent = None
+        self._tree = tree
+        self._parent = parent
         self._left = None
         self._right = None
 
-        type(self).Objects.append(self)
-        type(self).Counter += 1
+        self._num = self.GetNum()
 
-        self._num = type(self).Counter
+    def StoreData(self, data):
+
+        self._nEv = len(data)
+        self._nSig = len(data[data['Sig']])
+        self._nBgd = len(data[data['Bgd']])
+
+        if self._nEv > 0:
+            self._Purity = float(self._nSig)/self._nEv
+        else:
+            self._Purity = 1
+
+        self._Gini = (1 - self._Purity)*self._Purity
+        self._Info = self._nEv*self._Gini
+
+    def TagNodes(self, testNode):
+
+        if self._nSig > self._nBgd:
+            self._EvClass = 'Sig'
+            testNode._EvClass = 'Sig'
+        elif self._nBgd > self._nSig:
+            self._EvClass = 'Bgd'
+            testNode._EvClass = 'Bgd'
+        else:
+            self._EvClass = 'None'
+            testNode._EvClass = 'None'
+
+        # Base Case
+        if self._left is None and self._right is None:
+            pass
+        # Otherwise move down tree
+        else:
+            self._left.TagNodes(testNode._left)
+            self._right.TagNodes(testNode._right)
+
+    def ScoreLeaves(self):
+
+        # BaseCase
+        if self._left is None and self._right is None:
+
+            if self._EvClass == 'Sig':
+                score = (self._nSig, self._nEv)
+            elif self._EvClass == 'Bgd':
+                score = (self._nBgd, self._nEv)
+            else:
+                score = (0, self._nEv)
+
+        # Otherwise move down tree
+        else:
+            scoreL = self._left.ScoreLeaves()
+            scoreR = self._right.ScoreLeaves()
+            score = (scoreL[0] + scoreR[0], scoreL[1] + scoreR[1])
+
+        return score
+
+    def PruneNodes(self, score, testNode):
+
+        Ltree = self._left
+        Rtree = self._right
+
+        # Base case, parent to leaf
+        if(Ltree._left is None and Ltree._right is None and
+           Rtree._left is None and Rtree._right is None):
+
+            # Get information gain from parent to leaf split
+            InfoGain = self._Info - self._left._Info - self._right._Info
+
+            # If InfoGain is less than a threshold, then prune leaf
+            if InfoGain < score:
+
+                print "Score Threshold = %.1f" % score
+                print "Pruning Nodes %d & %d" % (self._left._num, self._right._num)
+                print "Info Gain = %.2f" % InfoGain
+
+                self._left = None
+                self._right = None
+
+                testNode._left = None
+                testNode._right = None
+                return True
+            else:
+                return False
+
+        # Otherwise move down Tree
+        else:
+            LP = False
+            RP = False
+
+            if Ltree._left is not None and Ltree._right is not None:
+                LP = Ltree.PruneNodes(score, testNode._left)
+
+            if Rtree._left is not None and Rtree._right is not None:
+                RP = Rtree.PruneNodes(score, testNode._right)
+
+            return (LP or RP)
 
 
 class CutNode(Node):
-
-    Objects = []
-    Counter = 0
 
     def Train(self, data, trainNode, testNode, plot=False, animate=False):
 
@@ -60,12 +150,12 @@ class CutNode(Node):
             testNode.cut = cutTuple
 
             # Link Lower Values
-            self._left = CutNode()
-            self._right = CutNode()
-            trainNode._left = TrainingNode()
-            trainNode._right = TrainingNode()
-            testNode._left = TestingNode()
-            testNode._right = TestingNode()
+            self._left = CutNode(self._tree, self)
+            self._right = CutNode(self._tree, self)
+            trainNode._left = TrainNode(trainNode._tree, trainNode)
+            trainNode._right = TrainNode(trainNode._tree, trainNode)
+            testNode._left = TestNode(testNode._tree, testNode)
+            testNode._right = TestNode(testNode._tree, testNode)
 
             var = cutTuple[0]
             val = cutTuple[1]
@@ -76,149 +166,23 @@ class CutNode(Node):
             self._right.Train(data[data[var] > val], trainNode._right,
                               testNode._right, plot=plot, animate=animate)
 
-
-class TrainingNode(Node):
-
-    Objects = []
-    Counter = 0
-
-    def StoreData(self, data):
-
-        self._nEv = len(data)
-        self._nSig = len(data[data['Sig']])
-        self._nBgd = len(data[data['Bgd']])
-        self._Purity = float(self._nSig)/self._nEv
-        self._Gini = (1 - self._Purity)*self._Purity
-        self._Info = self._nEv*self._Gini
-
-    def TagLeaves(self):
-
-        if self._nSig > self._nBgd:
-            self._class = 'Sig'
-        elif self._nBgd > self._nSig:
-            self._class = 'Bgd'
-        else:
-            self._class = 'None'
-
-        # Base Case
-        if self._left is None and self._right is None:
-            pass
-        # Otherwise move down tree
-        else:
-            self._left.TagLeaves()
-            self._right.TagLeaves()
-
-    def ScoreLeaves(self):
-
-        # BaseCase
-        if self._left is None and self._right is None:
-
-            if self._class == 'Sig':
-                score = (self._nSig, self._nEv)
-            elif self._class == 'Bgd':
-                score = (self._nBgd, self._nEv)
-            else:
-                score = (0, self._nEv)
-
-        # Otherwise move down tree
-        else:
-            scoreL = self._left.ScoreLeaves()
-            scoreR = self._right.ScoreLeaves()
-            score = (scoreL[0] + scoreR[0], scoreL[1] + scoreR[1])
-
-        return score
-
-    def Prune(self, score, testNode):
-
-        Ltree = self._left
-        Rtree = self._right
-
-        # Base case, parent to leaf
-        if(Ltree._left is None and Ltree._right is None and
-           Rtree._left is None and Rtree._right is None):
-
-            # Get information gain from parent to leaf split
-            InfoGain = -(self._Info - self._left._Info - self._right._Info)
-
-            # If InfoGain is less than a threshold, then prune leaf
-            if InfoGain < score:
-                self._left = None
-                self._right = None
-
-                testNode._left = None
-                testNode._right = None
-                return True
-            else:
-                return False
-
-        # Otherwise move down Tree
-        else:
-            LP = False
-            RP = False
-
-            if Ltree._left is not None and Ltree._right is not None:
-                LP = Ltree.Prune(score, testNode._left)
-
-            if Rtree._left is not None and Rtree._right is not None:
-                RP = Rtree.Prune(score, testNode._right)
-
-            return (LP or RP)
+    def GetNum(self):
+        n = len(self._tree._CutNodes)
+        self._tree._CutNodes.append(self)
+        return n
 
 
-class TestingNode(Node):
+class TrainNode(Node):
 
-    Objects = []
-    Counter = 0
+    def GetNum(self):
+        n = len(self._tree._TrainNodes) + len(self._tree._pTrainNodes)
+        self._tree._TrainNodes.append(self)
+        return n
 
-    def StoreData(self, data):
 
-        self._nEv = len(data)
+class TestNode(Node):
 
-        if self._nEv == 0:
-            self._nSig = 0
-            self._nBgd = 0
-            self._Purity = 0
-            self._Gini = 0
-            self._Info = 0
-        else:
-            self._nSig = len(data[data['Sig']])
-            self._nBgd = len(data[data['Bgd']])
-            self._Purity = float(self._nSig)/self._nEv
-            self._Gini = (1 - self._Purity)*self._Purity
-            self._Info = self._nEv*self._Gini
-
-    def TagLeaves(self):
-
-        # Base Case
-        if self._left is None and self._right is None:
-
-            if self._nSig > self._nBgd:
-                self._class = 'Sig'
-            elif self._nBgd > self._nSig:
-                self._class = 'Bgd'
-            else:
-                self._class = 'None'
-        # Otherwise move down tree
-        else:
-            self._left.TagLeaves()
-            self._right.TagLeaves()
-
-    def ScoreLeaves(self):
-
-        # BaseCase
-        if self._left is None and self._right is None:
-
-            if self._class == 'Sig':
-                score = (self._nSig, self._nEv)
-            elif self._class == 'Bgd':
-                score = (self._nBgd, self._nEv)
-            else:
-                score = (0, self._nEv)
-
-        # Otherwise move down tree
-        else:
-            scoreL = self._left.ScoreLeaves()
-            scoreR = self._right.ScoreLeaves()
-            score = (scoreL[0] + scoreR[0], scoreL[1] + scoreR[1])
-
-        return score
+    def GetNum(self):
+        n = len(self._tree._TestNodes) + len(self._tree._pTestNodes)
+        self._tree._TestNodes.append(self)
+        return n

@@ -8,73 +8,30 @@ Created on Wed Apr 30 09:01:58 2014
 from shutil import rmtree
 from os.path import isdir
 
-from Node import TrainingNode, TestingNode, CutNode
-
-
-class Tree(object):
-
-    Counter = 0
-    Objects = []
-
-    def __init__(self):
-        type(self).Counter += 1
-        type(self).Objects.append(self)
-
-
-class TrainingTree(Tree):
-
-    Counter = 0
-    Objects = []
-
-    def __init__(self):
-        Tree.__init__(self)
-        self._base = TrainingNode()
-
-    def Score(self):
-        scoreTuple = self._base.ScoreLeaves()
-        self._score = float(scoreTuple[0])/scoreTuple[1]
-
-    def Prune(self, score, testTree):
-        self._base.Prune(score, testTree._base)
-
-
-class TestingTree(Tree):
-
-    Counter = 0
-    Objects = []
-
-    def __init__(self):
-        self._base = TestingNode()
-
-    def Score(self):
-        scoreTuple = self._base.ScoreLeaves()
-        self._score = float(scoreTuple[0])/scoreTuple[1]
-
-
-class CutTree(Tree):
-
-    Counter = 0
-    Objects = []
-
-    def __init__(self):
-        self._base = CutNode()
+from Node import TrainNode, TestNode, CutNode
 
 
 class DecisionTree(object):
 
-    Counter = 0
-    Objects = []
-
     def __init__(self):
-        self._cuts = CutTree()
-        self._train = TrainingTree()
-        self._test = TestingTree()
+
+        # Store Node information in array for convenience in some steps
+        self._CutNodes = []
+        self._TrainNodes = []
+        self._TestNodes = []
+        self._pTrainNodes = []
+        self._pTestNodes = []
+
+        # Set up nodes as a tree
+        self._CutTree = CutNode(tree=self)
+        self._TrainTree = TrainNode(tree=self)
+        self._TestTree = TestNode(tree=self)
 
     def Train(self, data, plot=False, animate=False):
 
-        cutNode = self._cuts._base
-        trainNode = self._train._base
-        testNode = self._test._base
+        cutRoot = self._CutTree
+        trainRoot = self._TrainTree
+        testRoot = self._TestTree
 
         if plot:
             if isdir('figs'):
@@ -84,22 +41,22 @@ class DecisionTree(object):
             if isdir('animate'):
                 rmtree('animate')
 
-        cutNode.Train(data, trainNode, testNode, plot=plot, animate=animate)
+        cutRoot.Train(data, trainRoot, testRoot, plot=plot, animate=animate)
 
-        trainNode.TagLeaves()
-        testNode.TagLeaves()
+        trainRoot.TagNodes(testRoot)
 
     def Score(self):
-        self._train.Score()
-        self._test.Score()
+
+        trScoreTuple = self._TrainTree.ScoreLeaves()
+        tsScoreTuple = self._TestTree.ScoreLeaves()
+
+        self._TrainScore = float(trScoreTuple[0])/trScoreTuple[1]
+        self._TestScore = float(tsScoreTuple[0])/tsScoreTuple[1]
 
     def Prune(self):
-
-        trainTree = self._train
-        testTree = self._test
-
-        trainTree.Prune(1, testTree)
+        while(self._TrainTree.PruneNodes(1, self._TestTree)):
+            print "Pruning Tree"
 
     def PrintScore(self):
-        print "Training Score = ", self._train._score
-        print "Testing Score = ", self._test._score
+        print "Training Score = ", self._TrainScore
+        print "Testing Score = ", self._TestScore

@@ -13,7 +13,7 @@ from Tree import DecisionTree
 
 bdt = DecisionTree()
 
-nEvent = 2000
+nEvent = 40
 nClass = 4
 
 varNames = []
@@ -31,16 +31,20 @@ df['Bgd'] = tempdata[1] == 0
 df['Train'] = df['Rand'] >= .5
 df['Test'] = df['Rand'] < .5
 
-tempdata = make_classification(nEvent, nClass)
+print df
+
+print "Training Events = ", len(df[df['Train']])
+print "Training Signal Events = ", len(df[df['Train'] & df['Sig']])
+print "Training Background Events = ", len(df[df['Train'] & df['Bgd']])
+
+print "Testing Events = ", len(df[df['Train']])
+print "Testing Signal Events = ", len(df[df['Test'] & df['Sig']])
+print "Testing Background Events = ", len(df[df['Test'] & df['Bgd']])
 
 bdt.Train(df)
-
 bdt.Score()
 bdt.PrintScore()
-bdt.Prune()
 
-bdt.Score()
-bdt.PrintScore()
 bdt.Prune()
 
 bdt.Score()
