@@ -93,15 +93,16 @@ class TrainingNode(Node):
 
     def TagLeaves(self):
 
+        if self._nSig > self._nBgd:
+            self._class = 'Sig'
+        elif self._nBgd > self._nSig:
+            self._class = 'Bgd'
+        else:
+            self._class = 'None'
+
         # Base Case
         if self._left is None and self._right is None:
-
-            if self._nSig > self._nBgd:
-                self._class = 'Sig'
-            elif self._nBgd > self._nSig:
-                self._class = 'Bgd'
-            else:
-                self._class = 'None'
+            pass
         # Otherwise move down tree
         else:
             self._left.TagLeaves()
