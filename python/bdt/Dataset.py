@@ -13,7 +13,7 @@ import numpy as np
 def Create_Dataset():
 
     #Signal
-    xS = np.arange(0, 1, 1e-3)
+    xS = np.arange(0, 1, 5e-3)
     yS = np.sqrt(1-xS**2) + .15 - .3*np.random.rand(len(xS))
     xS = xS + .15 - .3*np.random.rand(len(xS))
     nS = len(xS)
@@ -38,7 +38,7 @@ def Create_Dataset():
     nB4 = len(xB4) + nB3
 
     # Initialize Data Array
-    Dataset = np.zeros([2000, 3])
+    Dataset = np.zeros([2*len(xS), 3])
 
     # Add Data into array
 

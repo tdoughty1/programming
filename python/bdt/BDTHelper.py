@@ -80,17 +80,32 @@ def _PlotCut(data, var, cutVals, IG, nTree, nCut):
     ax2 = fig.add_subplot(212)
 
     # First subplot is scatter plot with cut shown
-    xdataS = data[var][data['Sig']]
-    ydataS = data['Rand'][data['Sig']]
-    xdataB = data[var][data['Bgd']]
-    ydataB = data['Rand'][data['Bgd']]
+    if var == 'x':
+        xdataS = data['x'][data['Sig']]
+        ydataS = data['y'][data['Sig']]
+        xdataB = data['x'][data['Bgd']]
+        ydataB = data['y'][data['Bgd']]
+        xlabel = 'x'
+        ylabel = 'y'
+        xlim = [min(min(xdataS), min(xdataB)), max(max(xdataS), max(xdataB))]
+        ylim = [min(min(ydataS), min(ydataB)), max(max(ydataS), max(ydataB))]
+    if var == 'y':
+        xdataS = data['y'][data['Sig']]
+        ydataS = data['x'][data['Sig']]
+        xdataB = data['y'][data['Bgd']]
+        ydataB = data['x'][data['Bgd']]
+        xlabel = 'y'
+        ylabel = 'x'
+        xlim = [min(min(ydataS), min(ydataB)), max(max(ydataS), max(ydataB))]
+        ylim = [min(min(xdataS), min(xdataB)), max(max(xdataS), max(xdataB))]
+
     ax1.plot(xdataS, ydataS, 'b.', label='Signal')
     ax1.plot(xdataB, ydataB, 'g.', label='Background')
     ax1.plot([cutVal]*2, [0, 1.5], 'r-', label='Optimal Cut')
     ax1.legend(numpoints=1, loc=1, prop={'size': 6})
-    ax1.set_ylim([0, 1.5])
-    ax1.set_ylabel('Arbitrary Value')
-    ax1.set_xlim([min(cutVals), max(cutVals)])
+    ax1.set_xlim(xlim)
+    ax1.set_ylim(ylim)
+    ax1.set_ylabel(ylabel)
     ax1.xaxis.set_ticklabels([])
     ax1.set_title('Optimal Cut for ' + var)
 
@@ -99,8 +114,8 @@ def _PlotCut(data, var, cutVals, IG, nTree, nCut):
     ax2.plot(cutVal, max(IG), 'ro', label='Optimal Cut')
     ax2.legend(loc=0)
     ax2.set_ylabel('Information Gain')
-    ax2.set_xlim([min(cutVals), max(cutVals)])
-    ax2.set_xlabel(var + ' Cut Value')
+    ax2.set_xlim(xlim)
+    ax2.set_xlabel(xlabel)
 
     # Check if destination folder exists in figs
     dname = 'figs/tree%d/cut%d/' % (nTree, nCut)
@@ -127,17 +142,32 @@ def _PlotAnimateCut(data, var, val, cutVals, IG, nTree, nCut, i):
     ax2 = fig.add_subplot(212)
 
     # First subplot is scatter plot with cut shown
-    xdataS = data[var][data['Sig']]
-    ydataS = data['Rand'][data['Sig']]
-    xdataB = data[var][data['Bgd']]
-    ydataB = data['Rand'][data['Bgd']]
+    if var == 'x':
+        xdataS = data['x'][data['Sig']]
+        ydataS = data['y'][data['Sig']]
+        xdataB = data['x'][data['Bgd']]
+        ydataB = data['y'][data['Bgd']]
+        xlabel = 'x'
+        ylabel = 'y'
+        xlim = [min(min(xdataS), min(xdataB)), max(max(xdataS), max(xdataB))]
+        ylim = [min(min(ydataS), min(ydataB)), max(max(ydataS), max(ydataB))]
+    if var == 'y':
+        xdataS = data['y'][data['Sig']]
+        ydataS = data['x'][data['Sig']]
+        xdataB = data['y'][data['Bgd']]
+        ydataB = data['x'][data['Bgd']]
+        xlabel = 'y'
+        ylabel = 'x'
+        xlim = [min(min(ydataS), min(ydataB)), max(max(ydataS), max(ydataB))]
+        ylim = [min(min(xdataS), min(xdataB)), max(max(xdataS), max(xdataB))]
+
     ax1.plot(xdataS, ydataS, 'b.', label='Signal')
     ax1.plot(xdataB, ydataB, 'g.', label='Background')
-    ax1.plot([val]*2, [0, 1.5], 'r-', label='Current Cut')
+    ax1.plot([val]*2, ylim, 'r-', label='Current Cut')
     ax1.legend(numpoints=1, loc=1, prop={'size': 6})
-    ax1.set_ylim([0, 1.5])
-    ax1.set_ylabel('Arbitrary Value')
-    ax1.set_xlim([min(cutVals), max(cutVals)])
+    ax1.set_xlim(xlim)
+    ax1.set_ylim(ylim)
+    ax1.set_ylabel(ylabel)
     ax1.xaxis.set_ticklabels([])
     ax1.set_title('Information Gain for ' + var)
 
@@ -145,14 +175,14 @@ def _PlotAnimateCut(data, var, val, cutVals, IG, nTree, nCut, i):
     ax2.plot(cutVals[0:len(IG)], IG, 'r-')
     ax2.plot(val, IG[-1], 'ro')
     ax2.set_ylabel('Information Gain')
-    ax2.set_xlim([min(cutVals), max(cutVals)])
-    ax2.set_xlabel(var + ' Cut Value')
+    ax2.set_xlim(xlim)
+    ax2.set_xlabel(xlabel)
 
     # Check if destination folder exists in animate
     dname = 'animate/tree%d/cut%d/' % (nTree, nCut)
     if not isdir(dname):
         makedirs(dname)
-    fname = '%s/%s_%02d.png' % (dname, var, i)
+    fname = '%s/%s_%03d.png' % (dname, var, i)
 
     # Save Figure and close
     canvas.print_figure(fname)
@@ -187,7 +217,7 @@ def GetCut(data, nTree, nCut, plot=False, animate=False, debug=False):
     # Loop through each variable
     for var in data.columns:
 
-        if 'var' not in var:
+        if var not in ('x', 'y'):
             continue
 
         # Select appropriate binning given the range and number of bins
