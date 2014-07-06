@@ -1,0 +1,56 @@
+Module Docstring example
+""" ModuleName.py
+
+Module Description.
+
+    Classes:
+        Class1: Class1 Description.
+        Class2: Class2 Description.
+        ...
+
+    Virtual Classes:
+        VirtualClass1: VirtualClass1 Description.
+
+"""
+
+Class DocString example
+""" Class Description Summary.
+
+    Class Description.
+
+    Attributes:
+        attribute1: (datatype) - Description.
+        ...
+
+    Class Attributes:
+        classattribute1: (datatype) - Description.
+        ...
+
+    Methods:
+         method1: (Inheritance Info) - Description.
+
+    Hidden Methods:
+        hiddenmethod1: Description.
+
+    Class Methods:
+        classmethod1: Description.
+
+"""
+
+DocString Function example
+""" Function Description Summary.
+
+    Function Description.
+
+    Parameters:
+        parameter: (type) - Description.
+
+    Optional Parameters:
+        optparameter: (type) - Description.
+
+    Returns:
+        returnvalue: (type) - Description.
+
+    Raises:
+        exceptiontype: - Description.
+"""
