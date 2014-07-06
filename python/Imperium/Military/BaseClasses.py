@@ -1,17 +1,34 @@
-from sys import exit
+# -*- coding: utf-8 -*-
+#!/usr/bin/env python
+#===============================================================================
+# Title           :Imperium/Military/BaseClasses.py
+# Description     :Set of basic classes for inheritance
+# Author          :Todd Doughty
+# Date            :5 Jul 2014
+# Version         :0.1
+# Notes           :
+# Python Version  :2.7.6
+#===============================================================================
 
-from Imperium.BaseClasses import DObject
+""" Imperium/Military/BaseClasses.py
+
+Module containing the base class from which most other classes are derived from.
+
+    Classes:
+        ImpObject - Base class for most Imperium classes.
+"""
+from Imperium.BaseClasses import ImpObject
 from Imperium.Military.StructureClasses import Branched, Ranked
 
 
-class Unit(DObject, Branched):
+class Unit(ImpObject, Branched):
 
     ##########################################################################
     # Basic Magic Methods
     ##########################################################################
 
     def __init__(self, cmdUnit=None):
-        DObject.__init__(self)
+        ImpObject.__init__(self)
 
         self._CmdUnit = cmdUnit
         self._AdmCmdUnit = None
@@ -129,10 +146,10 @@ class Unit(DObject, Branched):
             print '%s: %d' % (key, tempDict[key])
 
 
-class Position(DObject, Branched, Ranked):
+class Position(ImpObject, Branched, Ranked):
 
     def __init__(self, name, branch=None, rank=None, unit=None, pos=None):
-        DObject.__init__(self)
+        ImpObject.__init__(self)
 
         self._LinkedPosition = []
 
