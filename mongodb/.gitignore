@@ -1,0 +1,5 @@
+# Ignore mongo environment setup
+mongo
+
+# Ignore subfolder which is itself a git repo
+mongodb_M101P
