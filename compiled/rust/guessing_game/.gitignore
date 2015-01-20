@@ -1,0 +1,3 @@
+# Ignore rust generated files
+Cargo.lock
+target/
