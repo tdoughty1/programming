@@ -6,6 +6,8 @@ fn main() {
     
     let secret_number = (rand::random::<i32>() % 100) + 1; // secret number: i32
     
+    println!("The secret number is: {}", secret_number);
+    
     println!("Please input your guess.");
     
     let input = io::stdin().read_line()
