@@ -59,12 +59,13 @@ num = 0
 testOut = Collatz(13, True)
 print "Collatz Length of 13 =", testOut
 
-'''
+
 for i in xrange(1, 1000001, 2):  # Longest chain will be odd
 
+    print i
     newLength = Collatz(i)
 
     if newLength > maxLength:
         maxLength = newLength
         num = i
-'''
+
