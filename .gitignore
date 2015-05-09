@@ -1,3 +1,21 @@
 #Unix generated files
 *~
 *#
+
+# Folder to add later
+compiled/scala/
+scripting/scala/
+internet/
+compiled/hope/
+scripting/python/django/
+compiled/go/src/bitbucket/
+compiled/go/src/github.com/go-hep/
+compiled/go/src/gopkg.in/
+compiled/go/src/github.com/sbinet/
+compiled/rust/adder/
+
+# Ipython notebooks (fixme)
+*.ipynb
+
+
+
