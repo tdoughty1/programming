@@ -25,6 +25,8 @@ Created on Tue Apr 14 12:23:19 2015
 @author: tdoughty1
 """
 
+from numpy import log2, mod
+
 
 def Collatz(n):
 
@@ -32,11 +34,13 @@ def Collatz(n):
 
     while n > 1:
 
-        print n
         count += 1
 
         if n % 2:  # Odd numbers
             n = 3*n + 1
+        elif not mod(log2(n), 1):  # Powers of 2
+            count += int(log2(n)) - 1
+            break
         else:    # Event numbers
             n = n/2
 
@@ -45,6 +49,9 @@ def Collatz(n):
 maxLength = 0
 num = 0
 
+print Collatz(13)
+
+'''
 for i in xrange(1, 1000001, 2):  # Longest chain will be odd
 
     newLength = Collatz(i)
@@ -52,3 +59,4 @@ for i in xrange(1, 1000001, 2):  # Longest chain will be odd
     if newLength > maxLength:
         maxLength = newLength
         num = i
+'''
