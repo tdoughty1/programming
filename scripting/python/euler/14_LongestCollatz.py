@@ -45,7 +45,7 @@ def Collatz(n):
 maxLength = 0
 num = 0
 
-for i in xrange(1000001):
+for i in xrange(1, 1000001, 2):  # Longest chain will be odd
 
     newLength = Collatz(i)
 
