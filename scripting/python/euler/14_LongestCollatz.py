@@ -28,7 +28,7 @@ Created on Tue Apr 14 12:23:19 2015
 from numpy import log2, mod
 
 
-def Collatz(n):
+def Collatz(n, debug=False):
 
     count = 1
 
@@ -36,10 +36,17 @@ def Collatz(n):
 
         count += 1
 
+        if debug:
+            print n
+
         if n % 2:  # Odd numbers
             n = 3*n + 1
         elif not mod(log2(n), 1):  # Powers of 2
-            count += int(log2(n)) - 1
+            power = int(log2(n)) - 1
+            count += power
+            if debug:
+                for i in xrange(power, -1, -1):
+                    print 2**i
             break
         else:    # Event numbers
             n = n/2
@@ -49,7 +56,8 @@ def Collatz(n):
 maxLength = 0
 num = 0
 
-print Collatz(13)
+testOut = Collatz(13, True)
+print "Collatz Length of 13 =", testOut
 
 '''
 for i in xrange(1, 1000001, 2):  # Longest chain will be odd
