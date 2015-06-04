@@ -59,6 +59,13 @@ class ImpObject(object):
 
         self._name = None
 
+    def __repr__(self):
+        if self._name:
+            return self._name + ' at ' + hex(id(self))
+        else:
+            class_name = str(self.__class__).split('.')[-1]
+            return class_name + ' at ' + hex(id(self))
+
     # Name Checking
     def _SetName(self, name):
         """ Sets the name of the current object.
