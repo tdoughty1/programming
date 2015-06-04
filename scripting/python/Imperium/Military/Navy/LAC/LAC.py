@@ -7,12 +7,12 @@ from Imperium.Military.Navy.LAC.BaseClasses import LAC_Unit
 class FlightCrew(Unit):
 
     def _SetPositions(self):
-        self._AddPosition('Commander', 'A', 'O3')
-        self._AddPosition('Tactical Officer', 'A', 'O2')
-        self._AddPosition('Astrogation Officer', 'A', 'O2')
-        self._AddPosition('Communications Officer', 'A', 'O2')
-        self._AddPosition('Engineering Officer', 'A', 'O2')
-        self._AddPosition('Crew Chief', 'A', 'N1')
+        self._AddPosition('Flight Commander', 'A', 'O3', posRanks=('O2',.15))
+        self._AddPosition('Tactical Officer', 'A', 'O2', posRanks=('O1',.25))
+        self._AddPosition('Astrogation Officer', 'A', 'O2', posRanks=('O1',.3))
+        self._AddPosition('Communications Officer', 'A', 'O2', posRanks=(['O1','W3','W2','W1'],[.4,.025,.05,.075]))
+        self._AddPosition('Engineering Officer', 'A', 'O2', posRanks=(['O1','W3','W2','W1'],[.3,.05,.1,.15]))
+        self._AddPosition('Crew Chief', 'A', 'N1', posRanks=(['N2','E5'],[.1,.05]))
 
 
 class RepairTeam(Unit):
@@ -46,8 +46,9 @@ class LAC(LAC_Unit):
         self._SubUnits.append(RepairTeam(self))
 
     def _SetPositions(self):
+        print self._SubUnits[0]._TOE[0]
         Pos = self._SubUnits[0]._TOE[0]
-        self._AddPosition('LAC Commander', 'A', 'O3', pos=Pos)
+        self._AddPosition('LAC Commander', 'A', 'O3', pos=Pos, posRanks=(['O4','O2'], [.05,.15]))
         Unit._SetPositions(self)
 
     def _SetCallSign(self, cmdUnit):
