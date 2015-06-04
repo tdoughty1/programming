@@ -63,12 +63,12 @@ class Unit(ImpObject, Branched):
     # Private Methods
     ##########################################################################
 
-    def _AddPosition(self, name, branch=None, rank=None, unit=None, pos=None):
+    def _AddPosition(self, name, branch=None, rank=None, unit=None, pos=None, posRanks=None):
 
         if unit is None:
             unit = self
 
-        newPos = Position(name, branch, rank, unit, pos)
+        newPos = Position(name, branch, rank, unit, pos, posRanks)
 
         self._TOE.append(newPos)
         self._Roster.append(newPos)
@@ -148,7 +148,7 @@ class Unit(ImpObject, Branched):
 
 class Position(ImpObject, Branched, Ranked):
 
-    def __init__(self, name, branch=None, rank=None, unit=None, pos=None):
+    def __init__(self, name, branch=None, rank=None, unit=None, pos=None, posRanks=None):
         ImpObject.__init__(self)
 
         self._LinkedPosition = []
@@ -162,6 +162,9 @@ class Position(ImpObject, Branched, Ranked):
 
         if pos is not None:
             self._LinkPosition(pos)
+
+        if posRanks is not None:
+            self._AddPosRank(posRanks[0], posRanks[1])
 
     def __repr__(self):
         return '<' + self._name + ' Position at ' + hex(id(self)) + '>'

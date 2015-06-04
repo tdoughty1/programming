@@ -84,7 +84,7 @@ class Ranked(object):
     """
 
     def _SetRank(self, rank):
-        """ Sets the rank property of the current object.
+        """ Sets the base rank property of the current object.
 
             A hidden method of the Ranked class object.
 
@@ -105,6 +105,7 @@ class Ranked(object):
 
         if isinstance(rank, Rank):
             self._rank = rank
+            self._posrank = {'ranks':[rank], 'probs':[1]}
             return
 
         if isinstance(rank, str):
@@ -112,10 +113,100 @@ class Ranked(object):
                 if rank == rankCheck.GetCode():
                     if self._branch in rankCheck.GetBranches():
                         self._rank = rankCheck
+                        self._posrank = {'ranks':[rankCheck], 'probs':[1]}
                         return
             raise ValueError('Rank must be a valid rank code!')
 
         raise TypeError('Rank must be a valid rank object or rank code!')
+
+
+    def _AddPosRank(self, rank, probability):
+        """ Adds possible ranks and their corresponding probabilities 
+            to the current object.
+
+            A hidden method of the Ranked class object.
+
+            Parameters:
+                rank: (Rank), (string), (list), or (tuple) - A rank
+                   object, a valid rank code, or a list/tuple of either
+                   option from the current environment.  Examples are
+                   Lieutenant J.G., Field Marshal, etc.
+                probability (float), (tuple) or (list) - The probability
+                    that a randomly generated individual for the
+                    corresponding position will have the corresponding
+                    rank. If a list is input for the rank, it must be of
+                    equal length to the rank array.  The probability
+                    must be valid (0-1), but also ensure that the total
+                    probability is less than 1 and the base rank is the
+                    most probable.
+
+            Raises:
+                TypeError: If rank is not a rank object or a rank code
+                    (string), or a (list/tuple) of them.
+                ValueError: If rank is a code (string), but not linked
+                    to a valid rank, or the list is the wrong length or
+                    can't fulfill probablility requirements.
+        """
+
+        # First option - Rank Code - Convert to a Rank object
+        if isinstance(rank, str):
+            found = False
+            for rankCheck in Rank._datalist:
+                if rank == rankCheck.GetCode():
+                    if self._branch in rankCheck.GetBranches():
+                        rank = rankCheck
+                        found = True
+                        break
+            if not found:
+                raise ValueError('Rank must be a valid rank code!')
+
+        # Second Option - Single Rank Object
+        if isinstance(rank, Rank):
+            if rank in self._posrank['ranks']:
+                raise ValueError("Rank can't already be a possible rank!")
+            
+            # Ensure probability is a float
+            if not isinstance(probability, float):
+                raise TypeError('Rank Probability must be a float!')
+            
+            # Ensure there is a valid probability value (based on state
+            # of self._posrank)
+            
+            # Probability must be greater than 0
+            if probability < 0:
+                raise ValueError('Rank Probability must be greater than 0!')
+            
+            if probability > 1:
+                raise ValueError('Rank Probability must be less than 1')
+            
+            # The base probability must still be higher than the rest
+            checkProb = max(max(self._posrank['probs'][1:]), probability) if len(self._posrank['probs'][1:]) > 0 else probability
+            if self._posrank['probs'][0]-probability <= checkProb:
+                    #TODO Add actual range to text
+                    raise ValueError('Rank Probability must ensure that the total probabilty is less than 1, while the base rank is still most likely!')
+            else:
+                self._posrank['ranks'].append(rank)
+                self._posrank['probs'][0] -= probability
+                self._posrank['probs'].append(probability)
+            
+            return
+
+        # Third option, 
+        if isinstance(rank, list) or isinstance(rank, tuple):
+            
+            if len(rank) == len(probability):
+                for r, p in zip(rank, probability):
+                    self._AddPosRank(r, p)
+            elif len(probability) != 1:
+                for r in rank:
+                    self._AddPosRank(r, probability)
+            else:
+                raise TypeError('Probability iterable must have the same length as rank, or be a single float!')
+            
+            return
+
+        # Anything else should fail
+        raise TypeError('Rank must be a valid rank object or rank code, or list/tuple of them!')
 
 ##############################################################################
 # Basic Military Structure Classes
@@ -148,9 +239,6 @@ class Branch(ImpObject):
         ImpObject.__init__(self)
 
         self._SetName(name)
-
-    def __repr__(self):
-        return self._name + ' at ' + hex(id(self))
 
     def GetCode(self):
         """ Return the code (string) corresponding the given branch.
@@ -187,7 +275,7 @@ class RankCategory(ImpObject):
 
         self._SetName(name)
         self._SetBounds(bounds)
-        self._SetBranches(branch)
+        self._SetBranch(branch)
 
     ###########################################################################
     # Initialization Helper functions
@@ -238,7 +326,7 @@ class RankCategory(ImpObject):
 
         # If only a single value given, it's the upper bound
         if isinstance(bounds, int):
-            self._bounds = (0, bounds)
+            self._range = (0, bounds)
             return
 
         # Can be given in a list or tuple
@@ -246,7 +334,7 @@ class RankCategory(ImpObject):
 
             # If only a single value given, it's the upper bound
             if len(bounds) == 1 and isinstance(bounds[0], int):
-                self._range(0, range_)
+                self._range(0, bounds)
                 return
 
             # If both bounds are given, check they are integers and store
@@ -257,7 +345,7 @@ class RankCategory(ImpObject):
                    isinstance(bounds[1], int)):
 
                     if bounds[0] > bounds[1]:
-                        self.bounds = (bounds[1], bounds[0])
+                        self._range = (bounds[1], bounds[0])
                         return
                     else:
                         self._range = (bounds[0], bounds[1])
@@ -382,8 +470,8 @@ class Rank(ImpObject, Branched):
             raise TypeError('Rank Level must be an integer value!')
 
         #FIXME - Use Attribute method instead of direct access
-        blim = self._category._bounds[0]
-        tlim = self._category._bounds[1]
+        blim = self._category._range[0]
+        tlim = self._category._range[1]
 
         if tlim >= level >= blim:
             self._level = level
@@ -411,7 +499,7 @@ class Rank(ImpObject, Branched):
 
         #FIXME switch category branch access to method
         badBranch = False
-        for branch in self._branches:
+        for branch in self._branch:
             if branch not in category._branch:
                 badBranch = True
 
@@ -430,18 +518,14 @@ class Rank(ImpObject, Branched):
             for b in branch:
 
                 if not isinstance(b, Branch):
-                    print 'ERROR in Rank():'
-                    print 'Branch must be a branch object!'
-                    exit(1)
+                    raise TypeError('Branch must be a branch object!')
 
                 self._branch.append(b)
 
             return
 
         if not isinstance(branch, Branch):
-            print type(b)
-            print 'ERROR in Rank():'
-            print 'Branch must be a branch object!'
+            raise TypeError('Branch must be a branch object!')
             exit(1)
 
         self._branch.append(branch)
