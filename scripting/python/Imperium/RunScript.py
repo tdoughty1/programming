@@ -1,5 +1,5 @@
 from Imperium.Military.StructureClasses import Branch, RankCategory, Rank
-from Imperium.Military.Navy.LAC.LAC import LAC
+from Imperium.Military.Navy.LAC.Wing import Wing
 
 Branches = []
 Branches.append(Branch('Admiralty'))
@@ -26,19 +26,20 @@ Ranks.append(Rank('General', 10, Branches[1:], Categories[0]))
 Ranks.append(Rank('Field Marshal', 11, Branches[1:], Categories[0]))
 
 Ranks.append(Rank('Midshipman', 0, Branches[0], Categories[0]))
-Ranks.append(Rank('Lieutenant Junior Grade', 1, Branches[0], Categories[0]))
-Ranks.append(Rank('Lieutenant Senior Grade', 2, Branches[0], Categories[0]))
-Ranks.append(Rank('Lieutenant Commander', 3, Branches[0], Categories[0]))
-Ranks.append(Rank('Commander', 4, Branches[0], Categories[0]))
-Ranks.append(Rank('Captain Junior Grade', 5, Branches[0], Categories[0]))
-Ranks.append(Rank('Captain Senior Grade', 6, Branches[0], Categories[0]))
+Ranks.append(Rank('Ensign', 1, Branches[0], Categories[0]))
+Ranks.append(Rank('Lieutenant Junior Grade', 2, Branches[0], Categories[0]))
+Ranks.append(Rank('Lieutenant Senior Grade', 3, Branches[0], Categories[0]))
+Ranks.append(Rank('Lieutenant Commander', 4, Branches[0], Categories[0]))
+Ranks.append(Rank('Commander', 5, Branches[0], Categories[0]))
+Ranks.append(Rank('Captain Junior Grade', 6, Branches[0], Categories[0], True, '-'))
+Ranks.append(Rank('Captain Senior Grade', 6, Branches[0], Categories[0], True, '+'))
 Ranks.append(Rank('Commodore', 7, Branches[0], Categories[0]))
-Ranks.append(Rank('Rear Admiral of the Red', 8, Branches[0], Categories[0], True, 0))
-Ranks.append(Rank('Rear Admiral of the Green', 8, Branches[0], Categories[0], True, 1))
-Ranks.append(Rank('Vice Admiral of the Red', 9, Branches[0], Categories[0], True, 0))
-Ranks.append(Rank('Vice Admiral of the Green', 9, Branches[0], Categories[0], True, 1))
-Ranks.append(Rank('Admiral of the Red', 10, Branches[0], Categories[0], True, 0))
-Ranks.append(Rank('Admiral of the Green', 10, Branches[0], Categories[0], True, 1))
+Ranks.append(Rank('Rear Admiral of the Red', 8, Branches[0], Categories[0], True, '-'))
+Ranks.append(Rank('Rear Admiral of the Green', 8, Branches[0], Categories[0], True, '+'))
+Ranks.append(Rank('Vice Admiral of the Red', 9, Branches[0], Categories[0], True, '-'))
+Ranks.append(Rank('Vice Admiral of the Green', 9, Branches[0], Categories[0], True, '+'))
+Ranks.append(Rank('Admiral of the Red', 10, Branches[0], Categories[0], True, '-'))
+Ranks.append(Rank('Admiral of the Green', 10, Branches[0], Categories[0], True,'+'))
 Ranks.append(Rank('Fleet Admiral', 11, Branches[0], Categories[0]))
 
 Ranks.append(Rank('Warrant Officer', 1, Branches, Categories[1]))
@@ -75,6 +76,5 @@ Ranks.append(Rank('Crewman Second Class', 3, Branches[0], Categories[3]))
 Ranks.append(Rank('Crewman First Class', 4, Branches[0], Categories[3]))
 Ranks.append(Rank('Senior Crewman', 5, Branches[0], Categories[3]))
 
-testLAC = LAC()
-testFC = testLAC._SubUnits[0]
-testPos = testFC._Roster[0]
+testWing = Wing()
+
