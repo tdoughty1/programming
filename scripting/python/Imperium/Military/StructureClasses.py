@@ -427,7 +427,7 @@ class Rank(ImpObject, Branched):
             Optional (Keyword) Parameters:
                 issplit: (bool) - Flag if the rank is a sublevel.  For instance
                     Rear Admiral of the Green.
-                slevel: (int) - Relative seniority of the rank within the given
+                slevel: (+/-) - Relative seniority of the rank within the given
                     sublevel.
         """
 
@@ -441,11 +441,19 @@ class Rank(ImpObject, Branched):
         self._issplit = split
 
         if self._issplit:
+            if slevel not in ['+', '-']:
+                raise ValueError("Split level must be either '+' or '-'")
+                
             self._sublevel = slevel
 
     def __str__(self):
-        return self._category._name[0] + str(self._level) + ' ' + \
-            str(self._name)
+        
+        if self._issplit and self._sublevel == '+':
+            return self._category._name[0] + str(self._level) + \
+                self._sublevel + ' ' + str(self._name)
+        else:
+            return self._category._name[0] + str(self._level) + ' ' + \
+                str(self._name)
 
     ##########################################################################
     # Initialization Helper functions
@@ -543,7 +551,10 @@ class Rank(ImpObject, Branched):
         if self._category == other._category:
             if(self._issplit and other._issplit and
                self._level == other._level):
-                return self._sublevel > other._sublevel
+                if self._sublevel == '+' and other._sublevel == '-':
+                    return True
+                else:
+                    return False
             else:
                 return self._level > other._level
 
@@ -578,7 +589,11 @@ class Rank(ImpObject, Branched):
         if self._category == other._category:
             if(self._issplit and other._issplit and
                self._level == other._level):
-                return self._sublevel >= other._sublevel
+                if self._sublevel == other._sublevel or \
+                  (self._sublevel == '+' and self._sublevel == '-'):
+                    return True
+                else:
+                    return False
             else:
                 return self._level >= other._level
 
@@ -623,7 +638,10 @@ class Rank(ImpObject, Branched):
     ##########################################################################
     def GetCode(self):
         """ Return the code (string) for this rank."""
-        return self._category._name[0] + str(self._level)
+        if self._issplit and self._sublevel == '+':
+            return self._category._name[0] + str(self._level) + self._sublevel
+        else:
+            return self._category._name[0] + str(self._level)
 
     def GetBranches(self):
         """ Return list of branches which have this rank. """
