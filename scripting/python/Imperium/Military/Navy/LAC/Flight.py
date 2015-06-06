@@ -6,10 +6,13 @@ from Imperium.Military.Navy.LAC.LAC import LAC
 class MaintTeam(Unit):
 
     def _SetPositions(self):
-        self._AddPosition('Team Leader', 'A', 'N1', posRanks=(['N2','E5'],[.2,.05]))
+        self._AddPosition('Team Leader', 'A', 'N1',
+                          posRanks=(['N2', 'E5'], [.2, .05]))
 
         for i in range(1, 6):
-            self._AddPosition('Team Member', 'A', 'E2', posRanks=(['E5','E4','E3','E1'], [.1,.15,.25,.2]))
+            self._AddPosition('Team Member', 'A', 'E2',
+                              posRanks=(['E5', 'E4', 'E3', 'E1'],
+                                        [.1, .15, .25, .2]))
 
 
 class MissileTeam(MaintTeam):
@@ -57,16 +60,20 @@ class MaintenanceCrew(Unit):
         self._SubUnits.append(ShieldTeam(self))
 
     def _SetPositions(self):
-        self._AddPosition('Maintenance Chief', 'A', 'N2', posRanks=(['N3','N1'],[.1,.15]))
+        self._AddPosition('Maintenance Chief', 'A', 'N2',
+                          posRanks=(['N3', 'N1'], [.1, .15]))
 
 
 class FlightOpsTeam(Unit):
 
     def _SetPositions(self):
-        self._AddPosition('Team Leader', 'A', 'N1', posRanks=(['N2','E5'],[.2,.05]))
+        self._AddPosition('Team Leader', 'A', 'N1',
+                          posRanks=(['N2', 'E5'], [.2, .05]))
 
         for i in range(1, 5):
-            self._AddPosition('Team Member', 'A', 'E2', posRanks=(['E5','E4','E3','E1'], [.1,.15,.25,.2]))
+            self._AddPosition('Team Member', 'A', 'E2',
+                              posRanks=(['E5', 'E4', 'E3', 'E1'],
+                                        [.1, .15, .25, .2]))
 
 
 class FlightOps(Unit):
@@ -76,15 +83,19 @@ class FlightOps(Unit):
             self._SubUnits.append(FlightOpsTeam(self))
 
     def _SetPositions(self):
-        self._AddPosition('Flight Ops Chief', 'A', 'N2', posRanks=(['N3','N1'],[.15,.05]))
+        self._AddPosition('Flight Ops Chief', 'A', 'N2',
+                          posRanks=(['N3', 'N1'], [.15, .05]))
 
 
 class HangarControl(Unit):
 
     def _SetPositions(self):
-        self._AddPosition('Hangar Control Chief', 'A', 'N1', posRanks=(['N2','E5'],[.15,.05]))
+        self._AddPosition('Hangar Control Chief', 'A', 'N1',
+                          posRanks=(['N2', 'E5'], [.15, .05]))
         for i in range(4):
-            self._AddPosition('Hangar Controller', 'A', 'E2', posRanks=(['E5','E4','E3','E1'], [.1,.15,.25,.2]))
+            self._AddPosition('Hangar Controller', 'A', 'E2',
+                              posRanks=(['E5', 'E4', 'E3', 'E1'],
+                                        [.1, .15, .25, .2]))
 
 
 class Hangar(Unit):
@@ -95,7 +106,8 @@ class Hangar(Unit):
         self._SubUnits.append(HangarControl(self))
 
     def _SetPositions(self):
-        self._AddPosition('Chief of the Bay', 'A', 'N3', posRanks=(['N4','N2'], [.05,.15]))
+        self._AddPosition('Chief of the Bay', 'A', 'N3',
+                          posRanks=(['N4', 'N2'], [.05, .15]))
 
 
 class Flight(LAC_Unit):
@@ -107,9 +119,11 @@ class Flight(LAC_Unit):
 
     def _SetPositions(self):
         Pos = self._SubUnits[0]._TOE[0]
-        self._AddPosition('Flight Leader', 'A', 'O4', pos=Pos, posRanks=(['O5','O3'], [.05,.2]))
+        self._AddPosition('Flight Leader', 'A', 'O4', pos=Pos,
+                          posRanks=(['O5', 'O3'], [.05, .2]))
         Pos = self._SubUnits[0]._SubUnits[1]._TOE[0]
-        self._AddPosition('Flight Chief', 'A', 'N3', pos=Pos, posRanks=(['N4','N2'], [.05,.2]))
+        self._AddPosition('Flight Chief', 'A', 'N3', pos=Pos,
+                          posRanks=(['N4', 'N2'], [.05, .2]))
 
     def _SetCallSign(self, cmdUnit):
         fNames = ['Alpha', 'Beta', 'Gamma', 'Delta']

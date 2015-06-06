@@ -8,9 +8,12 @@ from Imperium.Military.Navy.LAC.Flight import Flight
 class LogisticsTeam(Unit):
 
     def _SetPositions(self):
-        self._AddPosition('Team Leader', 'A', 'N1', posRanks=(['N2','E5'],[.15,.05]))
+        self._AddPosition('Team Leader', 'A', 'N1',
+                          posRanks=(['N2', 'E5'], [.15, .05]))
         for i in range(4):
-            self._AddPosition('Team Member', 'A', 'E2', posRanks=(['E5','E4','E3','E1'], [.1,.15,.25,.2]))
+            self._AddPosition('Team Member', 'A', 'E2',
+                              posRanks=(['E5', 'E4', 'E3', 'E1'],
+                                        [.1, .15, .25, .2]))
 
 
 class MagazineTeam(LogisticsTeam):
@@ -32,7 +35,8 @@ class LogisticsWatch(Unit):
             self._SubUnits.append(self._Type(self))
 
     def _SetPositions(self):
-        self._AddPosition('Watch Leader', 'A', 'N2', posRanks=(['N3','N1'],[.1,.2]))
+        self._AddPosition('Watch Leader', 'A', 'N2',
+                          posRanks=(['N3', 'N1'], [.1, .2]))
 
 
 class MagazineWatch(LogisticsWatch):
@@ -63,7 +67,8 @@ class Magazine(Unit):
             self._SubUnits.append(MagazineWatch(self))
 
     def _SetPositions(self):
-        self._AddPosition('Magazine Chief', 'A', 'N3', posRanks=(['N4','N2'],[.05,.2]))
+        self._AddPosition('Magazine Chief', 'A', 'N3',
+                          posRanks=(['N4', 'N2'], [.05, .2]))
 
 
 class CargoBay(Unit):
@@ -73,7 +78,8 @@ class CargoBay(Unit):
             self._SubUnits.append(MagazineWatch(self))
 
     def _SetPositions(self):
-        self._AddPosition('Cargo Chief', 'A', 'N3', posRanks=(['N4','N2'],[.05,.2]))
+        self._AddPosition('Cargo Chief', 'A', 'N3',
+                          posRanks=(['N4', 'N2'], [.05, .2]))
 
 
 class Mess(Unit):
@@ -83,11 +89,11 @@ class Mess(Unit):
             self._SubUnits.append(MagazineWatch(self))
 
     def _SetPositions(self):
-        self._AddPosition('Mess Chief', 'A', 'N3', posRanks=(['N4','N2'],[.05,.2]))
+        self._AddPosition('Mess Chief', 'A', 'N3',
+                          posRanks=(['N4', 'N2'], [.05, .2]))
 
 
 class Squadron(LAC_Unit):
-
 
     def _SetSubUnits(self):
         for i in range(4):
@@ -98,18 +104,21 @@ class Squadron(LAC_Unit):
 
     def _SetPositions(self):
         Pos = self._SubUnits[0]._TOE[0]
-        self._AddPosition('Commanding Officer', 'A', 'O5', pos=Pos, posRanks=(['O6','O4'],[.05,.15]))
+        self._AddPosition('Commanding Officer', 'A', 'O5', pos=Pos,
+                          posRanks=(['O6', 'O4'], [.05, .15]))
         Pos = self._SubUnits[randint(1, 3)]._TOE[0]
-        self._AddPosition('Executive Officer', 'A', 'O4', pos=Pos, posRanks=(['O5','O3'],[.05,.2]))
+        self._AddPosition('Executive Officer', 'A', 'O4', pos=Pos,
+                          posRanks=(['O5', 'O3'], [.05, .2]))
         Pos = self._SubUnits[0]._TOE[1]
-        self._AddPosition('Squadron Chief', 'A', 'N5', pos=Pos, posRanks=(['N6','N4'],[.05,.15]))
+        self._AddPosition('Squadron Chief', 'A', 'N5', pos=Pos,
+                          posRanks=(['N6', 'N4'], [.05, .15]))
 
     def _SetCallSign(self, cmdUnit):
         sNames = ['Red', 'Blue', 'Green', 'Gold']
         self._CallSign = sNames[len(cmdUnit._SubUnits)]
 
     def __repr__(self):
-        return '<' + self._CallSign + ' Squadron at ' + hex(id(self)) + '>'
+        return self._CallSign + ' Squadron at ' + hex(id(self))
 
     def __str__(self):
         return self._CallSign + ' Squadron'
