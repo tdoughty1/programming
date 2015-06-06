@@ -8,8 +8,9 @@ Branches.append(Branch('Legion'))
 Categories = []
 Categories.append(RankCategory('Officer', (0, 11), Branches))
 Categories.append(RankCategory('Warrant Officer', (1, 5), Branches))
-Categories.append(RankCategory('Non-Commissioned Officer', (1, 8), Branches))
-Categories.append(RankCategory('Enlisted', (0, 5), Branches)) 
+Categories.append(RankCategory('Non-Commissioned Officer', (1, 8),
+	Branches))
+Categories.append(RankCategory('Enlisted', (0, 5), Branches))
 
 Ranks = []
 Ranks.append(Rank('Cadet', 0, Branches[1:], Categories[0]))
@@ -27,19 +28,30 @@ Ranks.append(Rank('Field Marshal', 11, Branches[1:], Categories[0]))
 
 Ranks.append(Rank('Midshipman', 0, Branches[0], Categories[0]))
 Ranks.append(Rank('Ensign', 1, Branches[0], Categories[0]))
-Ranks.append(Rank('Lieutenant Junior Grade', 2, Branches[0], Categories[0]))
-Ranks.append(Rank('Lieutenant Senior Grade', 3, Branches[0], Categories[0]))
-Ranks.append(Rank('Lieutenant Commander', 4, Branches[0], Categories[0]))
+Ranks.append(Rank('Lieutenant Junior Grade', 2, Branches[0],
+	Categories[0]))
+Ranks.append(Rank('Lieutenant Senior Grade', 3, Branches[0],
+	Categories[0]))
+Ranks.append(Rank('Lieutenant Commander', 4, Branches[0],
+	Categories[0]))
 Ranks.append(Rank('Commander', 5, Branches[0], Categories[0]))
-Ranks.append(Rank('Captain Junior Grade', 6, Branches[0], Categories[0], True, '-'))
-Ranks.append(Rank('Captain Senior Grade', 6, Branches[0], Categories[0], True, '+'))
+Ranks.append(Rank('Captain Junior Grade', 6, Branches[0],
+	Categories[0], True, '-'))
+Ranks.append(Rank('Captain Senior Grade', 6, Branches[0], Categories[0],
+	True, '+'))
 Ranks.append(Rank('Commodore', 7, Branches[0], Categories[0]))
-Ranks.append(Rank('Rear Admiral of the Red', 8, Branches[0], Categories[0], True, '-'))
-Ranks.append(Rank('Rear Admiral of the Green', 8, Branches[0], Categories[0], True, '+'))
-Ranks.append(Rank('Vice Admiral of the Red', 9, Branches[0], Categories[0], True, '-'))
-Ranks.append(Rank('Vice Admiral of the Green', 9, Branches[0], Categories[0], True, '+'))
-Ranks.append(Rank('Admiral of the Red', 10, Branches[0], Categories[0], True, '-'))
-Ranks.append(Rank('Admiral of the Green', 10, Branches[0], Categories[0], True,'+'))
+Ranks.append(Rank('Rear Admiral of the Red', 8, Branches[0],
+	Categories[0], True, '-'))
+Ranks.append(Rank('Rear Admiral of the Green', 8, Branches[0],
+	Categories[0], True, '+'))
+Ranks.append(Rank('Vice Admiral of the Red', 9, Branches[0],
+	Categories[0], True, '-'))
+Ranks.append(Rank('Vice Admiral of the Green', 9, Branches[0],
+	Categories[0], True, '+'))
+Ranks.append(Rank('Admiral of the Red', 10, Branches[0], Categories[0],
+	True, '-'))
+Ranks.append(Rank('Admiral of the Green', 10, Branches[0],
+	Categories[0], True, '+'))
 Ranks.append(Rank('Fleet Admiral', 11, Branches[0], Categories[0]))
 
 Ranks.append(Rank('Warrant Officer', 1, Branches, Categories[1]))
@@ -77,4 +89,4 @@ Ranks.append(Rank('Crewman First Class', 4, Branches[0], Categories[3]))
 Ranks.append(Rank('Senior Crewman', 5, Branches[0], Categories[3]))
 
 testWing = Wing()
-
+testWing.FillPositions()
