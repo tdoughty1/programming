@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-#!/usr/bin/env python
-#===============================================================================
+# !/usr/bin/env python
+# =====================================================================
 # Title           :Imperium/BaseClasses.py
 # Description     :Set of basic classes for inheritance
 # Author          :Todd Doughty
@@ -8,15 +8,17 @@
 # Version         :0.1
 # Notes           :
 # Python Version  :2.7.6
-#===============================================================================
+# =====================================================================
 
 """ Imperium/BaseClasses.py
 
-Module containing the base class from which most other classes are derived from.
+Module containing the base class from which most other classes are
+derived from.
 
     Classes:
         ImpObject - Base class for most Imperium classes.
 """
+
 
 class ImpObject(object):
     """ Base class from which many Imperium classes are derived.
@@ -45,15 +47,15 @@ class ImpObject(object):
         """ Constructs object of a class derived for ImpObject.
 
             This consists of two parts:
-                1) First add a pointer to the class of the object that is
-                    created and increment the counter by 1.
+                1) First add a pointer to the class of the object that
+                    is created and increment the counter by 1.
                 2) Create an empty name attribute.
         """
 
         try:
             type(self)._datalist.append(self)
             type(self)._number += 1
-        except(AttributeError):
+        except AttributeError:
             type(self)._datalist = [self]
             type(self)._number = 1
 
