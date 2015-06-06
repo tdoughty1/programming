@@ -1,1 +1,9 @@
+# Unix generated files
+*#
+*~
+
+# Compiled python files
 *.pyc
+
+# pylint result profile files
+*stones.prof
