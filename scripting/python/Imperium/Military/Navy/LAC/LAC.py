@@ -12,7 +12,7 @@ class FlightCrew(Unit):
         self._AddPosition('Astrogation Officer', 'A', 'O2', posRanks=('O1',.3))
         self._AddPosition('Communications Officer', 'A', 'O2', posRanks=(['O1','W3','W2','W1'],[.4,.025,.05,.075]))
         self._AddPosition('Engineering Officer', 'A', 'O2', posRanks=(['O1','W3','W2','W1'],[.3,.05,.1,.15]))
-        self._AddPosition('Crew Chief', 'A', 'N1', posRanks=(['N2','E5'],[.1,.05]))
+        self._AddPosition('Crew Chief', 'A', 'N1', posRanks=(['N2','E5'],[.15,.05]))
 
 
 class RepairTeam(Unit):
@@ -23,20 +23,20 @@ class RepairTeam(Unit):
 
     def _SetPositions(self):
         Pos = self._CmdUnit._SubUnits[0]._TOE[5]
-        self._AddPosition('Crew Chief', 'A', 'N1', pos=Pos)
+        self._AddPosition('Crew Chief', 'A', 'N1', pos=Pos, posRanks=(['N2','E5'], [.1,.05]))
 
         for i in range(1, 9):
-            self._AddPosition('Crewman', 'A', 'E4')
+            self._AddPosition('Crewman', 'A', 'E2', posRanks=(['E5','E4','E3','E1'], [.1,.15,.25,.2]))
 
     def _SetWatch(self):
 
         self._Watch = {'Alpha': [], 'Bravo': [], 'Charlie': [], 'Delta': []}
 
-        rands = sample(range(1, len(self._Roster[1:]) + 1), len(self._Roster[1:]))
+        rands = sample(range(1, len(self._CTOE[1:]) + 1), len(self._CTOE[1:]))
 
-        for i in range(len(self._Roster[1:])):
+        for i in range(len(self._CTOE[1:])):
             key = self._Watch.keys()[i/2]
-            self._Watch[key].append(self._Roster[rands[i]])
+            self._Watch[key].append(self._CTOE[rands[i]])
 
 
 class LAC(LAC_Unit):
@@ -46,9 +46,8 @@ class LAC(LAC_Unit):
         self._SubUnits.append(RepairTeam(self))
 
     def _SetPositions(self):
-        print self._SubUnits[0]._TOE[0]
         Pos = self._SubUnits[0]._TOE[0]
-        self._AddPosition('LAC Commander', 'A', 'O3', pos=Pos, posRanks=(['O4','O2'], [.05,.15]))
+        self._AddPosition('LAC Commander', 'A', 'O3', pos=Pos, posRanks=('O2',.2))
         Unit._SetPositions(self)
 
     def _SetCallSign(self, cmdUnit):
