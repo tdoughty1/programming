@@ -35,7 +35,7 @@ class Unit(ImpObject, Branched):
         self._SubUnits = []
 
         self._TOE = []
-        self._Roster = []
+        self._CTOE = []
         self._Ranks = {}
 
         self._SetSubUnits()
@@ -71,7 +71,7 @@ class Unit(ImpObject, Branched):
         newPos = Position(name, branch, rank, unit, pos, posRanks)
 
         self._TOE.append(newPos)
-        self._Roster.append(newPos)
+        self._CTOE.append(newPos)
         self._AddRank(rank)
 
         # If linking to another position:
@@ -79,11 +79,11 @@ class Unit(ImpObject, Branched):
         #   2. decrement rank value
         if pos is not None:
             try:
-                ind = pos._unit._Roster.index(pos)
+                ind = pos._unit._CTOE.index(pos)
             except(ValueError):
                 pass
             else:
-                pos._unit._Roster.pop(ind)
+                pos._unit._CTOE.pop(ind)
             oldrank = pos._rank.GetCode()
             pos._unit._Ranks[oldrank] -= 1
 
@@ -121,13 +121,13 @@ class Unit(ImpObject, Branched):
         for unit in self._SubUnits:
             unit.ListTOE()
 
-    def ListRoster(self):
+    def ListCTOE(self):
 
-        for position in self._Roster:
+        for position in self._CTOE:
             print position
 
         for unit in self._SubUnits:
-            unit.ListRoster()
+            unit.ListCTOE()
 
     def ListBaseRanks(self):
 
