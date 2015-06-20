@@ -12,28 +12,138 @@
 
 """ Imperium/Military/BaseClasses.py
 
-    Module containing the base class from which most other classes are
-    derived from.
+    This module contains the abstract base classes from which most
+    other military classes are derived from.
 
     Classes:
-        ImpObject - Base class for most Imperium classes.
+        Unit - Base class for all miltary units.
+        Position - Base class for all military roles
 """
 
+# File metadata
+__license__ = "The MIT License (MIT)"
+__copyright__ = "Copyright (c) 2015 Todd Doughty"
+__version__ = "0.1"
+__docformat__ = 'reStructuredText'
+
+# Import Common Modules
 from numpy import random
 
+# Import Third Party Modules
 from faker import Faker
 
+# Import Imperium Modules
 from Imperium.BaseClasses import ImpObject
 from Imperium.Military.StructureClasses import Branched, Ranked
 
+# Instantiate a useful factory (speeds up initalization)
+fake = Faker()
 
 class Unit(ImpObject, Branched):
+    """The "abstract" base class for all military units
 
+    All military units inherit most of their basic functionality
+    through this class.
+    
+    - **parameters**, **types**, **return** and **return types**::
+
+          :param arg1: description
+          :param arg2: description
+          :type arg1: type description
+          :type arg1: type description
+          :return: return description
+          :rtype: the return type description
+
+    - and to provide sections such as **Example** using the double commas syntax::
+
+          :Example:
+
+          followed by a blank line !
+
+      which appears as follow:
+
+      :Example:
+
+      followed by a blank line
+
+    - Finally special sections such as **See Also**, **Warnings**, **Notes**
+      use the sphinx syntax (*paragraph directives*)::
+
+          .. seealso:: blabla
+          .. warnings also:: blabla
+          .. note:: blabla
+          .. todo:: blabla
+
+    .. note::
+        There are many other Info fields but they may be redundant:
+            * param, parameter, arg, argument, key, keyword: Description of a
+              parameter.
+            * type: Type of a parameter.
+            * raises, raise, except, exception: That (and when) a specific
+              exception is raised.
+            * var, ivar, cvar: Description of a variable.
+            * returns, return: Description of the return value.
+            * rtype: Return type.
+
+    .. note::
+        There are many other directives such as versionadded, versionchanged,
+        rubric, centered, ... See the sphinx documentation for more details.
+
+    Here below is the results of the :func:`function1` docstring.
+
+    """
     ###################################################################
     # Basic Magic Methods
     ###################################################################
 
     def __init__(self, cmdUnit=None):
+        """
+        Initializer for all Unit objects.
+
+        All unit objects call this function directly (can't be overloa
+
+          - parameters using ``:param <name>: <description>``
+          - type of the parameters ``:type <name>: <description>``
+          - returns using ``:returns: <description>``
+          - examples (doctest)
+          - seealso using ``.. seealso:: text``
+          - notes using ``.. note:: text``
+          - warning using ``.. warning:: text``
+          - todo ``.. todo:: text``
+
+        **Advantages**:
+         - Uses sphinx markups, which will certainly be improved in future
+           version
+         - Nice HTML output with the See Also, Note, Warnings directives
+
+
+        **Drawbacks**:
+         - Just looking at the docstring, the parameter, type and  return
+           sections do not appear nicely
+
+        :param arg1: the first value
+        :param arg2: the first value
+        :param arg3: the first value
+        :type arg1: int, float,...
+        :type arg2: int, float,...
+        :type arg3: int, float,...
+        :returns: arg1/arg2 +arg3
+        :rtype: int, float
+
+        :Example:
+
+        >>> import template
+        >>> a = template.MainClass1()
+        >>> a.function1(1,1,1)
+        2
+
+        .. note:: can be useful to emphasize
+            important feature
+        .. seealso:: :class:`MainClass2`
+        .. warning:: arg2 must be non-zero.
+        .. todo:: check that arg2 is non zero.
+        """
+
         ImpObject.__init__(self)
 
         self._CmdUnit = cmdUnit
@@ -228,19 +338,22 @@ class Position(ImpObject, Branched, Ranked):
     ###################################################################
     
     def FillPosition(self):
-        fake = Faker()
+        """Adds a randomly generated individual to this position."""
         self._Individual = {}
         self._Individual['LastName'] = fake.last_name()
         
-        # Generate Random number for gender
-        gRand = random.rand()
+        # Generate Random number seed
+        seed = random.randint(1e9,1e10)
+        gRand = seed%1000/1000.
+        rRand = seed%1000000/1000/1000.
+        sRand = seed%1000000000/1000000/1000.
+        
         if gRand > .75:
             self._Individual['FirstName'] = fake.first_name_female()
         else:
             self._Individual['FirstName'] = fake.first_name_male()
         
         # Generate Random number for rank
-        rRand = random.rand()
         prob = 0
         for rank, add_prob in zip(self._posrank['ranks'], self._posrank['probs']):
             prob += add_prob
@@ -249,5 +362,4 @@ class Position(ImpObject, Branched, Ranked):
                 break
         
         # Generate Random number for seniority
-        sRand = random.rand()
         self._Individual['Seniority'] = sRand
