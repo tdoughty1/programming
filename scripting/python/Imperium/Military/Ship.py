@@ -1,4 +1,4 @@
-from Imperium.Navy.BaseClasses import Division, Department
+from Imperium.Military.Navy.BaseClasses import Division, Department
 
 
 class Facility(object):
