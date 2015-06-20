@@ -260,15 +260,14 @@ class RankCategory(ImpObject):
 
         Hidden Methods:
             _SetName: (Inherited from ImpObject) - Set the name of the category.
-            _SetBounds: Set the upper and lower bounds of the category rank
-                seniorities.
-            _SetBranches: (Overwritten from ImpObject) - Set branches which have
-                this category of rank.
+            _SetBounds: Set the upper and lower bounds of the category rank seniorities.
+            _SetBranches: (Overwritten from ImpObject) - Set branches which have this category of rank.
 
         Methods:
-            GetCode: Returns the code corresponding to the given branch.  This
-                is currently always the first letter of the name.
-                #FIXME - Add option to override default behavior.
+            GetCode: Returns the code corresponding to the given branch.  This is currently always the first letter of the name. 
+        
+        #FIXME - Add option to override default behavior.
+
     """
 
     def __init__(self, name, bounds, branch):
@@ -391,11 +390,9 @@ class Rank(ImpObject, Branched):
         Attributes:
             _name: (string) - Name of the given object.
             _branch: (Branch) - Branch which rank exists in (Army, Navy, etc.).
-            _category: (RankCategory) - General category of the rank
-                (Enlisted, Officer, etc.).
+            _category: (RankCategory) - General category of the rank (Enlisted, Officer, etc.).
             _level: (int) - Relative seniority of rank in given category.
-            _issplit: (bool) - Flag if rank is split into sublevels (Admiral of
-                the Red, etc.).
+            _issplit: (bool) - Flag if rank is split into sublevels (Admiral of the Red, etc.).
 
         Optional Attributes:
             _sublevel: (int) - Relative seniority of split ranks.
@@ -407,6 +404,7 @@ class Rank(ImpObject, Branched):
             _SetBranch: (inherited from Branched) - Link to branch object.
             _SetCategory: Link to category object.
             _SetLevel: Store level value.
+
     """
 
     def __init__(self, name, level, branch, category, split=False, slevel=None):
