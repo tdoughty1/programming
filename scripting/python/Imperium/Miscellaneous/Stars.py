@@ -44,7 +44,7 @@ class System(object):
         print '%02dh, %02dm, %4.2f' %(self._phi._h)
 
     def Declination(self):
-
+        pass
 
     def Distance(self, other=None):
         if other is None:
