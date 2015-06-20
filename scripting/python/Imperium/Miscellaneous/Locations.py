@@ -1,3 +1,6 @@
+class Location(object):
+    pass
+
 class Planet(Location):
     pass
 
