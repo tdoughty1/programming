@@ -1,4 +1,4 @@
-from Imperium.BaseClasses import DObject
+from Imperium.BaseClasses import ImpObject
 from Imperium.Military.BaseClasses import Unit
 
 
@@ -14,15 +14,11 @@ class Ship(Unit):
     pass
 
 
-class ShipClass(DObject):
+class ShipClass(ImpObject):
     pass
 
 
-class ShipType(DObject):
-
-    def _init__(self, name, code=None):
-        DObject.__init__(self, name)
-        self._SetCode(code)
+class ShipType(ImpObject):
 
     def _SetCode(self, code):
         self._code = code
