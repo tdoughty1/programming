@@ -9,7 +9,13 @@ Welcome to Imperium's documentation!
 Contents:
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
+   :numbered:
+   :caption: Table of Contents
+   :name: mastertoc
+   
+   getting_started.rst
+   modules.rst
 
 
 
@@ -19,4 +25,3 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
-
