@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #!/usr/bin/env python
 #===============================================================================
-# Title           :StructureClasses.py
+# Title           :imperium/structure_classes.py
 # Description     :Set of basic classes for inheritance
 # Author          :Todd Doughty
 # Date            :5 Jul 2014
@@ -10,7 +10,7 @@
 # Python Version  :2.7.6
 #===============================================================================
 
-""" StructureClasses.py
+""" imperium/structure_classes.py
 
 Module containing basic military structure classes and corresponding virtual
 classes.

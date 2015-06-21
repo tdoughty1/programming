@@ -1,5 +1,5 @@
-from Imperium.Military.StructureClasses import Branch, RankCategory, Rank
-from Imperium.Military.Navy.LAC.Wing import Wing
+from imperium.military.structure_classes import Branch, RankCategory, Rank
+from imperium.military.navy.lac.wing import Wing
 
 def Main():
 

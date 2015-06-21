@@ -1,4 +1,16 @@
-from Imperium.Military.Navy.BaseClasses import Division, Department
+# -*- coding: utf-8 -*-
+# !/usr/bin/env python
+# =====================================================================
+# Title           :imperium/military.ship.py
+# Description     :Set of basic classes for inheritance
+# Author          :Todd Doughty
+# Date            :5 Jul 2014
+# Version         :0.1
+# Notes           :
+# Python Version  :2.7.6
+# =====================================================================
+
+from imperium.military.navy.base_classes import Division, Department
 
 
 class Facility(object):

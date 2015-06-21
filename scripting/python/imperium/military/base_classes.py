@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # !/usr/bin/env python
 # =====================================================================
-# Title           :Imperium/Military/BaseClasses.py
+# Title           :imperium/military/base_classes.py
 # Description     :Set of basic classes for inheritance
 # Author          :Todd Doughty
 # Date            :5 Jul 2014
@@ -10,7 +10,7 @@
 # Python Version  :2.7.6
 # =====================================================================
 
-""" Imperium/Military/BaseClasses.py
+""" imperium/military/base_classes.py
 
     This module contains the abstract base classes from which most
     other military classes are derived from.

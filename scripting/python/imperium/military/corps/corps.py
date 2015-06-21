@@ -1,6 +1,17 @@
-from Imperium.Military.BaseClasses import Unit
-from Imperium.Military.Corps.BaseUnitClasses import Section, Platoon, Company,\
-    Battalion
+# -*- coding: utf-8 -*-
+# !/usr/bin/env python
+# =====================================================================
+# Title           :imperium/military/corps.py
+# Description     :Classes for Marine detachments
+# Author          :Todd Doughty
+# Date            :20 Jul 2015
+# Version         :0.1
+# Notes           :
+# Python Version  :2.7.6
+# =====================================================================
+
+from imperium.military.base_classes import Unit
+from imperium.military.corps.base_unit_classes import Section, Platoon, Company, Battalion
 
 
 class RifleBattalion(Battalion):

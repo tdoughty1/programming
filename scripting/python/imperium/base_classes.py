@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # !/usr/bin/env python
 # =====================================================================
-# Title           :Imperium/BaseClasses.py
+# Title           :imperium/base_classes.py
 # Description     :Set of basic classes for inheritance
 # Author          :Todd Doughty
 # Date            :5 Jul 2014
@@ -10,7 +10,7 @@
 # Python Version  :2.7.6
 # =====================================================================
 
-""" Imperium/BaseClasses.py
+""" imperium/base_classes.py
 
 Module containing the base class from which most other classes are
 derived from.

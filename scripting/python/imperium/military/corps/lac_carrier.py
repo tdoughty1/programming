@@ -1,5 +1,17 @@
-from Imperium.Military.Corps.BaseUnitClasses import Company, Battalion, Brigade
-from Imperium.Military.Corps.Corps import RiflePlatoon, WeaponsSection
+# -*- coding: utf-8 -*-
+# !/usr/bin/env python
+# =====================================================================
+# Title           :imperium/military/corps/lac_carrier.py
+# Description     :Classes for Marine detachments on lac carriers
+# Author          :Todd Doughty
+# Date            :20 Jul 2015
+# Version         :0.1
+# Notes           :
+# Python Version  :2.7.6
+# =====================================================================
+
+from imperium.military.corps.base_unit_classes import Company, Battalion, Brigade
+from imperium.military.corps.corps import RiflePlatoon, WeaponsSection
 
 
 class Company_Det_CLAC(Company):

@@ -10,9 +10,9 @@
 # Python Version  :2.7.6
 # =====================================================================
 
-from Imperium.Military.BaseClasses import Unit
-from Imperium.Military.Corps.BaseUnitClasses import Platoon, Company, Battalion
-from Imperium.Military.Corps.Corps import RifleSquad
+from imperium.military.base_classes import Unit
+from imperium.military.corps.base_unit_classes import Platoon, Company, Battalion
+from imperium.military.corps.corps import RifleSquad
 
 
 class LightPlatoon_Det_FG(Platoon):

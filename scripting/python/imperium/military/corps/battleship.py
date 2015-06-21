@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # !/usr/bin/env python
 # =====================================================================
-# Title           :Imperium/Military/Corps/Battleship.py
+# Title           :imperium/military/corps/battleship.py
 # Description     :Classes for Marine detachments on battleships
 # Author          :Todd Doughty
 # Date            :20 Jul 2015
@@ -10,8 +10,8 @@
 # Python Version  :2.7.6
 # =====================================================================
 
-from Imperium.Military.Corps.BaseUnitClasses import Company, Battalion, Brigade
-from Imperium.Military.Corps.Corps import RiflePlatoon, WeaponsSection
+from imperium.military.corps.base_unit_classes import Company, Battalion, Brigade
+from imperium.military.corps.corps import RiflePlatoon, WeaponsSection
 
 
 class AugmentedCompany_Det_BB(Company):

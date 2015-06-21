@@ -9,8 +9,8 @@
 # Notes           :
 # Python Version  :2.7.6
 # =====================================================================
-from Imperium.Military.Corps.BaseUnitClasses import Company, Battalion, Brigade
-from Imperium.Military.Corps.Corps import RiflePlatoon, WeaponsSection
+from imperium.military.corps.base_unit_classes import Company, Battalion, Brigade
+from imperium.military.corps.corps import RiflePlatoon, WeaponsSection
 
 
 class LightCompany_Det_CA(Company):
