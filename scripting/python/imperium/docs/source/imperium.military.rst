@@ -1,4 +1,4 @@
-Imperium.Military package
+Military package
 =========================
 
 Subpackages
@@ -6,32 +6,32 @@ Subpackages
 
 .. toctree::
 
-    Imperium.Military.Corps
-    Imperium.Military.Navy
+    Corps
+    Navy
 
 Submodules
 ----------
 
-Imperium.Military.BaseClasses module
+Base Classes module
 ------------------------------------
 
-.. automodule:: Imperium.Military.BaseClasses
+.. automodule:: imperium.military.base_classes
     :members:
     :undoc-members:
     :show-inheritance:
 
-Imperium.Military.Ship module
+Ship module
 -----------------------------
 
-.. automodule:: Imperium.Military.Ship
+.. automodule:: imperium.military.ship
     :members:
     :undoc-members:
     :show-inheritance:
 
-Imperium.Military.StructureClasses module
+Structure Classes module
 -----------------------------------------
 
-.. automodule:: Imperium.Military.StructureClasses
+.. automodule:: imperium.military.structure_classes
     :members:
     :undoc-members:
     :show-inheritance:
@@ -40,7 +40,7 @@ Imperium.Military.StructureClasses module
 Module contents
 ---------------
 
-.. automodule:: Imperium.Military
+.. automodule:: imperium.military
     :members:
     :undoc-members:
     :show-inheritance:

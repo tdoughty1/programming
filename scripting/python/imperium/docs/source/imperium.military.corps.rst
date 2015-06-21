@@ -1,93 +1,93 @@
-Imperium.Military.Corps package
+Corps package
 ===============================
 
 Submodules
 ----------
 
-Imperium.Military.Corps.BaseUnitClasses module
+Base Unit Classes submodule
 ----------------------------------------------
 
-.. automodule:: Imperium.Military.Corps.BaseUnitClasses
+.. automodule:: imperium.military.corps.base_unit_classes
     :members:
     :undoc-members:
     :show-inheritance:
 
-Imperium.Military.Corps.Battlecruiser module
+Battlecruiser submodule
 --------------------------------------------
 
-.. automodule:: Imperium.Military.Corps.Battlecruiser
+.. automodule:: imperium.military.corps.battlecruiser
     :members:
     :undoc-members:
     :show-inheritance:
 
-Imperium.Military.Corps.Battleship module
+Battleship module
 -----------------------------------------
 
-.. automodule:: Imperium.Military.Corps.Battleship
+.. automodule:: imperium.military.corps.battleship
     :members:
     :undoc-members:
     :show-inheritance:
 
-Imperium.Military.Corps.Corps module
+Corps submodule
 ------------------------------------
 
-.. automodule:: Imperium.Military.Corps.Corps
+.. automodule:: imperium.military.corps.corps
     :members:
     :undoc-members:
     :show-inheritance:
 
-Imperium.Military.Corps.Destroyer module
+Destroyer submodule
 ----------------------------------------
 
-.. automodule:: Imperium.Military.Corps.Destroyer
+.. automodule:: imperium.military.corps.destroyer
     :members:
     :undoc-members:
     :show-inheritance:
 
-Imperium.Military.Corps.Dreadnought module
+Dreadnought submodule
 ------------------------------------------
 
-.. automodule:: Imperium.Military.Corps.Dreadnought
+.. automodule:: imperium.military.corps.dreadnought
     :members:
     :undoc-members:
     :show-inheritance:
 
-Imperium.Military.Corps.Frigate module
+Frigate submodule
 --------------------------------------
 
-.. automodule:: Imperium.Military.Corps.Frigate
+.. automodule:: imperium.military.corps.frigate
     :members:
     :undoc-members:
     :show-inheritance:
 
-Imperium.Military.Corps.HeavyCruiser module
+Heavy Cruiser submodule
 -------------------------------------------
 
-.. automodule:: Imperium.Military.Corps.HeavyCruiser
+.. automodule:: imperium.military.corps.heavy_cruiser
     :members:
     :undoc-members:
     :show-inheritance:
 
-Imperium.Military.Corps.LACCarrier module
+LAC Carrier submodule
 -----------------------------------------
 
-.. automodule:: Imperium.Military.Corps.LACCarrier
+.. automodule:: imperium.military.corps.lac_carrier
     :members:
     :undoc-members:
     :show-inheritance:
 
-Imperium.Military.Corps.LightCruiser module
+Light Cruiser submodule
 -------------------------------------------
 
-.. automodule:: Imperium.Military.Corps.LightCruiser
+.. automodule:: imperium.military.corps.light_cruiser
     :members:
     :undoc-members:
     :show-inheritance:
 
-Imperium.Military.Corps.SuperDreadnought module
+Superdreadnought submodule
 -----------------------------------------------
 
-.. automodule:: Imperium.Military.Corps.SuperDreadnought
+.. automodule:: imperium.military.corps.superdreadnought
     :members:
     :undoc-members:
     :show-inheritance:
@@ -96,7 +96,8 @@ Imperium.Military.Corps.SuperDreadnought module
 Module contents
 ---------------
 
-.. automodule:: Imperium.Military.Corps
+.. automodule:: imperium.military.corps
     :members:
     :undoc-members:
     :show-inheritance:
+
