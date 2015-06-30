@@ -26,7 +26,7 @@ classes.
 """
 
 # Import Project Specific Modules
-from Imperium.BaseClasses import ImpObject
+from imperium.base_classes import ImpObject
 
 ###############################################################################
 # Military Structure Virtual Classes

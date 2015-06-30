@@ -33,8 +33,8 @@ from numpy import random
 from faker import Faker
 
 # Import Imperium Modules
-from Imperium.BaseClasses import ImpObject
-from Imperium.Military.StructureClasses import Branched, Ranked
+from imperium.base_classes import ImpObject
+from imperium.military.structure_classes import Branched, Ranked
 
 # Instantiate a useful factory (speeds up initalization)
 fake = Faker()
