@@ -14,7 +14,7 @@ from imperium.military.corps.base_unit_classes import Battalion, Brigade, Divisi
 from imperium.military.corps.corps import RifleCompany, WeaponsSection
 
 
-class Light_Battalion_Det_DD(Battalion):
+class LightBattalionDet_DD(BattalionDet):
 
     def _SetSubUnits(self):
         for i in range(2):
@@ -22,9 +22,17 @@ class Light_Battalion_Det_DD(Battalion):
         self._SubUnits.append(WeaponsSection)
 
 
-class Light_Brigade_Det_DD(Brigade):
+class BrigadeDet_HQ_DD(BrigadeDet_HQ):
     pass
 
 
-class Light_Division_Det_DD(Division):
+class BrigadeDet_DD(BrigadeDet):
+    pass
+
+
+class DivisionDet_HQ_DD(DivisionDet_HQ):
+    pass
+
+
+class DivisionDet_DD(DivisionDet):
     pass

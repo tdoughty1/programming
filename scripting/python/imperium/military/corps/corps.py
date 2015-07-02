@@ -156,15 +156,20 @@ class FoodServicesSection_BN(Section):
 
 class MedicalPlatoon_BN(Platoon):
 
+    def _SetPosition(self):
+        self._AddPosition('Medical Operations Officer', 'C', 'O2', self)
+        self._AddPosition('Medical Service Officer', 'C', 'O3', self)
+
     def _SetSubUnits(self):
-        self._SubUnits.append(TriageSection_BN(self))
+        self._SubUnits.append(AidStation_BN(self))
         self._SubUnits.append(EmplacedSection_BN(self))
 
 
-class TriageSection_BN(Section):
+class AidStation_BN(Section):
 
     def _SetPositions(self):
-        self._AddPosition('Battalion Surgeon', 'C', 'W2', self)
+        self._AddPosition('Battalion Surgeon', 'C', 'O2', self)
+        self._AddPosition('Physician Assistant', 'C', 'W1', self)
         self._AddPosition('Chief Medic', 'C', 'N3', self)
         for i in range(2):
             self._AddPosition('Senior Medic', 'C', 'N2', self)
@@ -219,14 +224,11 @@ class RiflePlatoon(Platoon):
     def _SetSubUnits(self):
         for i in range(3):
             self._SubUnits.append(RifleSquad(self))
-        self._SubUnits.append(WeaponsSection(self))
+        self._SubUnits.append(PlasmaTeam(self))
 
     def _SetPositions(self):
         self._AddPosition('Platoon Leader', 'C', 'O1', self)
         self._AddPosition('Platoon Sergeant', 'C', 'N3', self)
-        self._AddPosition('Plasma Gunner', 'C', 'E4', self)
-        self._AddPosition('Plasma Gunner', 'C', 'E4', self)
-        self._AddPosition('Medic', 'C', 'N1', self)
 
 
 class WeaponsSection(Unit):
@@ -235,13 +237,12 @@ class WeaponsSection(Unit):
         self._SubUnits.append(SniperTeam(self))
         self._SubUnits.append(ScoutTeam(self))
         for i in range(2):
+            self._SubUnits.append(PlasmaTeam(self))
             self._SubUnits.append(MissileTeam(self))
             self._SubUnits.append(MortarTeam(self))
-            self._SubUnits.append(PlasmaTeam(self))
 
     def _SetPositions(self):
         self._AddPosition('Section Leader', 'C', 'N2', self)
-        self._AddPosition('Medic', 'C', 'N1', self)
 
 
 class RifleSquad(Unit):
@@ -272,25 +273,25 @@ class RifleTeam(Unit):
 class MissileTeam(Unit):
 
     def _SetPositions(self):
-        self._AddPosition('Team Leader', 'C', 'N1', self)
-        for i in range(3):
-            self._AddPosition('Team Member', 'C', 'E4', self)
+        self._AddPosition('Missile Team Leader', 'C', 'N1', self)
+        for i in range(2):
+            self._AddPosition('Missile Team Member', 'C', 'E4', self)
 
 
 class MortarTeam(Unit):
 
     def _SetPositions(self):
-        self._AddPosition('Team Leader', 'C', 'N1', self)
-        for i in range(3):
-            self._AddPosition('Team Member', 'C', 'E4', self)
+        self._AddPosition('Mortar Team Leader', 'C', 'N1', self)
+        for i in range(2):
+            self._AddPosition('Mortar Team Member', 'C', 'E4', self)
 
 
 class PlasmaTeam(Unit):
 
     def _SetPositions(self):
-        self._AddPosition('Team Leader', 'C', 'N1', self)
-        for i in range(3):
-            self._AddPosition('Team Member', 'C', 'E4', self)
+        self._AddPosition('Plasma Team Leader', 'C', 'N1', self)
+        for i in range(2):
+            self._AddPosition('Plasma Team Member', 'C', 'E4', self)
 
 
 class SniperTeam(Unit):
@@ -303,6 +304,6 @@ class SniperTeam(Unit):
 class ScoutTeam(Unit):
 
     def _SetPositions(self):
-        self._AddPosition('Team Leader', 'C', 'N2', self)
-        for i in range(4):
+        self._AddPosition('Scout Team Leader', 'C', 'N2', self)
+        for i in range(3):
             self._AddPosition('Scout', 'C', 'E4', self)

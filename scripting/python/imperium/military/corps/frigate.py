@@ -11,50 +11,85 @@
 # =====================================================================
 
 from imperium.military.base_classes import Unit
-from imperium.military.corps.base_unit_classes import Platoon, Company, Battalion
+from detach_classes import PlatoonDet
+#, CompanyDet_HQ_CO, CompanyHQ_XO, CompanyDet_HQ, CompanyDet
+#from detach_classes import BattalionDet_HQ_CO, BattalionDet_HQ_XO, BattalionDet_HQ_S14, BattalionDet_HQ_S23, BattalionDet_HQ, BattalionDet
 from imperium.military.corps.corps import RifleSquad
 
 
-class LightPlatoon_Det_FG(Platoon):
+class LightPlatoonDet_FG(PlatoonDet):
+    """Platoon detached for service on a frigate.
+
+    Lighter than the standard platoon, it contains only two :class: 
+    `RifleSquad`s instead of the standard three.
+    """
 
     def _SetSubUnits(self):
         for i in range(2):
             self._SubUnits.append(RifleSquad(self))
 
-    def _SetPositions(self):
-        self._AddPosition('Platoon Leader', 'C', 'O2', self)
-        self._AddPosition('Platoon Sergeant', 'C', 'N3', self)
-        self._AddPosition('Gunnery Sergeant', 'C', 'N2', self)
-        self._AddPosition('Medic', 'C', 'N1', self)
-        self._AddPosition('Quartermaster', 'C', 'N1', self)
-        self._AddPosition('Clerk', 'C', 'E4', self)
 
+class CompanyDet_HQ_CO_FG(CompanyDet_HQ_CO):
+    """CO command element of a dispersed company for frigate service.
 
-class Company_Det_HQ_XO_FG(Unit):
-
-    def _SetPositions(self):
-        Pos = self._CmdUnit._SubUnits[0]._TOE[0]
-        self._AddPosition('Company Executive Officer', 'C', 'O2', self,
-                          pos=Pos)
-
-
-class Company_Det_HQ_CO_FG(Unit):
+    The command element for a company that has been dispersed
+    throughout all frigates of an element is split into two portions
+    and each is attached to one of the :class:`LightPlatoonDet_FG`s.
+    This element consists of the Commanding Officer (CO), the First
+    Sergeant, the Quartermaster, and the clerk.
+    """
 
     def _SetPositions(self):
-        Pos = self._CmdUnit._SubUnits[0]._TOE[0]
-        self._AddPosition('Company Commander', 'C', 'O3', self, pos=Pos)
-        Pos = self._CmdUnit._SubUnits[0]._TOE[1]
+        self._AddPosition('Commanding Officer', 'C', 'O3', self, pos=Pos)
         self._AddPosition('First Sergeant', 'C', 'N4', self, pos=Pos)
-        Pos = self._CmdUnit._SubUnits[0]._TOE[3]
-        self._AddPosition('Senior Medic', 'C', 'N2', self, pos=Pos)
-        Pos = self._CmdUnit._SubUnits[0]._TOE[4]
-        self._AddPosition('Company Quartermaster', 'C', 'N2', self, pos=Pos)
-        Pos = self._CmdUnit._SubUnits[0]._TOE[5]
-        self._AddPosition('Company Clerk', 'C', 'N1', self, pos=Pos)
+        self._AddPosition('Quartermaster', 'C', 'N2', self, pos=Pos)
+        self._AddPosition('Clerk', 'C', 'N1', self, pos=Pos)
 
 
-class Company_Det_HQ_FG(Unit):
+class CompanyDet_HQ_XO_FG(CompanyDet_HQ_XO):
+    """XO command element of a dispersed company for frigate service.
 
+    The command element for a company that has been dispersed
+    throughout all frigates of an element is split into two portions
+    and each is attached to one of the :class:`LightPlatoonDet_FG`s.
+    This element consists of the Company Executive Officer (XO) and
+    the Company Armourer.
+    """
+
+    def _SetPositions(self):
+        Pos = self._CmdUnit._SubUnits[0]._TOE[0]
+        self._AddPosition('Executive Officer', 'C', 'O2', self, pos=Pos)
+        self._AddPosition('Armorer', 'C', 'N2', pos=Pos)
+        self._AddPosition
+
+
+class CompanyDet_HQ_FG(Company_Det_HQ):
+    """A platoon detached for service on a frigate.
+
+    Lighter than the standard platoon, it contains only two :class: 
+    `Rifle_Squad`s instead of the standard three.
+    
+    If the class has public attributes, they may be documented here
+    in an ``Attributes`` section and follow the same formatting as a
+    function's ``Args`` section. Alternatively, attributes may be documented
+    inline with the attribute's declaration (see __init__ method below).
+
+    Properties created with the ``@property`` decorator should be documented
+    in the property's getter method.
+
+    Attribute and property types -- if given -- should be specified according
+    to `PEP 484`_, though `PEP 484`_ conformance isn't required or enforced.
+
+    Attributes:
+        attr1 (str): Description of `attr1`.
+        attr2 (Optional[int]): Description of `attr2`.
+
+
+    .. _PEP 484:
+       https://www.python.org/dev/peps/pep-0484/
+
+    """
+    
     def _SetSubUnits(self):
         CoHQ = self._CmdUnit._CmdUnit._SubUnits[0]._SubUnits[6]._SubUnits[1]
         CoHQ._AdmCmdUnit = self
@@ -64,8 +99,33 @@ class Company_Det_HQ_FG(Unit):
         self._SubUnits.append(XoHQ)
 
 
-class Company_Det_FG(Company):
+class CompanyDet_FG(CompanyDet):
+    """A platoon detached for service on a frigate.
 
+    Lighter than the standard platoon, it contains only two :class: 
+    `Rifle_Squad`s instead of the standard three.
+    
+    If the class has public attributes, they may be documented here
+    in an ``Attributes`` section and follow the same formatting as a
+    function's ``Args`` section. Alternatively, attributes may be documented
+    inline with the attribute's declaration (see __init__ method below).
+
+    Properties created with the ``@property`` decorator should be documented
+    in the property's getter method.
+
+    Attribute and property types -- if given -- should be specified according
+    to `PEP 484`_, though `PEP 484`_ conformance isn't required or enforced.
+
+    Attributes:
+        attr1 (str): Description of `attr1`.
+        attr2 (Optional[int]): Description of `attr2`.
+
+
+    .. _PEP 484:
+       https://www.python.org/dev/peps/pep-0484/
+
+    """
+    
     def _SetSubUnits(self):
         for i in range(6):
             Platoon = self._CmdUnit._SubUnits[i]._SubUnits[6]._SubUnits[0]
@@ -74,8 +134,12 @@ class Company_Det_FG(Company):
         self._SubUnits.append(Company_Det_HQ_FG(self))
 
 
-class Battalion_Det_HQ_CO_FG(Unit):
+class BattalionDet_HQ_CO_FG(BattalionDet_HQ_CO):
+    """Commanding Officer's HQ element for disbursed frigate battalion.
 
+    
+    """
+    
     def _SetPositions(self):
         Flot = self._CmdUnit._CmdUnit._CmdUnit
         CO = Flot._SubUnits[0]._AdminUnits[0]._SubUnits[6]._SubUnits[0]._TOE[0]
@@ -87,8 +151,33 @@ class Battalion_Det_HQ_CO_FG(Unit):
         self._AddPosition('Battalion Chief Medic', 'C', 'N3', pos=CM)
 
 
-class Battalion_Det_HQ_XO_FG(Unit):
+class BattalionDet_HQ_XO_FG(BattalionDet_HQ_XO):
+    """A platoon detached for service on a frigate.
 
+    Lighter than the standard platoon, it contains only two :class: 
+    `Rifle_Squad`s instead of the standard three.
+    
+    If the class has public attributes, they may be documented here
+    in an ``Attributes`` section and follow the same formatting as a
+    function's ``Args`` section. Alternatively, attributes may be documented
+    inline with the attribute's declaration (see __init__ method below).
+
+    Properties created with the ``@property`` decorator should be documented
+    in the property's getter method.
+
+    Attribute and property types -- if given -- should be specified according
+    to `PEP 484`_, though `PEP 484`_ conformance isn't required or enforced.
+
+    Attributes:
+        attr1 (str): Description of `attr1`.
+        attr2 (Optional[int]): Description of `attr2`.
+
+
+    .. _PEP 484:
+       https://www.python.org/dev/peps/pep-0484/
+
+    """
+    
     def _SetPositions(self):
         Flot = self._CmdUnit._CmdUnit._CmdUnit
         CO = Flot._SubUnits[1]._AdminUnits[0]._SubUnits[6]._SubUnits[0]._TOE[0]
@@ -96,7 +185,32 @@ class Battalion_Det_HQ_XO_FG(Unit):
                           pos=CO)
 
 
-class Battalion_Det_HQ_S14_FG(Unit):
+class BattalionDet_HQ_S14_FG(BattalionDet_HQ_S14):
+    """A platoon detached for service on a frigate.
+
+    Lighter than the standard platoon, it contains only two :class: 
+    `Rifle_Squad`s instead of the standard three.
+    
+    If the class has public attributes, they may be documented here
+    in an ``Attributes`` section and follow the same formatting as a
+    function's ``Args`` section. Alternatively, attributes may be documented
+    inline with the attribute's declaration (see __init__ method below).
+
+    Properties created with the ``@property`` decorator should be documented
+    in the property's getter method.
+
+    Attribute and property types -- if given -- should be specified according
+    to `PEP 484`_, though `PEP 484`_ conformance isn't required or enforced.
+
+    Attributes:
+        attr1 (str): Description of `attr1`.
+        attr2 (Optional[int]): Description of `attr2`.
+
+
+    .. _PEP 484:
+       https://www.python.org/dev/peps/pep-0484/
+
+    """
 
     def _SetPositions(self):
         Flot = self._CmdUnit._CmdUnit._CmdUnit
@@ -109,7 +223,32 @@ class Battalion_Det_HQ_S14_FG(Unit):
         self._AddPosition('Battalion Clerk', 'C', 'N3', pos=BC)
 
 
-class Battalion_Det_HQ_S23_FG(Unit):
+class BattalionDet_HQ_S23_FG(BattalionDet_HQ_S23):
+    """A platoon detached for service on a frigate.
+
+    Lighter than the standard platoon, it contains only two :class: 
+    `Rifle_Squad`s instead of the standard three.
+    
+    If the class has public attributes, they may be documented here
+    in an ``Attributes`` section and follow the same formatting as a
+    function's ``Args`` section. Alternatively, attributes may be documented
+    inline with the attribute's declaration (see __init__ method below).
+
+    Properties created with the ``@property`` decorator should be documented
+    in the property's getter method.
+
+    Attribute and property types -- if given -- should be specified according
+    to `PEP 484`_, though `PEP 484`_ conformance isn't required or enforced.
+
+    Attributes:
+        attr1 (str): Description of `attr1`.
+        attr2 (Optional[int]): Description of `attr2`.
+
+
+    .. _PEP 484:
+       https://www.python.org/dev/peps/pep-0484/
+
+    """
 
     def _SetPositions(self):
         Flot = self._CmdUnit._CmdUnit._CmdUnit
@@ -124,8 +263,33 @@ class Battalion_Det_HQ_S23_FG(Unit):
                           pos=IC)
 
 
-class Battalion_Det_HQ_FG(Unit):
+class BattalionDet_HQ_FG(BattalionDet_HQ):
+    """A platoon detached for service on a frigate.
 
+    Lighter than the standard platoon, it contains only two :class: 
+    `Rifle_Squad`s instead of the standard three.
+    
+    If the class has public attributes, they may be documented here
+    in an ``Attributes`` section and follow the same formatting as a
+    function's ``Args`` section. Alternatively, attributes may be documented
+    inline with the attribute's declaration (see __init__ method below).
+
+    Properties created with the ``@property`` decorator should be documented
+    in the property's getter method.
+
+    Attribute and property types -- if given -- should be specified according
+    to `PEP 484`_, though `PEP 484`_ conformance isn't required or enforced.
+
+    Attributes:
+        attr1 (str): Description of `attr1`.
+        attr2 (Optional[int]): Description of `attr2`.
+
+
+    .. _PEP 484:
+       https://www.python.org/dev/peps/pep-0484/
+
+    """
+    
     def _SetSubUnits(self):
         self._SubUnits.append(Battalion_Det_HQ_CO_FG(self))
         self._SubUnits.append(Battalion_Det_HQ_XO_FG(self))
@@ -133,7 +297,32 @@ class Battalion_Det_HQ_FG(Unit):
         self._SubUnits.append(Battalion_Det_HQ_S14_FG(self))
 
 
-class Battalion_Det_FG(Battalion):
+class BattalionDet_FG(BattalionDet):
+    """A platoon detached for service on a frigate.
+
+    Lighter than the standard platoon, it contains only two :class: 
+    `Rifle_Squad`s instead of the standard three.
+    
+    If the class has public attributes, they may be documented here
+    in an ``Attributes`` section and follow the same formatting as a
+    function's ``Args`` section. Alternatively, attributes may be documented
+    inline with the attribute's declaration (see __init__ method below).
+
+    Properties created with the ``@property`` decorator should be documented
+    in the property's getter method.
+
+    Attribute and property types -- if given -- should be specified according
+    to `PEP 484`_, though `PEP 484`_ conformance isn't required or enforced.
+
+    Attributes:
+        attr1 (str): Description of `attr1`.
+        attr2 (Optional[int]): Description of `attr2`.
+
+
+    .. _PEP 484:
+       https://www.python.org/dev/peps/pep-0484/
+
+    """
 
     def _SetSubUnits(self):
         for i in range(4):
@@ -141,3 +330,4 @@ class Battalion_Det_FG(Battalion):
             self._SubUnits.append(Company)
             Company._AdmCmdUnit = self
         self._SubUnits.append(Battalion_Det_HQ_FG(self))
+'''

@@ -14,7 +14,7 @@ from imperium.military.corps.base_unit_classes import Company, Battalion, Brigad
 from imperium.military.corps.corps import RiflePlatoon, WeaponsSection
 
 
-class Company_Det_CLAC(Company):
+class CompanyDet_CLAC(CompanyDet):
 
     def _SetSubUnits(self):
         for i in range(3):
@@ -31,9 +31,41 @@ class Company_Det_CLAC(Company):
         self._AddPosition('Senior Medic', 'C', 'N2')
 
 
-class Battalion_Det_CLAC(Battalion):
+class BattalionDet_HQ_CO_CLAC(BattalionDet_HQ_CO):
     pass
 
 
-class Brigade_Det_CLAC(Brigade):
+class BattalionDet_HQ_XO_CLAC(BattalionDet_HQ_XO):
+    pass
+
+
+class BattalionDet_HQ_CLAC(BattalionDet_HQ):
+    pass
+
+
+class BattalionDet_CLAC(BattalionDet):
+    pass
+
+
+class BrigadeDet_HQ_CO_CLAC(BrigadeDet_HQ_CO):
+    pass
+
+
+class BrigadeDet_HQ_XO_CLAC(BrigadeDet_HQ_XO):
+    pass
+
+
+class BrigadeDet_HQ_S236_CLAC(BrigadeDet_HQ_S236):
+    pass
+
+
+class BrigadeDet_HQ_S145_CLAC(BrigadeDet_HQ_S145):
+    pass
+
+
+class BrigadeDet_HQ_CLAC(BrigadeDet_HQ):
+    pass
+
+
+class BrigadeDet_CLAC(BrigadeDet):
     pass

@@ -11,34 +11,16 @@
 # =====================================================================
 
 from imperium.military.base_classes import Unit
+from imperium.military.corps.detach_classes import PlatoonDet, CompanyDet_HQ_CO, CompanyDet_HQ_XO, CompanyDet_HQ, CompanyDet, BattalionDet_HQ_CO, BattalionDet_HQ_XO
 from imperium.military.corps.base_unit_classes import Platoon, Company, Battalion
 from imperium.military.corps.corps import RifleSquad
 
 
-class Platoon_Det_DS(Platoon):
+class PlatoonDet_DS(PlatoonDet):
+    pass
 
-    def _SetSubUnits(self):
-        for i in range(3):
-            self._SubUnits.append(RifleSquad(self))
-
-    def _SetPositions(self):
-        self._AddPosition('Platoon Leader', 'C', 'O2')
-        self._AddPosition('Platoon Sergeant', 'C', 'N3')
-        self._AddPosition('Plasma Gunner', 'C', 'E4')
-        self._AddPosition('Plasma Gunner', 'C', 'E4')
-        self._AddPosition('Medic', 'C', 'N1')
-
-
-class Company_Det_HQ_XO_DS(Unit):
-
-    def _SetPositions(self):
-        Pos = self._CmdUnit._SubUnits[0]._TOE[0]
-        self._AddPosition('Company Executive Officer', 'C', 'O2', pos=Pos)
-        Pos = self._CmdUnit._SubUnits[0]._TOE[1]
-        self._AddPosition('Armorer', 'C', 'N2', pos=Pos)
-
-
-class Company_Det_HQ_CO_DS(Unit):
+'''
+class CompanyDet_HQ_CO_DS(CompanyDet_HQ_CO):
 
     def _SetPositions(self):
         Pos = self._CmdUnit._SubUnits[0]._TOE[0]
@@ -51,7 +33,16 @@ class Company_Det_HQ_CO_DS(Unit):
         self._AddPosition('Senior Medic', 'C', 'N2', pos=Pos)
 
 
-class Company_Det_HQ_DS(Unit):
+class CompanyDet_HQ_XO_DS(CompanyDet_HQ_XO):
+
+    def _SetPositions(self):
+        Pos = self._CmdUnit._SubUnits[0]._TOE[0]
+        self._AddPosition('Company Executive Officer', 'C', 'O2', pos=Pos)
+        Pos = self._CmdUnit._SubUnits[0]._TOE[1]
+        self._AddPosition('Armorer', 'C', 'N2', pos=Pos)
+
+
+class CompanyDet_HQ_DS(CompanyDet_HQ):
 
     def _SetSubUnits(self):
         CoHQ = self._CmdUnit._CmdUnit._SubUnits[0]._SubUnits[6]._SubUnits[1]
@@ -62,7 +53,7 @@ class Company_Det_HQ_DS(Unit):
         self._SubUnits.append(XoHQ)
 
 
-class Company_Det_DS(Company):
+class CompanyDet_DS(CompanyDet):
 
     def _SetSubUnits(self):
         for i in range(4):
@@ -72,7 +63,7 @@ class Company_Det_DS(Company):
         self._SubUnits.append(Company_Det_HQ_DS(self))
 
 
-class Battalion_Det_HQ_CO_DS(Unit):
+class BattalionDet_HQ_CO_DS(BattalionDet_HQ_CO):
 
     def _SetPositions(self):
         Flot = self._CmdUnit._CmdUnit._CmdUnit
@@ -85,7 +76,7 @@ class Battalion_Det_HQ_CO_DS(Unit):
         self._AddPosition('Battalion Chief Medic', 'C', 'N3', pos=CM)
 
 
-class Battalion_Det_HQ_XO_DS(Unit):
+class BattalionDet_HQ_XO_DS(BattalionDet_HQ_XO):
 
     def _SetPositions(self):
         Flot = self._CmdUnit._CmdUnit._CmdUnit
@@ -94,7 +85,7 @@ class Battalion_Det_HQ_XO_DS(Unit):
                           pos=CO)
 
 
-class Battalion_Det_HQ_S14_DS(Unit):
+class BattalionDet_HQ_S14_DS(BattalionDet_HQ_S14):
 
     def _SetPositions(self):
         Flot = self._CmdUnit._CmdUnit._CmdUnit
@@ -107,7 +98,7 @@ class Battalion_Det_HQ_S14_DS(Unit):
         self._AddPosition('Battalion Clerk', 'C', 'N3', pos=BC)
 
 
-class Battalion_Det_HQ_S23_DS(Unit):
+class BattalionDet_HQ_S23_DS(BattalionDet_HQ_S23):
 
     def _SetPositions(self):
         Flot = self._CmdUnit._CmdUnit._CmdUnit
@@ -122,7 +113,7 @@ class Battalion_Det_HQ_S23_DS(Unit):
                           pos=IC)
 
 
-class Battalion_Det_HQ_DS(Unit):
+class BattalionDet_HQ_DS(BattalionDet_HQ):
 
     def _SetSubUnits(self):
         self._SubUnits.append(Battalion_Det_HQ_CO_DS(self))
@@ -131,7 +122,7 @@ class Battalion_Det_HQ_DS(Unit):
         self._SubUnits.append(Battalion_Det_HQ_S14_DS(self))
 
 
-class Battalion_Det_DS(Battalion):
+class BattalionDet_DS(BattalionDet):
 
     def _SetSubUnits(self):
         for i in range(4):
@@ -139,3 +130,4 @@ class Battalion_Det_DS(Battalion):
             self._SubUnits.append(Company)
             Company._AdmCmdUnit = self
         self._SubUnits.append(Battalion_Det_HQ_DS(self))
+'''

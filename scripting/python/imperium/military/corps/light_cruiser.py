@@ -11,41 +11,20 @@
 # =====================================================================
 
 from imperium.military.base_classes import Unit
+from imperium.military.corps.detach_classes import PlatoonDet
 from imperium.military.corps.base_unit_classes import Platoon, Company, Battalion
 from imperium.military.corps.corps import RifleSquad, WeaponsSection
 
 
-class AugmentedPlatoon_Det_CL(Platoon):
+class AugmentedPlatoonDet_CL(PlatoonDet):
 
     def _SetSubUnits(self):
         for i in range(3):
             self._SubUnits.append(RifleSquad(self))
         self._SubUnits.append(WeaponsSection(self))
 
-    def _SetPositions(self):
-        self._AddPosition('Platoon Leader', 'C', 'O2',
-                          posRanks=(['O3'], [.45]))
-        self._AddPosition('Platoon Executive', 'C', 'O1',
-                          posRanks=(['O2', .45]))
-        self._AddPosition('Platoon Sergeant', 'C', 'N3',
-                          posRanks=(['N4','N2'], [.2, .1]))
-        self._AddPosition('Plasma Gunner', 'C', 'E4',
-                          posRanks=(['E5', 'E3'], [.3, .15] ))
-        self._AddPosition('Plasma Gunner', 'C', 'E4',
-                          posRanks=(['E5', 'E3'], [.3, .15] ))
-        self._AddPosition('Medic', 'C', 'N1')
-
-
-class Company_Det_HQ_XO_CL(Unit):
-
-    def _SetPositions(self):
-        Pos = self._CmdUnit._SubUnits[0]._TOE[0]
-        self._AddPosition('Company Executive Officer', 'C', 'O2', pos=Pos)
-        Pos = self._CmdUnit._SubUnits[0]._TOE[2]
-        self._AddPosition('Armorer', 'C', 'N2', pos=Pos)
-
-
-class Company_Det_HQ_CO_CL(Unit):
+'''
+class CompanyDet_HQ_CO_CL(CompanyDet_HQ_CO):
 
     def _SetPositions(self):
         Pos = self._CmdUnit._SubUnits[0]._TOE[0]
@@ -58,7 +37,16 @@ class Company_Det_HQ_CO_CL(Unit):
         self._AddPosition('Senior Medic', 'C', 'N2', pos=Pos)
 
 
-class Company_Det_HQ_CL(Unit):
+class CompanyDet_HQ_XO_CL(CompanyDet_HQ_XO):
+
+    def _SetPositions(self):
+        Pos = self._CmdUnit._SubUnits[0]._TOE[0]
+        self._AddPosition('Company Executive Officer', 'C', 'O2', pos=Pos)
+        Pos = self._CmdUnit._SubUnits[0]._TOE[2]
+        self._AddPosition('Armorer', 'C', 'N2', pos=Pos)
+
+
+class CompanyDet_HQ_CL(CompanyDet_HQ):
 
     def _SetSubUnits(self):
         CoHQ = self._CmdUnit._CmdUnit._SubUnits[0]._SubUnits[6]._SubUnits[1]
@@ -69,15 +57,36 @@ class Company_Det_HQ_CL(Unit):
         self._SubUnits.append(XoHQ)
 
 
-class Company_Det_CL(Company):
+class CompanyDet_CL(CompanyDet):
 
     def _SetSubUnits(self):
         for i in range(4):
             Platoon = self._CmdUnit._SubUnits[i]._SubUnits[6]._SubUnits[0]
             self._SubUnits.append(Platoon)
             Platoon._AdmCmdUnit = self
-        self._SubUnits.append(Company_Det_HQ_CL(self))
+        self._SubUnits.append(CompanyDet_HQ_CL(self))
 
 
-class Battalion_Det_CL(Battalion):
+class BattalionDet_HQ_CO_CL(BattalionDet_HQ_CO):
     pass
+
+
+class BattalionDet_HQ_XO_CL(BattalionDet_HQ_XO):
+    pass
+
+
+class BattalionDet_HQ_S14_CL(BattalionDet_HQ_S14):
+    pass
+    
+    
+class BattalionDet_HQ_S23_CL(BattalionDet_HQ_S23):
+    pass
+
+
+class BattalionDet_HQ_CL(Battalion_HQ_CL):
+    pass
+
+
+class BattalionDet_CL(BattalionDet):
+    pass
+'''
