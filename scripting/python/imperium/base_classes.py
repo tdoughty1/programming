@@ -67,7 +67,7 @@ class ImpObject(object):
         else:
             class_name = str(self.__class__).split('.')[-1]
             return class_name + ' at ' + hex(id(self))
-    
+
     def __str__(self):
         return repr(self)
 
@@ -93,4 +93,3 @@ class ImpObject(object):
             raise ValueError('Name must be capitalized!')
 
         self._name = name
-

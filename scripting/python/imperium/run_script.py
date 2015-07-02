@@ -5,10 +5,8 @@ from imperium.military.corps.light_cruiser import AugmentedPlatoonDet_CL
 
 
 def Main():
-	
-	testPlatoon = AugmentedPlatoonDet_CL()
-	return testPlatoon
+    testPlatoon = AugmentedPlatoonDet_CL()
+    return testPlatoon
 
 if __name__ == '__main__':
-	
-	testPlatoon = Main()
+    testPlatoon = Main()
