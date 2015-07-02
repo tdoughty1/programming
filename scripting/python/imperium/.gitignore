@@ -7,3 +7,12 @@
 
 # pylint result profile files
 *stones.prof
+
+# Database storage
+*.db
+
+# Useful text files for notes
+*.txt
+
+# TODO - Remove once tutorial is no longer useful
+docs/tutorial/
