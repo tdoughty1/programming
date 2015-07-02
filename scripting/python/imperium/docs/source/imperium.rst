@@ -6,32 +6,16 @@ Subpackages
 
 .. toctree::
 
-    Imperium.Military
-    Imperium.Miscellaneous
+    Military
+    Miscellaneous
 
 Submodules
 ----------
 
-Imperium.BaseClasses module
+BaseClasses module
 ---------------------------
 
-.. automodule:: Imperium.BaseClasses
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-Imperium.ImperiumGlobals module
--------------------------------
-
-.. automodule:: Imperium.ImperiumGlobals
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-Imperium.RunScript module
--------------------------
-
-.. automodule:: Imperium.RunScript
+.. automodule:: imperium.baseclasses
     :members:
     :undoc-members:
     :show-inheritance:
@@ -40,7 +24,7 @@ Imperium.RunScript module
 Module contents
 ---------------
 
-.. automodule:: Imperium
+.. automodule:: imperium
     :members:
     :undoc-members:
     :show-inheritance:
