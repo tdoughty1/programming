@@ -10,8 +10,8 @@
 # Python Version  :2.7.6
 # =====================================================================
 
-from imperium.military.corps.base_unit_classes import Company, Battalion, Brigade
-from imperium.military.corps.corps import RiflePlatoon, WeaponsSection
+from base_unit_classes import Company, Battalion, Brigade
+from corps import RiflePlatoon, WeaponsSection
 
 
 class AugmentedCompanyDet_BB(CompanyDet):

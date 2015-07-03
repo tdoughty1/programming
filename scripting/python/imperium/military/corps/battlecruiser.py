@@ -10,8 +10,8 @@
 # Python Version  :2.7.6
 # =====================================================================
 
-from imperium.military.corps.base_unit_classes import Company, Battalion, Brigade
-from imperium.military.corps.corps import RiflePlatoon, WeaponsSection
+from base_unit_classes import Company, Battalion, Brigade
+from corps import RiflePlatoon, WeaponsSection
 
 
 class CompanyDet_BC(CompanyDet):
@@ -23,7 +23,7 @@ class CompanyDet_BC(CompanyDet):
 
     def _SetPositions(self):
         self._AddPosition('Commanding Officer', 'C', 'O4',
-                          posranks=('O3' ,'.05'))
+                          posranks=('O3', '.05'))
         self._AddPosition('Executive Officer', 'C', 'O2')
         self._AddPosition('First Sergeant', 'C', 'N4')
         self._AddPosition('Clerk', 'C', 'N1')

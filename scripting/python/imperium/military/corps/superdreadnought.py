@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # !/usr/bin/env python
-# =====================================================================
+# ============================================================================
 # Title           :imperium/military/corps/superdreadnought.py
 # Description     :Classes for Marine detachments on superdreadnoughts
 # Author          :Todd Doughty
@@ -8,10 +8,10 @@
 # Version         :0.1
 # Notes           :
 # Python Version  :2.7.6
-# =====================================================================
+# ============================================================================
 
-from imperium.military.corps.base_unit_classes import Battalion, Brigade, Division
-from imperium.military.corps.corps import RifleCompany, WeaponsCompany
+from base_unit_classes import Battalion, Brigade, Division
+from corps import RifleCompany, WeaponsCompany
 
 
 class BattalionDet_SD(BattalionDet):

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # !/usr/bin/env python
-# =====================================================================
+# ============================================================================
 # Title           :imperium/military/corps/dreadnought.py
 # Description     :Classes for Marine detachments on dreadnoughts
 # Author          :Todd Doughty
@@ -8,10 +8,10 @@
 # Version         :0.1
 # Notes           :
 # Python Version  :2.7.6
-# =====================================================================
+# ============================================================================
 
-from imperium.military.corps.base_unit_classes import Battalion, Brigade, Division
-from imperium.military.corps.corps import RifleCompany, WeaponsSection
+from base_unit_classes import Battalion, Brigade, Division
+from corps import RifleCompany, WeaponsSection
 
 
 class LightBattalionDet_DD(BattalionDet):

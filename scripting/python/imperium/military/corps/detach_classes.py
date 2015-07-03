@@ -18,71 +18,71 @@ from base_unit_classes import Company, Battalion, Brigade, Division
 class PlatoonDet(RiflePlatoon):
 
     def _SetPositions(self):
-		RiflePlatoon._SetPositions(self)
-		self._AddPosition('Gunnery Sergeant', 'C', 'N2', self)
-		self._AddPosition('Quartermaster', 'C', 'N1', self)
-		self._AddPosition('Clerk', 'C', 'E4', self)
+        RiflePlatoon._SetPositions(self)
+        self._AddPosition('Gunnery Sergeant', 'C', 'N2', self)
+        self._AddPosition('Quartermaster', 'C', 'N1', self)
+        self._AddPosition('Clerk', 'C', 'E4', self)
 
 
 class CompanyDet_HQ_XO(Unit):
-	pass
+    pass
 
 
 class CompanyDet_HQ_CO(Unit):
-	pass
+    pass
 
 
 class CompanyDet_HQ(Unit):
-	pass
+    pass
 
 
 class CompanyDet(Company):
-	pass
+    pass
 
 
 class BattalionDet_HQ_CO(Unit):
-	pass
+    pass
 
 
 class BattalionDet_HQ_XO(Unit):
-	pass
+    pass
 
 
 class BattalionDet_HQ_S14(Unit):
-	pass
+    pass
 
 
 class BattalionDet_HQ_S23(Unit):
-	pass
+    pass
 
 
 class BattalionDet_HQ(Unit):
-	pass
-	
+    pass
+
 
 class BattalionDet(Battalion):
-	pass
+    pass
 
 
 class BrigadeDet_HQ_XO(Unit):
-	pass
-	
+    pass
+
 
 class BrigadeDet_HQ_CO(Unit):
-	pass
+    pass
 
 
 class BrigadeDet_HQ(Unit):
-	pass
+    pass
 
 
 class BrigadeDet(Brigade):
-	pass
+    pass
 
 
 class DivisionDet_HQ(Unit):
-	pass
+    pass
 
 
 class DivisionDet(Division):
-	pass
+    pass

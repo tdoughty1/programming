@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # !/usr/bin/env python
-# =====================================================================
+# ============================================================================
 # Title           :imperium/military/corps/destroyer.py
 # Description     :Classes for Marine detachments on destroyers
 # Author          :Todd Doughty
@@ -8,12 +8,14 @@
 # Version         :0.1
 # Notes           :
 # Python Version  :2.7.6
-# =====================================================================
+# ============================================================================
 
 from imperium.military.base_classes import Unit
-from imperium.military.corps.detach_classes import PlatoonDet, CompanyDet_HQ_CO, CompanyDet_HQ_XO, CompanyDet_HQ, CompanyDet, BattalionDet_HQ_CO, BattalionDet_HQ_XO
-from imperium.military.corps.base_unit_classes import Platoon, Company, Battalion
-from imperium.military.corps.corps import RifleSquad
+from detach_classes import PlatoonDet, CompanyDet_HQ_CO, CompanyDet_HQ_XO
+from detach_classes import CompanyDet_HQ, CompanyDet, BattalionDet_HQ_CO
+from detach_classes import BattalionDet_HQ_XO
+from base_unit_classes import Platoon, Company, Battalion
+from corps import RifleSquad
 
 
 class PlatoonDet_DS(PlatoonDet):
